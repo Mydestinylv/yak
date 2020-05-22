@@ -19,7 +19,8 @@
         "php": ">=5.4.0",
         "topthink/framework": "5.0.*",
         "alibabacloud/sdk": "^1.8",
-        "topthink/think-mongo": "2.*"
+        "topthink/think-mongo": "2.*",
+        "firebase/php-jwt": "^5.2"
     },
     "autoload": {
         "psr-4": {

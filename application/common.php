@@ -32,3 +32,10 @@ function ajaxR($code = 0,$msg = '',$data =[]){
 	return ['code'=>$code,'msg'=>$msg,'data'=>$data];
 }
 
+function pswCrypt($psw){
+    $psw = md5($psw);
+    $salt = substr($psw,0,4);
+    $psw = crypt($psw,$salt);
+    return $psw;
+}
+

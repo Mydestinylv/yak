@@ -1,0 +1,54 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2020/5/22
+ * Time: 11:14
+ */
+
+namespace app\client\controller;
+use app\client\common\Token;
+use app\common\model\Customer;
+use think\Controller;
+use think\Db;
+use think\Request;
+use think\Session;
+
+class Login extends Controller
+{
+    public function index(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request->param();
+            $result = $this->validate($data,'Login.login');
+            if(true !== $result) return format($result, 400,$data);
+            $res = Customer::dologin($data);
+            if($res['code']==200){
+                $userInfo = $res['data'];
+                $token = Token::createJwt($userInfo['id'],120*60,$userInfo['tel'],$userInfo['tel']);
+                return format('', 200,['id'=>$userInfo['id'],'token'=>$token]);
+            }else{
+                return format($res['msg'], 400);
+            }
+        }else{
+            return format('error,请正确请求接口！', 400);
+        }
+    }
+
+    public function register(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request->param();
+            $result = $this->validate($data,'Login.register');
+            if(true !== $result) return format($result, 400);
+            //没有使用短信验证码，暂无验证
+            $password = pswCrypt($data['password']);
+            $data['password'] = $password;
+            $res = Customer::UserRegister($data);
+            return $res['code']==200 ? format('ok', 200) : format($res['msg'], 400);
+        }else{
+            return format('error,请正确请求接口！', 400);
+        }
+    }
+
+}
