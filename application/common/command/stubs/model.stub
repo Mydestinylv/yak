@@ -1,0 +1,15 @@
+<?php
+
+namespace {%namespace%};
+
+use think\Model;
+use traits\model\SoftDelete;
+
+class {%className%} extends Model
+{
+    use SoftDelete;
+    protected $deleteTime = 'delete_time';
+    protected $autoWriteTimestamp = 'datetime';
+
+
+}
