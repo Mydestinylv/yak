@@ -49,9 +49,9 @@ class Pasture extends Validate
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['pasture_name','pasture_address','pasture_tel','cover','introduce'],
+        'save' => ['pasture_name','pasture_address','cover','introduce'],
         'read' => ['id'],
-        'update' => ['id','pasture_name','pasture_address','pasture_tel','cover','introduce'],
+        'update' => ['id','pasture_name','pasture_address','cover','introduce'],
         'delete' => ['id'],
     ];
 }

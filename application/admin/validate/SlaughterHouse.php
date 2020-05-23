@@ -8,7 +8,7 @@ class SlaughterHouse extends Validate
 {
     /**
      * 定义验证规则
-     * 格式：'字段名'	=>	['规则1','规则2'...]
+     * 格式：'字段名'    =>    ['规则1','规则2'...]
      *
      * @var array
      */
@@ -17,7 +17,7 @@ class SlaughterHouse extends Validate
         'tel' => "^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$",
 
     ];
-	protected $rule = [
+    protected $rule = [
         'id' => 'require',
         'slaughter_house_name' => 'max:20|require',
         'slaughter_house_address' => 'max:50|require',
@@ -28,7 +28,7 @@ class SlaughterHouse extends Validate
 
     /**
      * 定义错误信息
-     * 格式：'字段名.规则名'	=>	'错误信息'
+     * 格式：'字段名.规则名'    =>    '错误信息'
      *
      * @var array
      */
@@ -49,9 +49,9 @@ class SlaughterHouse extends Validate
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['slaughter_house_name','slaughter_house_tel','slaughter_house_address','slaughter_house_cover','slaughter_house_introduce'],
+        'save' => ['slaughter_house_name', 'slaughter_house_address', 'slaughter_house_cover', 'slaughter_house_introduce'],
         'read' => ['id'],
-        'update' => ['id','slaughter_house_name','slaughter_house_tel','slaughter_house_address','slaughter_house_cover','slaughter_house_introduce'],
+        'update' => ['id', 'slaughter_house_name', 'slaughter_house_address', 'slaughter_house_cover', 'slaughter_house_introduce'],
         'delete' => ['id'],
     ];
 }
