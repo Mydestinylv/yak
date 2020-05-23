@@ -32,7 +32,7 @@ class Permission extends Admin
                     return format($message);
                 }
             }
-            return format('ok', 200, $transfer->data);
+            return format('ok', 200, to_array($transfer->data));
         } catch (\Exception $e) {
             return format(exception_deal($e), 400);
         }
