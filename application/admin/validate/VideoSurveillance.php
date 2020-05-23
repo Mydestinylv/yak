@@ -18,7 +18,7 @@ class VideoSurveillance extends Validate
         'surveillance_code' => 'require|max:30',
         'channel_number' => 'require|number',
         'viewing_address' => 'require|max:50',
-        'site' => 'require|max:50',
+        'pasture_id' => 'require|number',
         'install_position' => 'require|max:150',
     ];
 
@@ -37,8 +37,8 @@ class VideoSurveillance extends Validate
         'channel_number.number' => '通道号必须是数字',
         'viewing_address.require' => '观看地址必须',
         'viewing_address.max' => '观看地址不能超过50个字符',
-        'site.require' => '所属场地必须',
-        'site.max' => '所属场地不能超过50个字符',
+        'pasture_id.require' => '牧场ID必须',
+        'pasture_id.number' => '牧场ID必须是数字',
         'install_position.require' => '安装位置必须',
         'install_position.max' => '安装位置必须不能超过150个字符',
     ];
