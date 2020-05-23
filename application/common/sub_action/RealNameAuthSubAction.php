@@ -44,8 +44,6 @@ class RealNameAuthSubAction
      */
     public static function save($param)
     {
-        $param['positive'] = img_upload($param['positive']);
-        $param['back'] = img_upload($param['back']);
         $param['auth_time'] = date('Y-m-d H:i:s', time());
         $transfer = RealNameAuthTask::save($param);
         if (!$transfer->status) {

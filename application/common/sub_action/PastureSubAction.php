@@ -29,7 +29,12 @@ class PastureSubAction
      */
     public static function save($param)
     {
-        $param['cover'] = img_upload($param['cover']);
+        $transfer = PastureTask::valueByWhere(['pasture_name'=>$param['pasture_name']],'id');
+        if(!$transfer->status){
+            return new Transfer('保存失败');
+        }elseif($transfer->data['id']){
+            return new Transfer('牧场名称已存在');
+        }
         $transfer = PastureTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');
@@ -59,7 +64,6 @@ class PastureSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['cover'] = img_upload($param['cover']);
         $transfer = PastureTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('更新失败');

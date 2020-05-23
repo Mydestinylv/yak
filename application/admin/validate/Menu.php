@@ -15,7 +15,7 @@ class Menu extends Validate
 	protected $rule = [
         'id' => 'require',
         'menu_title' => 'require|max:20',
-        'menu_cover' => 'require|image',
+        'menu_cover' => 'require',
         'menu_type' => 'require|number',
         'menu_content' => 'require',
     ];
@@ -30,7 +30,6 @@ class Menu extends Validate
         'id.require' => 'ID必须',
         'menu_title.require' => '标题必须',
         'menu_title.max' => '标题不能超过20个字符',
-        'menu_cover.image' => '封面必须是图片',
         'menu_cover.require' => '封面必须',
         'menu_type.require' => '菜谱类别必须',
         'menu_type.number' => '菜谱类别必须是数字',

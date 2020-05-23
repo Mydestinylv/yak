@@ -29,7 +29,6 @@ class SlaughterHouseSubAction
      */
     public static function save($param)
     {
-        $param['slaughter_house_cover'] = img_upload($param['slaughter_house_cover']);
         $transfer = SlaughterHouseTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');
@@ -58,7 +57,6 @@ class SlaughterHouseSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['slaughter_house_cover'] = img_upload($param['slaughter_house_cover']);
         $transfer = SlaughterHouseTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('更新失败');

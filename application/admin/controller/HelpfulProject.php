@@ -45,7 +45,6 @@ class HelpfulProject extends Admin
     {
         try {
             $param = $request->post();
-            $param['project_cover'] = Request()->file('project_cover');
             $result = $this->validate($param,'app\admin\validate\HelpfulProject.save');
             if ($result !== true) {
                 return format($result);
@@ -107,7 +106,6 @@ class HelpfulProject extends Admin
     {
         try {
             $param = $request->post();
-            $param['project_cover'] = Request()->file('project_cover');
             $result = $this->validate($param,'app\admin\validate\HelpfulProject.update');
             if ($result !== true) {
                 return format($result);

@@ -45,7 +45,6 @@ class Pasture extends Admin
     {
         try {
             $param = $request->post();
-            $param['cover'] = Request()->file('cover');
             $result = $this->validate($param,'app\admin\validate\Pasture.save');
             if ($result !== true) {
                 return format($result);
@@ -107,7 +106,6 @@ class Pasture extends Admin
     {
         try {
             $param = $request->post();
-            $param['cover'] = Request()->file('cover');
             $result = $this->validate($param,'app\admin\validate\Pasture.update');
             if ($result !== true) {
                 return format($result);

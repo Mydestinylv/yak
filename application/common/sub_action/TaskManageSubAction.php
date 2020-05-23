@@ -40,7 +40,6 @@ class TaskManageSubAction
         } else {
             $param['order'] = $transfer->data['order'] + 1;
         }
-        $param['enclosure_url'] = img_upload($param['enclosure_url']);
         $param['finish_time'] = datetime_conversion($param['finish_time']);
         $transfer = TaskManageTask::save($param);
         if (!$transfer->status) {
@@ -73,7 +72,6 @@ class TaskManageSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['enclosure_url'] = img_upload($param['enclosure_url']);
         $transfer = TaskManageTask::update($param, $where);
         if (!$transfer->status) {
             return new Transfer('更新失败');

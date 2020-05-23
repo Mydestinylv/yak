@@ -34,7 +34,7 @@ class YaksSubAction
         }
         $table = ['Pasture b','Herdsman c'];
         $join_file = ['a.pasture_id = b.id','a.pasture_id = c.id'];
-        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks'];
+        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks,a.yaks_type'];
         $action = ['Left','Left'];
         $group = [];
         $transfer = YaksTask:: Mjoin($table,$join_file,$action,$where,$file,$group);
@@ -65,7 +65,7 @@ class YaksSubAction
         $where['a.id'] = $param['id'];
         $table = ['Pasture b','Herdsman c'];
         $join_file = ['a.pasture_id = b.id','a.pasture_id = c.id'];
-        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks'];
+        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks,a.yaks_type'];
         $action = ['Left','Left'];
         $order = [];
         $transfer = YaksTask:: Mjoin($table,$join_file,$action,$where,$file,$order,'find');
@@ -80,7 +80,6 @@ class YaksSubAction
      */
     public static function update($param)
     {
-        $param['yaks_img'] = img_upload($param['yaks_img']);
         $where['id'] = $param['id'];
         unset($param['id']);
         $transfer = YaksTask::update($param,$where);

@@ -45,7 +45,6 @@ class SlaughterHouse extends Admin
     {
         try {
             $param = $request->post();
-            $param['slaughter_house_cover'] = Request()->file('slaughter_house_cover');
             $result = $this->validate($param,'app\admin\validate\SlaughterHouse.save');
             if ($result !== true) {
                 return format($result);
@@ -107,7 +106,6 @@ class SlaughterHouse extends Admin
     {
         try {
             $param = $request->post();
-            $param['slaughter_house_cover'] = Request()->file('slaughter_house_cover');
             $result = $this->validate($param,'app\admin\validate\SlaughterHouse.update');
             if ($result !== true) {
                 return format($result);

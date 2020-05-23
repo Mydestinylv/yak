@@ -22,18 +22,15 @@ class SlaughterMan extends Validate
         'id' => 'require',
         'slaughter_house_id' => 'number|require',
         'name' => 'require|max:20',
-        'head_img' => 'require|image',
+        'head_img' => 'require',
         'tel' => 'require|tel',
         'id_card' => 'require|id_card',
         'user_name' => 'require|max:20',
         'password' => 'require|max:20|alphaDash',
         'total_balance' => 'number',
         'freezing_balance' => 'number',
-        'positive' => 'image',
-        'back' => 'image',
         'score' => 'require|number',
         'introduce' => 'max:1000',
-        'healthy' => 'image',
     ];
 
     /**
@@ -49,7 +46,6 @@ class SlaughterMan extends Validate
         'name.require' => '姓名必须',
         'name.max' => '姓名不能超过20个字符',
         'head_img.require' => '头像必须',
-        'head_img.img' => '头像必须是图片',
         'tel.require' => '电话必须',
         'tel.tel' => '电话格式不对',
         'id_card.require' => '身份证必须',
@@ -61,11 +57,8 @@ class SlaughterMan extends Validate
         'password.alphaDash' => '密码必须是字母和数字，下划线_及破折号-',
         'total_balance.number' => '总金额必须是数字',
         'freezing_balance.number' => '冻结金额必须是数字',
-        'positive.img' => '身份证正面必须是图片',
-        'back.img' => '身份证背面必须是图片',
         'score.number' => '评分必须是数字',
         'introduce.max' => '介绍不能超过1000个字符',
-        'healthy.img' => '健康证必须是图片',
     ];
 
     //场景定义

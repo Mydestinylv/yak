@@ -32,7 +32,6 @@ class HelpfulProjectSubAction
      */
     public static function save($param)
     {
-        $param['project_cover'] = img_upload($param['project_cover']);
         $transfer = HelpfulProjectTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');
@@ -61,7 +60,6 @@ class HelpfulProjectSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['project_cover'] = img_upload($param['project_cover']);
         $transfer = HelpfulProjectTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('更新失败');

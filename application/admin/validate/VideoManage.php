@@ -15,7 +15,7 @@ class VideoManage extends Validate
     protected $rule = [
         'id' => 'require',
         'title' => 'max:20|require',
-        'content' => 'require|file',
+        'content' => 'require',
     ];
 
     /**
@@ -29,7 +29,6 @@ class VideoManage extends Validate
         'title.require' => '标题必须',
         'title.max' => '标题不能超过20个字符',
         'content.require' => '内容必须',
-        'content.file' => '内容必须是文件',
     ];
 
     //场景定义

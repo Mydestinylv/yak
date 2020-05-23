@@ -27,7 +27,6 @@ class HelpfulPropagandaSubAction
      */
     public static function save($param)
     {
-        $param['cover'] = img_upload($param['cover']);
         $transfer = HelpfulPropagandaTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');
@@ -57,7 +56,6 @@ class HelpfulPropagandaSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['cover'] = img_upload($param['cover']);
         $transfer = HelpfulPropagandaTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('更新失败');

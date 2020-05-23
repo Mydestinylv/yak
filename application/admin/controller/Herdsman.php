@@ -45,10 +45,6 @@ class Herdsman extends Admin
     {
         try {
             $param = $request->post();
-            $param['head_img'] = Request()->file('head_img');
-            $param['positive'] = Request()->file('positive');
-            $param['back'] = Request()->file('back');
-            $param['healthy'] = Request()->file('healthy');
             $result = $this->validate($param,'app\admin\validate\Herdsman.save');
             if ($result !== true) {
                 return format($result);
@@ -110,10 +106,6 @@ class Herdsman extends Admin
     {
         try {
             $param = $request->post();
-            $param['head_img'] = Request()->file('head_img');
-            $param['positive'] = Request()->file('positive');
-            $param['back'] = Request()->file('back');
-            $param['healthy'] = Request()->file('healthy');
             $result = $this->validate($param,'app\admin\validate\Herdsman.update');
             if ($result !== true) {
                 return format($result);

@@ -16,7 +16,7 @@ class HelpfulPropaganda extends Validate
         'id' => 'require',
         'link' => 'max:50|require',
         'status' => 'require|number',
-        'cover' => 'require|image',
+        'cover' => 'require',
     ];
 
     /**
@@ -30,7 +30,6 @@ class HelpfulPropaganda extends Validate
         'link.max:50' => '链接不能超过50个字',
         'link.require' => '链接必须',
         'cover.require' => '封面必须',
-        'cover.image' => '封面必须是图片',
         'status.require' => '状态必须',
         'status.number' => '状态必须是数字',
     ];

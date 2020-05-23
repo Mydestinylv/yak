@@ -45,7 +45,6 @@ class Yaks extends Admin
     {
         try {
             $param = $request->post();
-            $param['yaks_img'] = Request()->file('yaks_img');
             $result = $this->validate($param,'app\admin\validate\Yaks.save');
             if ($result !== true) {
                 return format($result);
@@ -107,7 +106,6 @@ class Yaks extends Admin
     {
         try {
             $param = $request->post();
-            $param['yaks_img'] = Request()->file('yaks_img');
             $result = $this->validate($param,'app\admin\validate\Yaks.update');
             if ($result !== true) {
                 return format($result);
