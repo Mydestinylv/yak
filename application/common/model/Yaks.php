@@ -2,6 +2,7 @@
 
 namespace app\common\model;
 
+use think\Exception;
 use think\Model;
 use traits\model\SoftDelete;
 
@@ -22,5 +23,49 @@ class Yaks extends Model
     {
         $array = [0 => '母', 1 => '公'];
         return $array[$value];
+    }
+
+    /*
+     * 一对一关联查询未领养牦牛牧场信息
+     * */
+    public function adopt()
+    {
+        return $this->hasOne('Pasture','id','pasture_id')->field('id,pasture_name,pasture_address');
+    }
+
+    public static function GetAdoptYaks($params){
+        try{
+            $list = self::with('adopt')
+                ->field("*")
+                ->where('is_adoption',1);
+            $limit=!empty($params['limit'])?$params['limit']:10;
+            $list=$list->paginate($limit,false,[
+                "page"=>!empty($params['page'])?$params['page']:1
+            ]);
+        }catch (\Exception $e){
+            return ['data'=>$e->getMessage(),'code'=>400];
+        }
+        $list_items=$list->items();
+        if(empty($list_items)){
+            return ['data'=>[],'count'=>0,'code'=>200];
+        }
+        return ['data'=>$list_items,'count'=>$list->total(),'code'=>200];
+    }
+
+    /*
+     * 认领牦牛详情查询
+     * */
+    public static function GetYaksDetails($params)
+    {
+        $id = $params['yaks_id'];
+        try{
+            $info = self::where('id',$id)
+                ->field('*,is_adoption as confirm')
+                ->find();
+            if($info['confirm']!=1) return ['data'=>'该牦牛不是未认养状态！','code'=>400];
+        }catch (\Exception $e){
+            return ['data'=>$e->getMessage(),'code'=>400];
+        }
+        return ['data'=>$info,'code'=>200];
     }
 }
