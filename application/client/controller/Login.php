@@ -7,8 +7,12 @@
  */
 
 namespace app\client\controller;
+header("Access-Control-Allow-Origin:*");
+header('Access-Control-Allow-Methods:POST');
+header('Access-Control-Allow-Headers:x-requested-with, content-type');
 use app\client\common\Token;
 use app\common\model\Customer;
+use think\Cache;
 use think\Controller;
 use think\Cookie;
 use think\Db;
@@ -27,8 +31,7 @@ class Login extends Controller
             if($res['code']==200){
                 $userInfo = $res['data'];
                 $token = Token::createJwt($userInfo['id'],$userInfo['tel'],$userInfo['tel']);
-//                setcookie('user'.$userInfo['id'], $token, time()+(120*60));
-                Cookie::set('user'.$userInfo['id'],$token,120*60);
+                Cache::set('user'.$userInfo['id'],$token,3600);
                 return format('', 200,['id'=>$userInfo['id'],'token'=>$token]);
             }else{
                 return format($res['msg'], 400);
