@@ -10,9 +10,8 @@ class NoticeSubAction
     /**
      * 显示资源列表
      */
-    public static function index($param)
+    public static function index($param,$where = [])
     {
-        $where = [];
         if (isset($param['title']) && !empty($param['title'])) {
             $where['title'] = ['like', '%' . $param['title'] . '%'];
         }

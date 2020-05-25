@@ -18,7 +18,11 @@ class Yaks extends Model
         $array = [1 => '未认养', 2 => '已认养'];
         return $array[$value];
     }
-
+    public function getYaksTypeAttr($value)
+    {
+        $array = [1 => '食用认养', 2 => '投资认养'];
+        return $array[$value];
+    }
     public function getYaksSexAttr($value)
     {
         $array = [0 => '母', 1 => '公'];

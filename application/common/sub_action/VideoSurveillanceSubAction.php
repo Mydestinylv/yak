@@ -3,6 +3,7 @@
 namespace app\common\sub_action;
 
 use app\common\lib\Transfer;
+use app\common\model\VideoSurveillance;
 use app\common\task\VideoSurveillanceTask;
 
 class VideoSurveillanceSubAction
@@ -16,7 +17,7 @@ class VideoSurveillanceSubAction
         if (isset($param['surveillance_code']) && !empty($param['surveillance_code'])) {
             $where['surveillance_code'] = ['like', '%' . $param['surveillance_code'] . '%'];
         }
-        $field = ['id,surveillance_name,surveillance_code,channel_number,viewing_address,site,install_position,create_time'];
+        $field = ['id,surveillance_name,surveillance_code,channel_number,viewing_address,pasture_id,install_position,create_time'];
         $order = 'create_time';
         $transfer = VideoSurveillanceTask::paginate($where,$field,$order);
         if(!$transfer->status){
@@ -43,7 +44,7 @@ class VideoSurveillanceSubAction
     public static function read($param)
     {
         $where['id'] = $param['id'];
-        $field = ['id,surveillance_name,surveillance_code,channel_number,viewing_address,site,install_position,create_time'];
+        $field = ['id,surveillance_name,surveillance_code,channel_number,viewing_address,pasture_id,install_position,create_time'];
         $order = 'create_time';
         $transfer = VideoSurveillanceTask::find($where,$field,$order);
         if(!$transfer->status){

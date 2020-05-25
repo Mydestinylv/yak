@@ -33,9 +33,6 @@ class MenuSubAction
      */
     public static function save($param)
     {
-        $param['menu_cover'] = img_upload($param['menu_cover']);
-        $param['menu_picture'] = img_upload($param['menu_picture']);
-        $param['menu_video'] = img_upload($param['menu_video']);
         $transfer = MenuTask::save($param);
         if(!$transfer->status){
             return new Transfer('添加失败');
@@ -65,9 +62,6 @@ class MenuSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['menu_cover'] = img_upload($param['menu_cover']);
-        $param['menu_picture'] = img_upload($param['menu_picture']);
-        $param['menu_video'] = img_upload($param['menu_video']);
         $transfer = MenuTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('更新失败');

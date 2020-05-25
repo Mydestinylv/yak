@@ -22,7 +22,7 @@ class Pasture extends Validate
         'pasture_name' => 'max:20|require',
         'pasture_address' => 'max:50|require',
         'pasture_tel' => 'tel|require',
-        'cover' => 'image|require',
+        'cover' => 'require',
         'introduce' => 'max:1000|require',
     ];
 
@@ -40,7 +40,6 @@ class Pasture extends Validate
         'pasture_address.require' => '牧场地址必须',
         'pasture_tel.tel' => '牧场电话格式错误',
         'pasture_tel.require' => '牧场电话必须',
-        'cover.image' => '封面必须是图片',
         'cover.require' => '封面必须',
         'introduce.max' => '牧场介绍不能超过1000个字符',
         'introduce.require' => '牧场介绍必须',

@@ -41,16 +41,6 @@ class HerdsmanSubAction
      */
     public static function save($param)
     {
-        $param['head_img'] = img_upload($param['head_img']);
-        if(isset($param['positive'])&&!empty($param['positive'])){
-            $param['positive'] = img_upload($param['positive']);
-        }
-        if(isset($param['back'])&&!empty($param['back'])){
-            $param['back'] = img_upload($param['back']);
-        }
-        if(isset($param['healthy'])&&!empty($param['healthy'])){
-            $param['healthy'] = img_upload($param['healthy']);
-        }
         $transfer = HerdsmanTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');
@@ -85,16 +75,6 @@ class HerdsmanSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['head_img'] = img_upload($param['head_img']);
-        if(isset($param['positive'])&&!empty($param['positive'])){
-            $param['positive'] = img_upload($param['positive']);
-        }
-        if(isset($param['back'])&&!empty($param['back'])){
-            $param['back'] = img_upload($param['back']);
-        }
-        if(isset($param['healthy'])&&!empty($param['healthy'])){
-            $param['healthy'] = img_upload($param['healthy']);
-        }
         $transfer = HerdsmanTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('更新失败');

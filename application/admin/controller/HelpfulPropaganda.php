@@ -45,7 +45,6 @@ class HelpfulPropaganda extends Admin
     {
         try {
             $param = $request->post();
-            $param['cover'] = Request()->file('cover');
             $result = $this->validate($param,'app\admin\validate\HelpfulPropaganda.save');
             if ($result !== true) {
                 return format($result);
@@ -107,7 +106,6 @@ class HelpfulPropaganda extends Admin
     {
         try {
             $param = $request->post();
-            $param['cover'] = Request()->file('cover');
             $result = $this->validate($param,'app\admin\validate\HelpfulPropaganda.update');
             if ($result !== true) {
                 return format($result);

@@ -30,7 +30,6 @@ class VideoManageSubAction
      */
     public static function save($param)
     {
-        $param['content'] = img_upload($param['content']);
         $transfer = VideoManageTask::save($param);
         if (!$transfer->status) {
             return new Transfer('保存失败');
@@ -60,7 +59,6 @@ class VideoManageSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
-        $param['content'] = img_upload($param['content']);
         $transfer = VideoManageTask::update($param, $where);
         if (!$transfer->status) {
             return new Transfer('更新失败');

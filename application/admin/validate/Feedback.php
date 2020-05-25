@@ -23,7 +23,6 @@ class Feedback extends Validate
         'tel' => 'tel|require',
         'customer_id' => 'number|require',
         'description' => 'max:1000|number',
-        'enclosure' => 'file',
         'feedback_status' => 'number',
     ];
 
@@ -43,7 +42,6 @@ class Feedback extends Validate
         'customer_id.number' => '客户ID必须是数字',
         'description.require' => '问题描述必须',
         'description.max' => '问题描述不能超过1000字符',
-        'enclosure.file' => '附件必须是文件格式',
         'feedback_status.number' => '反馈状态必须是数字',
     ];
 

@@ -45,7 +45,6 @@ class VideoManage extends Admin
     {
         try {
             $param = $request->post();
-            $param['content'] = Request()->file('content');
             $result = $this->validate($param,'app\admin\validate\VideoManage.save');
             if ($result !== true) {
                 return format($result);
@@ -107,7 +106,6 @@ class VideoManage extends Admin
     {
         try {
             $param = $request->post();
-            $param['content'] = Request()->file('content');
             $result = $this->validate($param,'app\admin\validate\VideoManage.update');
             if ($result !== true) {
                 return format($result);

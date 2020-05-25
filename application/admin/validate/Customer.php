@@ -21,7 +21,7 @@ class Customer extends Validate
     ];
     protected $rule = [
         'id' => 'require',
-        'head_img' => 'image|require',
+        'head_img' => 'require',
         'wechat_name' => 'max:15|require',
         'tel' => 'tel|require',
         'user_name' => 'max:15|require',
@@ -40,7 +40,6 @@ class Customer extends Validate
      */
     protected $message = [
         'id.require' => 'ID必须',
-        'head_img.image' => '头像必须',
         'head_img.require' => '头像必须',
         'wechat_name.max' => '微信昵称不能大于15个字符',
         'wechat_name.require' => '微信昵称必须',

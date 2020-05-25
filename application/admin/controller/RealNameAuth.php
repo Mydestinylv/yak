@@ -46,8 +46,6 @@ class RealNameAuth extends Admin
     {
         try {
             $param = $request->post();
-            $param['positive'] = Request()->file('positive');
-            $param['back'] = Request()->file('back');
             $result = $this->validate($param, 'app\admin\validate\RealNameAuth.save');
             if ($result !== true) {
                 return format($result);

@@ -11,9 +11,8 @@ class YaksSubAction
     /**
      * 显示资源列表
      */
-    public static function index($param)
+    public static function index($param,$where = [])
     {
-        $where = [];
         if (isset($param['yaks_name']) && !empty($param['yaks_name'])) {
             $where['a.yaks_name'] = ['like', '%' . $param['yaks_name'] . '%'];
         }
@@ -80,7 +79,6 @@ class YaksSubAction
      */
     public static function update($param)
     {
-        $param['yaks_img'] = img_upload($param['yaks_img']);
         $where['id'] = $param['id'];
         unset($param['id']);
         $transfer = YaksTask::update($param,$where);

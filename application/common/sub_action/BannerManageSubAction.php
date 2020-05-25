@@ -27,7 +27,6 @@ class BannerManageSubAction
      */
     public static function save($param)
     {
-        $param['picture'] = img_upload($param['picture']);
         $transfer = BannerManageTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');

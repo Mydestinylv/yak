@@ -40,8 +40,6 @@ class CustomerSubAction
      */
     public static function save($param)
     {
-        $img_url = img_upload($param['head_img']);
-        $param['head_img'] = $img_url;
         $transfer = CustomerTask::save($param);
         if (!$transfer->status) {
             return new Transfer('保存失败');
@@ -68,8 +66,6 @@ class CustomerSubAction
      */
     public static function update($param)
     {
-        $img_url = img_upload($param['head_img']);
-        $param['head_img'] = $img_url;
         $where = ['id' => $param['id']];
         unset($param['id']);
         $transfer = CustomerTask::update($param, $where);

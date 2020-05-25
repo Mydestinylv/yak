@@ -45,7 +45,6 @@ class Customer extends Admin
     {
         try {
             $param = $request->post();
-            $param['head_img'] = Request()->file('head_img');
             $result = $this->validate($param,'app\admin\Validate\Customer.save');
             if ($result !== true) {
                 return format($result);
@@ -107,7 +106,6 @@ class Customer extends Admin
     {
         try {
             $param = $request->post();
-            $param['head_img'] = Request()->file('head_img');
             $result = $this->validate($param,'app\admin\Validate\Customer.update');
             if ($result !== true) {
                 return format($result);

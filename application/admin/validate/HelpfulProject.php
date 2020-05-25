@@ -16,7 +16,7 @@ class HelpfulProject extends Validate
         'id' => 'require',
         'project_title' => 'max:30|require',
         'project_content' => 'require',
-        'project_cover' => 'image|require',
+        'project_cover' => 'require',
         'end_time' => 'require',
         'helpful_project_status' => 'require|number',
     ];
@@ -32,7 +32,6 @@ class HelpfulProject extends Validate
         'project_title.max:30' => '项目名称不能超过30个字',
         'project_title.require' => '项目名称必须',
         'project_content.require' => '项目内容必须',
-        'project_cover.image' => '项目封面必须是图片',
         'project_cover.require' => '项目封面必须',
         'end_time.require' => '结束时间必须',
         'helpful_project_status.require' => '状态必须',

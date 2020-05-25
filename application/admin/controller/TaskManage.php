@@ -46,7 +46,6 @@ class TaskManage extends Admin
     {
         try {
             $param = $request->post();
-            $param['enclosure_url'] = Request()->file('enclosure_url');
             $result = $this->validate($param, 'app\admin\validate\TaskManage.save');
             if ($result !== true) {
                 return format($result);
@@ -108,7 +107,6 @@ class TaskManage extends Admin
     {
         try {
             $param = $request->post();
-            $param['enclosure_url'] = Request()->file('enclosure_url');
             $result = $this->validate($param, 'app\admin\validate\TaskManage.update');
             if ($result !== true) {
                 return format($result);

@@ -45,9 +45,6 @@ class Menu extends Admin
     {
         try {
             $param = $request->post();
-            $param['menu_cover'] = Request()->file('menu_cover');
-            $param['menu_picture'] = Request()->file('menu_picture');
-            $param['menu_video'] = Request()->file('menu_video');
             $result = $this->validate($param,'app\admin\validate\Menu.save');
             if ($result !== true) {
                 return format($result);
@@ -109,9 +106,6 @@ class Menu extends Admin
     {
         try {
             $param = $request->post();
-            $param['menu_cover'] = Request()->file('menu_cover');
-            $param['menu_picture'] = Request()->file('menu_picture');
-            $param['menu_video'] = Request()->file('menu_video');
             $result = $this->validate($param,'app\admin\validate\Menu.update');
             if ($result !== true) {
                 return format($result);

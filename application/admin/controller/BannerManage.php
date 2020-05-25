@@ -45,7 +45,6 @@ class BannerManage extends Admin
     {
         try {
             $param = $request->post();
-            $param['picture'] = Request()->file('picture');
             $result = $this->validate($param,'app\admin\validate\BannerManage.save');
             if ($result !== true) {
                 return format($result);
