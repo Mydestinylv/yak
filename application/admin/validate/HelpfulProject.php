@@ -19,6 +19,7 @@ class HelpfulProject extends Validate
         'project_cover' => 'require',
         'end_time' => 'require',
         'helpful_project_status' => 'require|number',
+        'helpful_type' => 'require|number',
     ];
 
     /**
@@ -36,14 +37,16 @@ class HelpfulProject extends Validate
         'end_time.require' => '结束时间必须',
         'helpful_project_status.require' => '状态必须',
         'helpful_project_status.number' => '状态必须是数字',
+        'helpful_type.require' => '帮扶类型必须',
+        'helpful_type.number' => '帮扶类型必须是数字',
     ];
 
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['project_title','project_content','project_cover','end_time','helpful_project_status'],
+        'save' => ['project_title','project_content','project_cover','end_time','helpful_project_status','helpful_type'],
         'read' => ['id'],
-        'update' => ['project_title','project_content','project_cover','id'],
+        'update' => ['project_title','project_content','project_cover','id','helpful_type'],
         'delete' => ['id'],
     ];
 }

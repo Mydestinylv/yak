@@ -13,9 +13,6 @@ class Upload extends Admin
      */
     public function index(Request $request)
     {
-
-//        return format('',200,$param);
-
         try {
             $param = $request->param();
             $param['file'] = Request()->file('file');
