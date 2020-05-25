@@ -34,17 +34,25 @@ class WithdrawalSubAction
      */
     public static function save($param)
     {
-
-        return new Transfer('', true);
+        $transfer = WithdrawalTask::save($param);
+        if(!$transfer->status){
+            return new Transfer('提现失败');
+        }
+        return new Transfer('', true,$transfer->data);
     }
 
     /**
      * 显示指定的资源
      */
-    public static function read($param)
+    public static function bill($param)
     {
-
-        return new Transfer('', true);
+        $where['withdrawal_id'] = $param['id'];
+        $field = 'id,withdrawal_price,create_time,service_charge';
+        $transfer = WithdrawalTask::paginate($where,$field,'create_time desc');
+        if(!$transfer->status){
+            return new Transfer('获取账单失败');
+        }
+        return new Transfer('', true, $transfer->data);
     }
 
     /**

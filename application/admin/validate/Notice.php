@@ -46,7 +46,7 @@ class Notice extends Validate
         'index' => [''],
         'save' => ['title','content','link','terminal','notice_status'],
         'read' => ['id'],
-        'update' => ['title','content','link','terminal','notice_status','id'],
+        'update' => ['title','content','link','notice_status','id'],
         'delete' => ['id'],
     ];
 }

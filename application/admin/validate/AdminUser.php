@@ -57,7 +57,7 @@ class AdminUser extends Validate
         'index' => [''],
         'save' => ['user_name','account','password','tel','role_id','repeat_password'],
         'read' => ['id'],
-        'update' => ['id','password'],
+        'update' => ['id'],
         'delete' => ['id'],
     ];
 }

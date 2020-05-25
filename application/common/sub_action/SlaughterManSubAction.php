@@ -23,7 +23,7 @@ class SlaughterManSubAction
             $where['a.id_card'] = ['like', '%' . $param['id_card'] . '%'];
         }
         $field = ['a.id','a.name','a.head_img','a.tel','a.id_card','a.total_balance','a.freezing_balance',
-            'a.positive','a.back','a.score','a.introduce','a.healthy','a.create_time','b.slaughter_house_name'];
+            'a.positive','a.back','a.score','a.introduce','a.healthy','a.create_time','b.slaughter_house_name,a.prove'];
         $table = 'SlaughterHouse b';
         $join_field = 'a.slaughter_house_id = b.id';
         $action = 'Left';
@@ -54,7 +54,7 @@ class SlaughterManSubAction
     {
         $where['a.id'] = $param['id'];
         $field = ['a.id','a.name','a.head_img','a.tel','a.id_card','a.total_balance','a.freezing_balance',
-            'a.positive','a.back','a.score','a.introduce','a.healthy','a.create_time','b.slaughter_house_name'];
+            'a.positive','a.back','a.score','a.introduce','a.healthy','a.create_time','b.slaughter_house_name,a.prove'];
         $table = 'SlaughterHouse b';
         $join_field = 'a.slaughter_house_id = b.id';
         $action = 'Left';

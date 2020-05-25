@@ -29,11 +29,8 @@ class Herdsman extends Validate
         'password' => 'require|max:20|alphaDash',
         'total_balance' => 'number',
         'freezing_balance' => 'number',
-        'positive' => 'image',
-        'back' => 'image',
         'score' => 'number',
         'introduce' => 'max:1000',
-        'healthy' => 'image',
     ];
 
     /**
@@ -60,19 +57,16 @@ class Herdsman extends Validate
         'password.alphaDash' => '密码必须是字母和数字，下划线_及破折号-',
         'total_balance.number' => '总金额必须是数字',
         'freezing_balance.number' => '冻结金额必须是数字',
-        'positive.image' => '身份证正面必须是图片',
-        'back.image' => '身份证背面必须是图片',
         'score.number' => '评分必须是数字',
         'introduce.max' => '介绍不能超过1000个字符',
-        'healthy.image' => '健康证必须是图片',
     ];
 
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['pasture_id','name','head_img','tel','id_card','account','password','total_balance','freezing_balance','positive','back','score','introduce','healthy'],
+        'save' => ['pasture_id','name','head_img','tel','id_card','account','password','total_balance','freezing_balance','score','introduce'],
         'read' => ['id'],
-        'update' => ['id','pasture_id','name','head_img','tel','id_card','total_balance','freezing_balance','positive','back','score','introduce','healthy'],
+        'update' => ['id','pasture_id','name','head_img','tel','id_card','total_balance','freezing_balance','score','introduce'],
         'delete' => ['id'],
         'password_reset' => ['id','password'],
     ];

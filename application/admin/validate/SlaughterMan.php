@@ -31,6 +31,7 @@ class SlaughterMan extends Validate
         'freezing_balance' => 'number',
         'score' => 'require|number',
         'introduce' => 'max:1000',
+        'prove' => 'require',
     ];
 
     /**
@@ -59,15 +60,16 @@ class SlaughterMan extends Validate
         'freezing_balance.number' => '冻结金额必须是数字',
         'score.number' => '评分必须是数字',
         'introduce.max' => '介绍不能超过1000个字符',
+        'prove.require' => '屠宰场相关证明',
     ];
 
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => [''],
-        'read' => [''],
-        'update' => [''],
-        'delete' => [''],
+        'save' => ['slaughter_house_id','name','head_img','tel','id_card','user_name','password','total_balance','freezing_balance','score','introduce','prove'],
+        'read' => ['id'],
+        'update' => ['slaughter_house_id','name','head_img','tel','id_card','user_name','password','total_balance','freezing_balance','score','introduce','prove','id'],
+        'delete' => ['id'],
         'password_reset' => ['id','password'],
     ];
 }

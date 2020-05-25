@@ -11,7 +11,8 @@ class App extends Controller
 {
     public function _initialize()
     {
-//        define('CID', 1);
+        define('CID', 1);
+        define('TYPE',1);
 //        define('HID', 1);
         $temp = $this->check_environment();
         if ($temp) {
@@ -23,7 +24,7 @@ class App extends Controller
         $header = $request->header();
         $id = $request->param('id');
         $type = $request->param('type');
-        define('TYPE',$type);
+        define('TYPE',1);
         $res = $this->checkToken($header['access_token'],$id);
         if($res['code']==400){
             $data = [

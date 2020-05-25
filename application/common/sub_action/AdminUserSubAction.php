@@ -71,8 +71,10 @@ class AdminUserSubAction
     public static function update($param)
     {
         $where['id'] = $param['id'];
-        $param['salt'] = get_salt();
-        $param['password'] = password_encryption($param['password'], $param['salt']);
+        if(isset($param['password'])&&!empty($param['password'])){
+            $param['salt'] = get_salt();
+            $param['password'] = password_encryption($param['password'], $param['salt']);
+        }
         $transfer = AdminUserTask::update($param, $where);
         if (!$transfer->status) {
             return new Transfer('更新失败');
