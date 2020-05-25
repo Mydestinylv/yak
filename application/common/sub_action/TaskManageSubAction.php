@@ -31,7 +31,7 @@ class TaskManageSubAction
     public static function save($param)
     {
         $where['pasture_id'] = $param['pasture_id'];
-        $transfer = TaskManageTask::valueByWhere($where, 'id,order');
+        $transfer = TaskManageTask::find($where, 'order','create_time desc');
         if (!$transfer->status) {
             return new Transfer('添加失败');
         }
