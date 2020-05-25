@@ -11,18 +11,19 @@ class App extends Controller
 {
     public function _initialize()
     {
-        define('CID', 1);
+//        define('CID', 1);
+//        define('HID', 1);
         $temp = $this->check_environment();
         if ($temp) {
             return true;
         }
-
 
         parent::_initialize();
         $request = Request::instance();
         $header = $request->header();
         $id = $request->param('id');
         $type = $request->param('type');
+        define('TYPE',$type);
         $res = $this->checkToken($header['access_token'],$id);
         if($res['code']==400){
             $data = [
