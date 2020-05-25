@@ -44,8 +44,6 @@ class Yaks extends Validate
         'pasture_id.require' => '牧场名称必须',
         'pasture_id.number' => '牧场名称必须是数字',
         'herdsman_id.require' => '牧名名称必须',
-        'yaks_type.number' => '牦牛类型必须是数字',
-        'yaks_type.require' => '牦牛类型必须',
         'herdsman_id.number' => '牧名必须是数字',
         'yaks_name.require' => '牦牛名称必须',
         'yaks_name.max' => '牦牛名称不能大于24个字符',
@@ -68,9 +66,9 @@ class Yaks extends Validate
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['pasture_id','herdsman_id','yaks_name','yaks_img','yaks_tag','yaks_birthday','yaks_sex','adoption_tel','adoption_time','is_adoption','remarks','yaks_type'],
+        'save' => ['pasture_id','herdsman_id','yaks_name','yaks_img','yaks_tag','yaks_birthday','yaks_sex','adoption_tel','adoption_time','is_adoption','remarks'],
         'read' => ['id'],
-        'update' => ['pasture_id','herdsman_id','yaks_name','yaks_img','yaks_tag','yaks_birthday','yaks_sex','adoption_tel','adoption_time','is_adoption','remarks','id','yaks_type'],
+        'update' => ['pasture_id','herdsman_id','yaks_name','yaks_img','yaks_tag','yaks_birthday','yaks_sex','adoption_tel','adoption_time','is_adoption','remarks','id'],
         'delete' => ['id'],
     ];
 }

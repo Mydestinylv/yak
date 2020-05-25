@@ -3,6 +3,7 @@
 namespace app\common\controller;
 use think\Cache;
 use think\Db;
+use think\Env;
 use think\Request;
 use think\Controller;
 use app\client\common\Token;
@@ -10,12 +11,19 @@ class App extends Controller
 {
     public function _initialize()
     {
+        define('CID', 1);
+        $temp = $this->check_environment();
+        if ($temp) {
+            return true;
+        }
+
+
         parent::_initialize();
         $request = Request::instance();
         $header = $request->header();
         $id = $request->param('id');
         $type = $request->param('type');
-        $res = $this->checkToken($header['token'],$id);
+        $res = $this->checkToken($header['access_token'],$id);
         if($res['code']==400){
             $data = [
                 'code' => 400,
@@ -73,5 +81,15 @@ class App extends Controller
                 return ['code'=>400,'msg'=>$checkJwtToken['msg']];
             }
         }
+    }
+
+    public function check_environment()
+    {
+        if (Env::get('environment') === 'test') {
+            $this->environment = 'test';
+        }else{
+            return false;
+        }
+        return true;
     }
 }

@@ -11,9 +11,8 @@ class YaksSubAction
     /**
      * 显示资源列表
      */
-    public static function index($param)
+    public static function index($param,$where = [])
     {
-        $where = [];
         if (isset($param['yaks_name']) && !empty($param['yaks_name'])) {
             $where['a.yaks_name'] = ['like', '%' . $param['yaks_name'] . '%'];
         }
@@ -34,7 +33,7 @@ class YaksSubAction
         }
         $table = ['Pasture b','Herdsman c'];
         $join_file = ['a.pasture_id = b.id','a.pasture_id = c.id'];
-        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks,a.yaks_type'];
+        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks'];
         $action = ['Left','Left'];
         $group = [];
         $transfer = YaksTask:: Mjoin($table,$join_file,$action,$where,$file,$group);
@@ -65,7 +64,7 @@ class YaksSubAction
         $where['a.id'] = $param['id'];
         $table = ['Pasture b','Herdsman c'];
         $join_file = ['a.pasture_id = b.id','a.pasture_id = c.id'];
-        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks,a.yaks_type'];
+        $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks'];
         $action = ['Left','Left'];
         $order = [];
         $transfer = YaksTask:: Mjoin($table,$join_file,$action,$where,$file,$order,'find');
