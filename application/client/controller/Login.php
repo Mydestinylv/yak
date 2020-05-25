@@ -5,7 +5,6 @@
  * Date: 2020/5/22
  * Time: 11:14
  */
-
 namespace app\client\controller;
 header("Access-Control-Allow-Origin:*");
 header('Access-Control-Allow-Methods:POST');
@@ -26,7 +25,7 @@ class Login extends Controller
         if($request->isPost()){
             $data = $request->param();
             $result = $this->validate($data,'Login.login');
-            if(true !== $result) return format($result, 400,$data);
+            if(true !== $result) return format($result, 400);
             $res = Customer::dologin($data);
             if($res['code']==200){
                 $userInfo = $res['data'];
