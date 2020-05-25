@@ -12,4 +12,9 @@ class HelpfulPropaganda extends Model
     protected $autoWriteTimestamp = 'datetime';
 
 
+    public function getPropagandaStatusAttr($value)
+    {
+        $array = [1=>'正常'];
+        return $array[$value];
+    }
 }
