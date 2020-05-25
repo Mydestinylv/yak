@@ -25,6 +25,12 @@ class Yaks extends Model
         return $array[$value];
     }
 
+    public function getInvestTypeAttr($value)
+    {
+        $array = [0 => '投资认养', 1 => '食用认养'];
+        return $array[$value];
+    }
+
     /*
      * 一对一关联查询未领养牦牛牧场信息
      * */
@@ -33,10 +39,19 @@ class Yaks extends Model
         return $this->hasOne('Pasture','id','pasture_id')->field('id,pasture_name,pasture_address');
     }
 
+    /*
+     * 一对一关联查询未领养牦牛牧场信息
+     * */
+    public function details()
+    {
+        return $this->hasOne('VideoSurveillance','pasture_id','pasture_id')->field('id,pasture_id,viewing_address,surveillance_name');
+    }
+
     public static function GetAdoptYaks($params){
         try{
             $list = self::with('adopt')
                 ->field("*")
+                ->where('yaks_sex',$params['invest_type'] == 1 ? 1 : 0)
                 ->where('is_adoption',1);
             $limit=!empty($params['limit'])?$params['limit']:10;
             $list=$list->paginate($limit,false,[
@@ -59,8 +74,9 @@ class Yaks extends Model
     {
         $id = $params['yaks_id'];
         try{
-            $info = self::where('id',$id)
-                ->field('*,is_adoption as confirm')
+            $info = self::with('details')
+                ->field('*,is_adoption as confirm,yaks_sex as invest_type')
+                ->where('id',$id)
                 ->find();
             if($info['confirm']!=1) return ['data'=>'该牦牛不是未认养状态！','code'=>400];
         }catch (\Exception $e){
