@@ -24,7 +24,6 @@ class App extends Controller
         $header = $request->header();
         $id = $request->param('id');
         $type = $request->param('type');
-        define('TYPE',1);
         $res = $this->checkToken($header['access_token'],$id);
         if($res['code']==400){
             $data = [

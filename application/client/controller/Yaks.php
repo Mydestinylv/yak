@@ -10,6 +10,8 @@ namespace app\client\controller;
 use app\common\controller\App;
 use think\Request;
 use app\common\model\Yaks as YaksM;
+use wxpay\Config;
+
 class Yaks extends App
 {
     /*
@@ -53,6 +55,25 @@ class Yaks extends App
             }
         }else{
             return format('请正确请求接口',400);
+        }
+    }
+
+    /*
+     * 确认认养支付
+     * */
+
+    public function adopt_pay(Request $request)
+    {
+        if($request->isPost()){
+            $goods_name = '牦牛认养';
+            $order_no = Config::CreateOutTradeNo();
+            $money = 0.01 ;
+            $a = \wxpay\Index::pay($goods_name,$order_no,$money);
+            if($a == 200){
+                return format('ok',200,$a['msg']);
+            }else{
+                return format($a['msg'],400);
+            }
         }
     }
 }

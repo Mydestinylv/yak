@@ -248,4 +248,9 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+    'appid'=>'wxc6cf7316e472e685',
+    'mch_id'=>'2345432222',
+    'appKey'=>'609cbabd5f0963ae2a7827f1fd010f2a',
+    'wap_name'=>'',
+    'notify_url'=>''
 ];

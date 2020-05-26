@@ -29,5 +29,6 @@ class Yaks extends Base
     protected $scene = [
         'adopt'  =>  ['limit','page','invest_type'],
         'details'  =>  ['yaks_id'],
+        'adopt_pay'  =>  ['yaks_id'],
     ];
 }
