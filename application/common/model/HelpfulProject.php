@@ -71,18 +71,18 @@ class HelpfulProject extends Model
 
     }
 
-    public function helplist()
-    {
-        return $this->hasMany('HelpfulList','helpful_project_id','id');
-    }
-
     /*
      * 查询帮扶详情
      * */
     public static function GetHelpfulDetails($params)
     {
         try{
-            $info = self::with('helplist')->where('id',$params['helpful_id'])->find();
+            $info = self::where('id',$params['helpful_id'])->find();
+            $help_list = HelpfulList::GetHelpDetails($params['helpful_id']);
+            if($help_list['code']==400){
+                return ['code'=>400,'msg'=>$help_list['msg']];
+            }
+            $info['help_list'] = $help_list['msg'];
             return ['code'=>200,'msg'=>$info];
         }catch (\Exception $e){
             return ['code'=>400,'msg'=>$e->getMessage()];
