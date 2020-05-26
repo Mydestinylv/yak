@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2020/5/22
- * Time: 11:14
- */
 namespace app\client\controller;
 header("Access-Control-Allow-Origin:*");
 header('Access-Control-Allow-Methods:POST');
