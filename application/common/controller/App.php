@@ -11,20 +11,21 @@ class App extends Controller
 {
     public function _initialize()
     {
-        define('CID', 1);
-        define('TYPE',1);
-//        define('HID', 1);
-        $temp = $this->check_environment();
-        if ($temp) {
-            return true;
-        }
-
         parent::_initialize();
         $request = Request::instance();
-        $header = $request->header();
+        $token = $request->header('token');
+        if(is_null($token)) {
+            $data = [
+                'code' => 400,
+                'msg' => '请传入token',
+            ];
+            $data = json_encode($data, 256);
+            echo $data;
+            exit;
+        }
         $id = $request->param('id');
         $type = $request->param('type');
-        $res = $this->checkToken($header['access_token'],$id);
+        $res = $this->checkToken($token,$id);
         if($res['code']==400){
             $data = [
                 'code' => 400,

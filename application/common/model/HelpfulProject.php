@@ -3,6 +3,7 @@
 namespace app\common\model;
 
 use think\Db;
+use think\Exception;
 use think\Model;
 use traits\model\SoftDelete;
 
@@ -45,6 +46,25 @@ class HelpfulProject extends Model
             return ['data'=>[],'count'=>0,'code'=>200];
         }
         return ['data'=>$list_items,'count'=>$list->total(),'code'=>200];
+    }
+
+    /*
+     * 查询最新的状态为需要帮扶的一个记录
+     * */
+
+    public static function GetOneHelpful()
+    {
+        try{
+            $list = self::where('helpful_project_status',1)
+                ->field('id,project_title,project_content,project_cover,helpful_project_status,end_time')
+                ->order('create_time desc')
+                ->limit(1)
+                ->select();
+            return ['code'=>200,'msg'=>$list[0]];
+        }catch (\Exception $e){
+            return ['code'=>400,'msg'=>$e->getMessage()];
+        }
+
     }
 
 }

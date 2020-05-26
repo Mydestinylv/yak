@@ -1,11 +1,15 @@
 <?php
 namespace app\client\controller;
 use app\common\controller\App;
+use app\common\model\HelpfulList;
 use app\common\model\HelpfulProject;
 use think\Request;
 
 class Adopt extends App
 {
+    /*
+     * 公益项目列表
+     * */
     public function index( Request $request)
     {
         if($request->isPost()){
@@ -22,5 +26,15 @@ class Adopt extends App
                 ]);
             }
         }
+    }
+
+    /*
+     * 爱心帮扶
+     * */
+    public function helpful()
+    {
+        $msg = HelpfulList::GetAll();
+        $msg = HelpfulProject::GetOneHelpful();
+        return format('ok',200,$msg);
     }
 }
