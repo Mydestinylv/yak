@@ -11,6 +11,7 @@ use think\Cookie;
 use think\Db;
 use think\Request;
 use think\Session;
+
 class Login extends Controller
 {
     public function index(Request $request)
