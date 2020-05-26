@@ -60,7 +60,30 @@ class HelpfulProject extends Model
                 ->order('create_time desc')
                 ->limit(1)
                 ->select();
+            $list[0]['help_info'] = Db::name('helpful_list')
+                ->field('COUNT(`id`) AS num,SUM(`helpful_price`) AS money')
+                ->where('helpful_project_id',$list[0]['id'])
+                ->find();
             return ['code'=>200,'msg'=>$list[0]];
+        }catch (\Exception $e){
+            return ['code'=>400,'msg'=>$e->getMessage()];
+        }
+
+    }
+
+    public function helplist()
+    {
+        return $this->hasMany('HelpfulList','helpful_project_id','id');
+    }
+
+    /*
+     * 查询帮扶详情
+     * */
+    public static function GetHelpfulDetails($params)
+    {
+        try{
+            $info = self::with('helplist')->where('id',$params['helpful_id'])->find();
+            return ['code'=>200,'msg'=>$info];
         }catch (\Exception $e){
             return ['code'=>400,'msg'=>$e->getMessage()];
         }

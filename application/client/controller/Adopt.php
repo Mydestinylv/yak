@@ -34,12 +34,32 @@ class Adopt extends App
      * */
     public function helpful()
     {
-        $msg1 = HelpfulList::GetAll();
-        $msg2 = HelpfulProject::GetOneHelpful();
-        $msg3 = HelpfulPropaganda::GetOneHelpful();
+        $helpful_list = HelpfulList::GetAll();
+        $helpful_project = HelpfulProject::GetOneHelpful();
+        $helpful_propaganda = HelpfulPropaganda::GetOneHelpful();
         $msg = [
-
+            'helpful_list'=>$helpful_list['msg'],
+            'helpful_project'=>$helpful_project['msg'],
+            'helpful_propaganda'=>$helpful_propaganda['msg'],
         ];
         return format('ok',200,$msg);
+    }
+
+    /*
+     * 帮扶详情
+     * */
+    public function details(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request->param();
+            $result = $this->validate($data,'Adopt.details');
+            if(true !== $result) return format($result, 400);
+            $list = HelpfulProject::GetHelpfulDetails($data);
+            if($list['code']==400){
+                return format($list['msg'],400);
+            }else{
+                return format('ok',200,$list['msg']);
+            }
+        }
     }
 }

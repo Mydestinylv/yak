@@ -14,7 +14,8 @@ class Adopt extends Base
     protected $rule =   [
         'limit'  => 'number',
         'page'   => 'number',
-        'helpful_type' => 'require|in:1,2'
+        'helpful_type' => 'require|in:1,2',
+        'helpful_id' => 'require|number',
     ];
 
     protected $message  =   [
@@ -25,5 +26,6 @@ class Adopt extends Base
     ];
     protected $scene = [
         'index'  =>  ['limit','page','helpful_type'],
+        'details'  =>  ['helpful_id'],
     ];
 }

@@ -54,7 +54,7 @@ class Yaks extends Model
     public static function GetAdoptYaks($params){
         try{
             $list = self::with('adopt')
-                ->field("*")
+                ->field("*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), yaks_birthday))) AS age")
                 ->where('yaks_sex',$params['invest_type'] == 1 ? 1 : 0)
                 ->where('is_adoption',1);
             $limit=!empty($params['limit'])?$params['limit']:10;
@@ -79,7 +79,7 @@ class Yaks extends Model
         $id = $params['yaks_id'];
         try{
             $info = self::with('details')
-                ->field('*,is_adoption as confirm,yaks_sex as invest_type')
+                ->field('*,is_adoption as confirm,yaks_sex as invest_type,YEAR( FROM_DAYS( DATEDIFF( NOW( ), yaks_birthday))) AS age')
                 ->where('id',$id)
                 ->find();
             if($info['confirm']!=1) return ['data'=>'该牦牛不是未认养状态！','code'=>400];
