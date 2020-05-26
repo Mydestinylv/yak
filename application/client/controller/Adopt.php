@@ -3,6 +3,7 @@ namespace app\client\controller;
 use app\common\controller\App;
 use app\common\model\HelpfulList;
 use app\common\model\HelpfulProject;
+use app\common\model\HelpfulPropaganda;
 use think\Request;
 
 class Adopt extends App
@@ -33,8 +34,12 @@ class Adopt extends App
      * */
     public function helpful()
     {
-        $msg = HelpfulList::GetAll();
-        $msg = HelpfulProject::GetOneHelpful();
+        $msg1 = HelpfulList::GetAll();
+        $msg2 = HelpfulProject::GetOneHelpful();
+        $msg3 = HelpfulPropaganda::GetOneHelpful();
+        $msg = [
+
+        ];
         return format('ok',200,$msg);
     }
 }
