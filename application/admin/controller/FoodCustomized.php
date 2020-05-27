@@ -166,8 +166,6 @@ class FoodCustomized extends Admin
     {
         try {
             $param = $request->post();
-            $param['feedback_picture'] = Request()->file('feedback_picture');
-            $param['feedback_video'] = Request()->file('feedback_video');
             $result = $this->validate($param, 'app\admin\validate\FoodCustomized.feedback');
             if ($result !== true) {
                 return format($result);

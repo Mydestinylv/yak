@@ -3,6 +3,9 @@
 namespace app\common\sub_action;
 
 use app\common\lib\Transfer;
+use app\common\model\AdoptionOrder;
+use app\common\task\AdoptionOrderTask;
+use app\common\task\CustomerTask;
 use app\common\task\FoodCustomizedTask;
 
 class FoodCustomizedSubAction
@@ -34,8 +37,31 @@ class FoodCustomizedSubAction
     /**
      * 保存新建的资源
      */
-    public static function save($param)
+    public static function save($param,$customer_id)
     {
+        $where['customer_id'] = $customer_id;
+        $where['pay_status'] = 1;
+        $transfer = AdoptionOrderTask::count($where);
+        if(!$transfer->status){
+            return new Transfer('新增失败');
+        }
+        $yaks_count = $transfer->data['count'];
+        unset($where['pay_status']);
+        $transfer = FoodCustomizedTask::count($where);
+        if(!$transfer->status){
+            return new Transfer('新增失败');
+        }
+        $food_customized_count = $transfer->data['count'];
+        if($yaks_count<=$food_customized_count){
+            return new Transfer('超过定制菜品数量');
+        }
+        $transfer = CustomerTask::find(['id'=>$customer_id],'real_name,tel');
+        if(!$transfer->status){
+            return new Transfer('新增失败');
+        }
+        $param['apply_name'] = $transfer->data['real_name'];
+        $param['apply_tel'] = $transfer->data['tel'];
+        $param['customer_id'] = $customer_id;
         $transfer = FoodCustomizedTask::save($param);
         if (!$transfer->status) {
             return new Transfer('保存失败');
@@ -46,10 +72,9 @@ class FoodCustomizedSubAction
     /**
      * 显示指定的资源
      */
-    public static function read($param)
+    public static function read($param,$field)
     {
         $where['id'] = $param['id'];
-        $field = ['id,apply_name,apply_tel,family_number,beneficiary,note,menu_type,menu_number,create_time'];
         $order = 'create_time desc';
         $transfer = FoodCustomizedTask::find($where, $field, $order);
         if (!$transfer->status) {
@@ -89,14 +114,9 @@ class FoodCustomizedSubAction
      */
     public static function feedback($param)
     {
+        $param['feedback_status'] = 2;
         $where['id'] = $param['id'];
         unset($param['id']);
-        if(isset($param['feedback_picture'])&&!empty($param['feedback_picture'])){
-            $param['feedback_picture'] = img_upload($param['feedback_picture']);
-        }
-        if(isset($param['feedback_video'])&&!empty($param['feedback_video'])){
-            $param['feedback_video'] = img_upload($param['feedback_video']);
-        }
         $transfer = FoodCustomizedTask::update($param,$where);
         if (!$transfer->status) {
             return new Transfer('更新失败');

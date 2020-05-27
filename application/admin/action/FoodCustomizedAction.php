@@ -24,11 +24,11 @@ class FoodCustomizedAction
      */
     public static function save($param)
     {
-        $transfer = FoodCustomizedSubAction::save($param);
-        if(!$transfer->status){
-            return new Transfer('保存失败');
-        }
-        return new Transfer('', true, $transfer->data);
+//        $transfer = FoodCustomizedSubAction::save($param);
+//        if(!$transfer->status){
+//            return new Transfer('保存失败');
+//        }
+        return new Transfer('', true);
     }
 
     /**
@@ -36,7 +36,8 @@ class FoodCustomizedAction
      */
     public static function read($param)
     {
-        $transfer = FoodCustomizedSubAction::read($param);
+        $field = ['id,apply_name,apply_tel,family_number,beneficiary,note,menu_type,menu_number,create_time'];
+        $transfer = FoodCustomizedSubAction::read($param,$field);
         if(!$transfer->status){
             return new Transfer('查询失败');
         }

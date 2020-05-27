@@ -42,8 +42,9 @@ class RealNameAuthSubAction
     /**
      * 保存新建的资源
      */
-    public static function save($param)
+    public static function save($param,$customer_id)
     {
+        $param['customer_id'] = $customer_id;
         $param['auth_time'] = date('Y-m-d H:i:s', time());
         $transfer = RealNameAuthTask::save($param);
         if (!$transfer->status) {

@@ -48,7 +48,6 @@ class YaksSubAction
      */
     public static function save($param)
     {
-        $param['yaks_img'] = img_upload($param['yaks_img']);
         $transfer = YaksTask::save($param);
         if (!$transfer->status) {
             return new Transfer('保存失败');

@@ -1,13 +1,12 @@
 <?php
 
 namespace app\common\controller;
-
-
 use app\common\service\Permission;
+use think\Controller;
 use think\Env;
 use think\Request;
 
-class Admin extends App
+class Admin extends Controller
 {
     // 不登录也允许访问的访问
     protected $allowNoLoginAction = [];
