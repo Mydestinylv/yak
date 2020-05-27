@@ -24,11 +24,11 @@ class FeedbackAction
      */
     public static function save($param)
     {
-        $transfer = FeedbackSubAction::save($param);
-        if(!$transfer->status){
-            return new Transfer('保存失败');
-        }
-        return new Transfer('', true, $transfer->data);
+//        $transfer = FeedbackSubAction::save($param);
+//        if(!$transfer->status){
+//            return new Transfer('保存失败');
+//        }
+        return new Transfer('', true);
     }
 
     /**

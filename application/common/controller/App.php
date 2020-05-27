@@ -11,7 +11,8 @@ class App extends Controller
 {
     public function _initialize()
     {
-        define('CID',1);
+        define('HID',1);
+        define('TYPE',2);
         $temp = $this->check_environment();
         if ($temp) {
             //  goto sub_permission;

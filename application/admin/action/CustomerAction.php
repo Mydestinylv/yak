@@ -71,9 +71,9 @@ class CustomerAction
     /**
      * 删除指定资源
      */
-    public static function password_reset($param)
+    public static function passwordReset($param)
     {
-        $transfer = CustomerSubAction::password_reset($param);
+        $transfer = CustomerSubAction::passwordReset($param);
         if (!$transfer->status) {
             return new Transfer('重置失败');
         }

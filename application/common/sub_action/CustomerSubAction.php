@@ -90,10 +90,31 @@ class CustomerSubAction
     /**
      * 删除指定资源
      */
-    public static function password_reset($param)
+    public static function passwordReset($param)
     {
         $where['id'] = $param['id'];
         unset($param['id']);
+        $transfer = CustomerTask::update($param,$where);
+        if (!$transfer->status) {
+            return new Transfer('重置失败');
+        }
+        return new Transfer('', true);
+    }
+    /**
+     * 删除指定资源
+     */
+    public static function changePassword($param,$customer_id)
+    {
+        $where['id'] = $customer_id;
+        $transfer = CustomerTask::valueByWhere($where,'password');
+        if(!$transfer->status){
+            return new Transfer('修改密码失败');
+        }
+        if($transfer->data['password']!==$param['old_password']){
+            return new Transfer('原密码错误');
+        }
+        unset($param['repeat_password']);
+        unset($param['old_password']);
         $transfer = CustomerTask::update($param,$where);
         if (!$transfer->status) {
             return new Transfer('重置失败');

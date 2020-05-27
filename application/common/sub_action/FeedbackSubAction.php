@@ -3,7 +3,10 @@
 namespace app\common\sub_action;
 
 use app\common\lib\Transfer;
+use app\common\task\CustomerTask;
 use app\common\task\FeedbackTask;
+use app\common\task\HerdsmanTask;
+use app\common\task\SlaughterManTask;
 
 class FeedbackSubAction
 {
@@ -40,8 +43,31 @@ class FeedbackSubAction
     /**
      * 保存新建的资源
      */
-    public static function save($param)
+    public static function save($param,$where,$type)
     {
+        switch ($type){
+            case 1 :
+                $transfer = CustomerTask::find($where,'real_name as name,tel');
+                break;
+            case 2 :
+                $transfer = HerdsmanTask::find($where,'name,tel');
+
+
+                break;
+            case 3 :
+                $transfer = SlaughterManTask::find($where,'name,tel');
+
+                break;
+            default :
+                return new Transfer('保存失败');
+        }
+        if(!$transfer->status){
+            return new Transfer('保存失败');
+        }
+        $param['name'] = $transfer->data['name'];
+        $param['tel'] = $transfer->data['tel'];
+        $param['user_type'] = $type;
+        $param['feedback_status'] = 1;
         $transfer = FeedbackTask::save($param);
         if (!$transfer->status) {
             return new Transfer('保存失败');
