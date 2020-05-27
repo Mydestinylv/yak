@@ -29,4 +29,27 @@ class HelpfulList extends Model
         }
     }
 
+
+    public function userinfo()
+    {
+        return $this->hasOne('Customer','id','customer_id')->field('id,user_name');
+    }
+
+    /*
+     *查询某个帮扶项目的捐款详情
+     * */
+    public static function GetHelpDetails($id)
+    {
+        try{
+            $info = self::with('userinfo')
+                ->where('helpful_project_id',$id)
+                ->field('id,customer_id,helpful_price,helpful_project_id,create_time')
+                ->order('create_time desc')
+                ->select();
+            return ['code'=>200,'msg'=>$info];
+        }catch (\Exception $e){
+            return ['code'=>400,'msg'=>$e->getMessage()];
+        }
+    }
+
 }
