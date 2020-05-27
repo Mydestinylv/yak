@@ -19,7 +19,7 @@ class App extends Controller
         $token = $request->header('token');
         if(is_null($token)) {
             $data = [
-                'code' => 400,
+                'status' => 400,
                 'msg' => '请传入token',
             ];
             $data = json_encode($data, 256);
@@ -31,7 +31,7 @@ class App extends Controller
         $res = $this->checkToken($token,$id);
         if($res['code']==400){
             $data = [
-                'code' => 400,
+                'status' => 400,
                 'msg' => $res['msg'],
             ];
             $data = json_encode($data, 256);
@@ -40,7 +40,7 @@ class App extends Controller
         }
         if(is_null($type)){
             $data = [
-                'code' => 400,
+                'status' => 400,
                 'msg' => 'type不能位空！',
             ];
             $data = json_encode($data);
@@ -59,7 +59,7 @@ class App extends Controller
                     break;
                 default :
                     $data = [
-                        'code' => 400,
+                        'status' => 400,
                         'msg' => 'type错误，请确认！',
                     ];
                     $data = json_encode($data);
