@@ -14,7 +14,7 @@ class CardManage extends Model
 
     public function getStatusAttr($value)
     {
-        $array = [1 => '已绑定', 2 => '未绑定'];
+        $array = [1 => '未绑定', 2 => '已绑定', 3=>'已使用',4=>'已过期'];
         return $array[$value];
     }
 }

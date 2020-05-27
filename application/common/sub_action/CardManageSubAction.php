@@ -43,10 +43,12 @@ class CardManageSubAction
      */
     public static function save($param)
     {
-        $param['bind_time'] = date('Y-m-d H:i:s', time());
-        $param['expire_time'] = date('Y-m-d H:i:s', strtotime("+1 Year"));
+        $where['card_number'] = $param['card_number'];
+        $transfer = CardManageTask::issetValue($where,'card_number');
+        if(!$transfer->status){
+            return new Transfer('此卡号已存在');
+        }
         $transfer = CardManageTask::save($param);
-
         if (!$transfer->status) {
             return new Transfer('添加失败');
         }

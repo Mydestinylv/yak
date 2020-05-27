@@ -19,6 +19,7 @@ class CardManage extends Validate
         'secret_key' => 'require|max:128',
         'status' => 'require',
         'balance' => 'require',
+        'expire_time'   =>  'require'
     ];
 
     /**
@@ -35,15 +36,16 @@ class CardManage extends Validate
         'secret_key.max' => '密钥不能大于128个字符',
         'sekey.require' => '密钥必须',
         'status.require' => '状态必须',
+        'expire_time.require' => '过期时间必须',
         'balance.require' => '余额（元）必须',
     ];
 
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['customer_id','card_number','secret_key','status','balance'],
+        'save' => ['card_number','secret_key','balance','expire_time'],
         'read' => ['id'],
-        'update' => ['id','customer_id','card_number','secret_key','status','balance'],
+        'update' => ['id','card_number','secret_key','expire_time','balance'],
         'delete' => ['id'],
     ];
 }

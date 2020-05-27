@@ -388,4 +388,24 @@ class CardManageTask
         $model = to_array($model);
         return new Transfer('ok', true, $model == false ? [] : $model);
     }
+
+    /**
+     * 获取某个字段的值
+     * $where array ['name' => '1'
+     * */
+    public static function issetValue($where, $field)
+    {
+        $model = (self::$model)::where($where)->value($field);
+        if ($model === false) {
+            Log::alert([__CLASS__ . '  ' . __FUNCTION__,
+                'failure_desc' => '查询数据失败',
+                'attach' => compact(['where', 'model', 'field']),
+            ]);
+            return new Transfer('查询数据失败');
+        }
+        if($model){
+            return new Transfer('值已存在');
+        }
+        return new Transfer('ok', true);
+    }
 }
