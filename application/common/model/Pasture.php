@@ -11,5 +11,12 @@ class Pasture extends Model
     protected $deleteTime = 'delete_time';
     protected $autoWriteTimestamp = 'datetime';
 
+    /*
+     * 一对一关联查询未领养牦牛牧场信息
+     * */
+    public function adopt()
+    {
+        return $this->hasOne('Profile')->field('id,name,email');
+    }
 
 }

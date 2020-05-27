@@ -96,7 +96,8 @@ class Yaks extends Model
     {
         $id = $params['yaks_id'];
         try{
-            $info = self::field('id,yaks_name,is_adoption as confirm')
+            $info = self::with('details')
+                ->field('*,is_adoption as confirm,yaks_sex as invest_type,YEAR( FROM_DAYS( DATEDIFF( NOW( ), yaks_birthday))) AS age')
                 ->where('id',$id)
                 ->find();
             if($info['confirm']!=1) return ['data'=>'该牦牛不是未认养状态！','code'=>400];
