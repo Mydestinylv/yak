@@ -22,4 +22,17 @@ class Notice extends Model
         $array = [1 => '正常', 2 => '已下架'];
         return $array[$value];
     }
+
+    public static function GetNotice()
+    {
+        try{
+            $data = self::field('id,title,link,terminal')
+                ->where('notice_status',1)
+                ->order('update_time asc')
+                ->select();
+        }catch (\Exception $e){
+            return ['code'=>400,'msg'=>$e->getMessage()];
+        }
+        return ['code'=>200,'msg'=>$data];
+    }
 }
