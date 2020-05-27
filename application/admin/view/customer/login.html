@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><!--Head-->
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+</head>
+<body>
+    <div class="login-container animated fadeInDown">
+        <form action="" method="post">
+            <div class="loginbox bg-white">
+                <div class="loginbox-title">Login</div>
+                <div class="loginbox-textbox">
+                    <input value="admin" class="form-control" placeholder="username" name="account" type="text">
+                </div>
+                <div class="loginbox-textbox">
+                    <input value="123456" class="form-control" placeholder="password" name="password" type="password">
+                </div>
+                <div class="loginbox-submit">
+                    <input class="btn btn-primary btn-block" value="Login" type="submit" onclick="reload()">
+                </div>
+            </div>
+                <div class="logobox">
+                    <p class="text-center">第一个登录页面</p>
+                </div>
+        </form>
+    </div>
+  
+    <script type="text/javascript" src="__STATIC__/jquery-3.3.1/jquery-3.3.1.min.js">
+      
+    </script>
+    <script type="text/javascript">
+     
+      $("#button").click(function(){
+        let account = $('#account').val()
+        let password = $('#password').val()
+        $.ajax(
+          type: "POST",
+          url: "login",
+          data:{"account":account,"password":password},
+          success:function (message) {
+              alert("提交成功"+JSON.stringify(message));
+              
+          },
+          error:function (message) {
+              alert("提交失败"+JSON.stringify(message));
+          }
+          )
+    
+      });
+
+      function reload()
+      {
+         window.location.reload();
+      }
+    </script>
+
+    
+</body><!--Body Ends-->
+</html>

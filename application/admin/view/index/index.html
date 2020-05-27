@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>后台管理系统</title>
+  <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+  <style type="text/css">
+    dd{padding-left: 20px}
+
+  </style>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">牦牛可追溯后台管理系统</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+     <!--  <li class="layui-nav-item"><a href="">控制台</a></li>
+      <li class="layui-nav-item"><a href="">商品管理</a></li>
+      <li class="layui-nav-item"><a href="">用户</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">其它系统</a>
+        <dl class="layui-nav-child">
+          <dd><a href="">邮件管理</a></dd>
+          <dd><a href="">消息管理</a></dd>
+          <dd><a href="">授权管理</a></dd>
+        </dl>
+      </li> -->
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+          贤心
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a id='loginout' href="http://www.gohosts.com/admin/index/loginout">退了</a></li>
+    </ul>
+  </div>
+
+  <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+           <dl class="layui-nav-child">
+            <dd><a class="iframe_url" href="javascript:;">登录界面</a></dd>
+            <dd><a class="iframe_url" href="javascript:;">系统框架</a></dd>
+          </dl>
+        </li>
+      </ul>
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a href="javascript:;" >客户管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/customer/lists'>客户列表</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/card_manage/lists'>卡号管理</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/real_name_auth/lists'>实名认证管理</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/receiving_address/lists'>地址管理</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/booking_manage/lists'>预约管理</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">牦牛管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/yaks/lists'>牦牛列表</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/grow_manage/lists'>生长管理</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/task_manage/lists'>任务管理</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/slaughter/lists'>屠宰列表</a></dd>
+            <dd><a class="iframe_url" href="javascript:;" data-url='http://www.gohosts.com/admin/slaughter/slaughterBoxLists'>盒数管理</a></dd>
+           
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">订单管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="iframe_url"  href="javascript:;" data-url='http://www.gohosts.com/admin/adoption_order/lists'>认养订单</a></dd>
+            <dd><a class="iframe_url" href="javascript:;">物流订单</a></dd>
+            <dd><a class="iframe_url" href="javascript:;">销售订单</a></dd>
+            <dd><a class="iframe_url" href="javascript:;">屠宰列表</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">财务管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="iframe_url" href="javascript:;" >提现管理</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+      <!-- <iframe  scrolling='yes' style=" width: 100%; height: 1000px;border: none;" id='content' src="http://www.gohosts.com/admin/customer/login"></iframe> -->
+      <iframe  scrolling='yes' style=" width: 100%; height: 1000px;border: none;" id='content' src="http://www.gohosts.com/admin/customer/lists"></iframe>
+     
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+  </div>
+</div>
+<script src="__STATIC__/layui/layui.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+
+<script>
+  $('.iframe_url').click(function(){
+    console.log('aaaaaaa')
+    var click_href = $(this).data('url')
+    console.log('bbb',click_href)
+    $("#content").attr("src",click_href);
+    console.log('success')
+    // window.location.reload()
+  })
+  
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+  
+});
+</script>
+</body>
+</html>

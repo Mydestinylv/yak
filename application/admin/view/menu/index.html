@@ -1,0 +1,20 @@
+{extend name="global" /}
+{block name="title"}<title>添加栏目-后台管理系统</title>{/block}
+{block name="body"}
+<style>
+#myTree{ }
+#myTree ul li{ }
+#myTree ul li .self{ height: 48px;line-height: 48px;border-bottom: 1px solid #ddd;}
+#myTree ul li .self .action{ float: right;}
+#myTree ul li ul{ margin-left: 40px;}
+
+</style>
+
+<div id="myTree">
+    {:show_menu(1)}    
+</div>
+
+
+
+{/block}
+

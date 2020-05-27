@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <style>
+        body{margin: 10px;}
+        .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
+    </style>
+    <style type="text/css">
+        .search{
+            display: inline-block;
+            padding: 8px;
+            width: 100px;
+            border:1px solid #e6e6e6;
+        }
+        .topNav{
+            margin-top: 40px;
+            padding-left: 50px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form layui-row layui-col-space10">
+    <div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品编号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="goods_no" class="layui-input" placeholder="请输入商品编号" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" class="layui-input" placeholder="请输入商品名称" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品品牌</label>
+            <div class="layui-input-inline">
+                <input type="text" name="brand" class="layui-input" placeholder="请输入商品" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品类别</label>
+            <div class="layui-input-inline">
+                <select name="type">
+
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">条码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bar_code" class="layui-input" placeholder="请输入条码" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">基本单位</label>
+            <div class="layui-input-inline">
+                <input type="text" name="unit" class="layui-input" placeholder="例如：个" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">零售价</label>
+            <div class="layui-input-inline">
+                <input type="number" name="price" class="layui-input" placeholder="例如：12.00" value="">
+            </div>
+        </div>
+        <div class="layui-form-item magt3">
+            <label class="layui-form-label">详情描述</label>
+            <div class="layui-input-block">
+                <textarea name="des" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片</label>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="select">选择图片</button>
+            </div>
+            <div class="layui-input-block">
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">预览图：
+                    <div class="layui-upload-list" id="images_show_box">
+                        <img src="" class="images" alt="点击去除图片" onclick="remove(this)">
+                    </div>
+                </blockquote>
+            </div>
+        </div>
+        <div class="layui-form-item" id="area-picker">
+            <label class="layui-form-label">地区筛选</label>
+            <div class="layui-input-inline">
+                <select name="province" class="province-selector"></select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="city" class="city-selector"></select>
+            </div>
+        </div>
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label">参与门店</label>
+            <input type="checkbox"  checked lay-skin="primary" title="全选" lay-filter="selectAll" >
+            <div class="layui-input-block" id="store-id-box">
+                <input type="checkbox" name="store_id_" checked lay-skin="primary" title="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="submit" lay-filter="submit" lay-submit>立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="/static/layui/layui.js"></script>
+<script type="text/javascript" src="/static/js/qrcode.min.js"></script>
+</body>
+</html>
+
+<script type="application/javascript">
+    var  jq;
+    layui.config({
+        base: '/static/layui-mods/',
+        version: '1.0'
+    });
+    layui.use(['form','layer','layedit','laydate','upload','layarea'],function(){
+        var form = layui.form,
+            $ = layui.jquery,
+            upload = layui.upload,
+            layarea = layui.layarea;
+        jq=$;
+        //多图片上传
+        upload.render({
+            elem: '#select'
+            // ,url: '/admin/upload/uploadone?fileType=goods'
+            ,multiple: true
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                // obj.preview(function(index, file, result){
+                //     $('#images_show_box').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                // });
+            }
+            ,done: function(res){
+                $("#images_show_box").append('<img src="'+res.data+'" class="images" alt="点击去除图片" onclick="remove(this)">');
+            }
+        });
+
+        layarea.render({
+            elem: '#area-picker',
+            change: function (res) {
+                $.post("/admin/store/storelist",{
+                    province_city_area:res.province+"/"+res.city
+                },function(res_data){
+                    $("#store-id-box").empty();
+                    for (var i=0;i<res_data.data.length;i++){
+                        $("#store-id-box").append('<input type="checkbox" name="store_id_'+res_data.data[i].id+'" lay-skin="primary" title="'+res_data.data[i].title+'">');
+                    }
+                    form.render('checkbox');
+                });
+            }
+        });
+
+
+        (function selectAll() {
+            var allCheckNum = $("input[name^='store_id']").length;
+            var checkedNum = $("input[name^='store_id']:checked").length;
+            if (allCheckNum == checkedNum && allCheckNum !== 0) {
+                $("input[lay-filter='selectAll']").prop('checked', true);
+                console.log( $("input[lay-filter='selectAll']"))
+            } else {
+                $("input[lay-filter='selectAll']").prop('checked', false);
+                console.log( $("input[lay-filter='selectAll']"))
+            }
+            form.render('checkbox');
+        })();
+
+        form.on('checkbox(selectAll)', function(data){
+            if(data.elem.checked){
+
+                $("input[name^='store_id']").prop('checked', true);
+            }else{
+
+                $("input[name^='store_id']").prop('checked', false);
+            }
+            form.render('checkbox');
+        });
+        form.on("submit(submit)",function(data){
+            var get_images=$("img[class=images]");
+            if(get_images.length===0||get_images.length>9){
+                layer.msg('图片上传至少1张，或者最多9张', {icon: 5});
+                return  false;
+            }
+            var images=new Array();
+            for(var i=0;i<get_images.length;i++){
+                images[i]=get_images[i]['src']
+            }
+            data.field.images=images;
+            if(data.field.goods_no===""||data.field.title===""||data.field.bar_code===""||data.field.unit===""||data.field.price===""||data.field.des===""||data.field.brand===""){
+                layer.msg('内容没有填写完整', {icon: 5});
+                return  false;
+            }
+            var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+            $.post("",{
+                data:JSON.stringify(data.field)
+            },function(res){
+                top.layer.close(index);
+                top.layer.msg(res.msg);
+                if(res.code===200){
+                    layer.closeAll("iframe");
+                    parent.location.reload();
+                }
+            });
+            return false;
+        });
+    });
+    function remove(elem){
+        jq(elem).remove()
+    }
+</script>

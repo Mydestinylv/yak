@@ -1,0 +1,46 @@
+{extend name="global" /}
+{block name="title"}<title>添加栏目-后台管理系统</title>{/block}
+{block name="body"}
+<form method="post" class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">父级ID</label>
+        <div class="layui-input-inline">
+            <input  type="text" name="parent_id" value="{if $default_data['parent_id']}{$default_data['parent_id']}{else /}{:input('parent_id')}{/if}"/>
+        </div>
+        <div class="layui-form-mid layui-word-aux">{$error['parent_id']}</div>
+    </div> 
+    <div class="layui-form-item">
+        <label class="layui-form-label">栏目标题</label>
+        <div class="layui-input-inline">
+            <input  type="text"  class="layui-input" value="{$default_data['title']}" name="title"/>
+        </div>
+        <div class="layui-form-mid layui-word-aux">{$error['title']}</div>
+    </div> 
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否显示</label>
+        <div class="layui-input-inline">
+            <input  type="hidden" value="0" name="is_nav"/>
+            <input type="checkbox" value="1" name="is_nav" lay-skin="switch">
+        </div>
+    </div> 
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+ 
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  
+});
+</script>
+
+{/block}
+

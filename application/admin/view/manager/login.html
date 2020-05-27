@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>d- Layui</title>
+  <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+  <style type="text/css">
+    .max{padding: 20px}
+   
+  </style>
+</head>
+<body >
+<script src="__STATIC__/layui/layui.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+<div class="max">
+    <div>
+    <input id = 'account' class="display-inline" type="text" name="account">
+    </div>
+
+    <div>
+        <input id = 'password' class="display-inline" type="password" name="password">
+    </div>
+    <div>
+        <button id = 'login' class="display-inline">登录</button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#login").click(function(){
+        let account = $('#account').val()
+        let password = $('#password').val()
+        console.log('account',account)
+        if(account == '' || password == ''){
+            alert('账户或密码不能为空')
+        }
+
+        $.ajax({
+            url:"login", //请求的url地址
+            dataType:"json", //返回格式为json
+            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{
+            "account":account,
+            "password":password
+            }, 
+            type:"post", //请求方式
+            //请求前的处理
+            beforeSend:function(){
+                
+            },
+            success:function(ret){
+                if(ret.code){
+                     window.location.href = 'admin/index';
+                }
+               
+            },
+            error:function(){
+                //请求出错处理
+            }
+        });
+        
+    })
+</script>
+</body>
+</html>
