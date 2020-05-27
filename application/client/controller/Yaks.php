@@ -65,7 +65,12 @@ class Yaks extends App
     public function adopt_pay(Request $request)
     {
         if($request->isPost()){
-            $goods_name = '牦牛认养';
+            $data = $request->param();
+            $result = $this->validate($data,'Yaks.adopt_pay');
+            if(true !== $result) return format($result, 400);
+            $is_adopt = YaksM::IsAdopt($data);
+            if($is_adopt['code']==400) return format($is_adopt['data'],400);
+            $goods_name = '牦牛"'.$is_adopt['yaks_name'].'"认养';
             $order_no = Config::CreateOutTradeNo();
             $money = 0.01 ;
             $a = \wxpay\Index::pay($goods_name,$order_no,$money);

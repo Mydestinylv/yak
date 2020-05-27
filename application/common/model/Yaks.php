@@ -88,4 +88,21 @@ class Yaks extends Model
         }
         return ['data'=>$info,'code'=>200];
     }
+
+    /*
+     * 判断当前牦牛是否被认养
+     * */
+    public static function IsAdopt($params)
+    {
+        $id = $params['yaks_id'];
+        try{
+            $info = self::field('id,yaks_name,is_adoption as confirm')
+                ->where('id',$id)
+                ->find();
+            if($info['confirm']!=1) return ['data'=>'该牦牛不是未认养状态！','code'=>400];
+        }catch (\Exception $e){
+            return ['data'=>$e->getMessage(),'code'=>400];
+        }
+        return ['data'=>$info,'code'=>200];
+    }
 }
