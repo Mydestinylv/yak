@@ -161,7 +161,7 @@ class Customer extends Admin
     /**
      * 删除指定资源
      */
-    public function password_reset(Request $request)
+    public function passwordReset(Request $request)
     {
         try {
             $param = $request->param();
@@ -169,7 +169,7 @@ class Customer extends Admin
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = CustomerAction::password_reset($param);
+            $transfer = CustomerAction::passwordReset($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){

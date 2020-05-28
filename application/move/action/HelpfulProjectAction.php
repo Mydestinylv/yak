@@ -3,16 +3,19 @@
 namespace app\move\action;
 
 use app\common\lib\Transfer;
-use app\common\sub_action\CustomerSubAction;
+use app\common\sub_action\HelpfulProjectSubAction;
 
-class CustomerAction
+class HelpfulProjectAction
 {
     /**
      * 显示资源列表
      */
     public static function index($param)
     {
-
+//        $transfer = HelpfulProjectSubAction::index($param);
+//        if(!$transfer->status){
+//            return new Transfer('查询失败');
+//        }
         return new Transfer('', true);
     }
 
@@ -49,31 +52,6 @@ class CustomerAction
     public static function delete($param)
     {
 
-        return new Transfer('', true);
-    }
-
-    /**
-     * 修改密码
-     */
-    public static function changePassword($param,$customer_id)
-    {
-        $trasnfer = CustomerSubAction::changePassword($param,$customer_id);
-        if(!$trasnfer->status){
-            return new Transfer($trasnfer->message);
-        }
-        return new Transfer('', true);
-    }
-
-    /**
-     * 重置密码
-     */
-    public static function passwordReset($param,$customer_id)
-    {
-        $param['id'] = $customer_id;
-        $trasnfer = CustomerSubAction::passwordReset($param);
-        if(!$trasnfer->status){
-            return new Transfer($trasnfer->message);
-        }
         return new Transfer('', true);
     }
 

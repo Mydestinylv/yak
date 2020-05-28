@@ -3,13 +3,10 @@
 namespace app\move\controller;
 
 use app\common\controller\App;
-use app\common\sub_action\CustomerSubAction;
-use app\move\action\CustomerAction;
-use think\Controller;
+use app\move\action\HelpfulProjectAction;
 use think\Request;
 use think\Log;
-
-class Customer extends App
+class HelpfulProject extends App
 {
     /**
      * 显示资源列表
@@ -18,19 +15,19 @@ class Customer extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Customer.index');
+            $result = $this->validate($param, 'app\move\validate\HelpfulProject.index');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = CustomerSubAction::index($param);
+            $transfer = HelpfulProjectAction::index($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示资源列表失败';
-                if ($this->environment === 'test') {
-                    return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
-                } else {
+                if($this->environment==='test'){
+                     return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
+                }else{
                     Log::error([__CLASS__ . '  ' . __FUNCTION__,
                         'failure_desc' => '获取资源列表失败',
-                        'attach' => compact(['param', 'transfer']),
+                        'attach' => compact(['param','transfer']),
                     ]);
                     return format($message);
                 }
@@ -48,19 +45,19 @@ class Customer extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Customer.save');
+            $result = $this->validate($param,'app\move\validate\HelpfulProject.save');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = CustomerSubAction::save($param);
+            $transfer = HelpfulProjectAction::save($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存资源失败';
-                if ($this->environment === 'test') {
+                if($this->environment==='test'){
                     return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
-                } else {
+                }else{
                     Log::error([__CLASS__ . '  ' . __FUNCTION__,
                         'failure_desc' => '保存资源失败',
-                        'attach' => compact(['param', 'transfer']),
+                        'attach' => compact(['param','transfer']),
                     ]);
                     return format($message);
                 }
@@ -79,21 +76,21 @@ class Customer extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Customer.read');
+            $result = $this->validate($param,'app\move\validate\HelpfulProject.read');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = CustomerSubAction::read($param);
+            $transfer = HelpfulProjectAction::read($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示指定的资源失败';
-                if ($this->environment === 'test') {
+                if($this->environment==='test'){
                     return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
-                } else {
+                }else{
                     Log::error([__CLASS__ . '  ' . __FUNCTION__,
                         'failure_desc' => '显示指定的资源失败',
-                        'attach' => compact(['param', 'transfer']),
+                        'attach' => compact(['param','transfer']),
                     ]);
-                    return format($message);
+                     return format($message);
                 }
             }
             return format('ok', 200, $transfer->data);
@@ -109,19 +106,19 @@ class Customer extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Customer.update');
+            $result = $this->validate($param,'app\move\validate\HelpfulProject.update');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = CustomerSubAction::update($param);
+            $transfer = HelpfulProjectAction::update($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
-                if ($this->environment === 'test') {
+                if($this->environment==='test'){
                     return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
-                } else {
+                }else{
                     Log::error([__CLASS__ . '  ' . __FUNCTION__,
                         'failure_desc' => '保存更新的资源失败',
-                        'attach' => compact(['param', 'transfer']),
+                        'attach' => compact(['param','transfer']),
                     ]);
                     return format($message);
                 }
@@ -139,71 +136,11 @@ class Customer extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Customer.delete');
+            $result = $this->validate($param,'app\move\validate\HelpfulProject.delete');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = CustomerSubAction::delete($param);
-            if (!$transfer->status) {
-                $message = $transfer->message ?: '保存更新的资源失败';
-                if ($this->environment === 'test') {
-                    return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
-                } else {
-                    Log::error([__CLASS__ . '  ' . __FUNCTION__,
-                        'failure_desc' => '删除指定资源失败',
-                        'attach' => compact(['param', 'transfer']),
-                    ]);
-                    return format($message);
-                }
-            }
-            return format('ok', 200, $transfer->data);
-        } catch (\Exception $e) {
-            return format(exception_deal($e), 400);
-        }
-    }
-
-    /**
-     * 修改密码
-     */
-    public function changePassword(Request $request)
-    {
-        try {
-            $param = $request->post();
-            $result = $this->validate($param, 'app\move\validate\Customer.changePassword');
-            if ($result !== true) {
-                return format($result);
-            }
-            $transfer = CustomerAction::changePassword($param, CID);
-            if (!$transfer->status) {
-                $message = $transfer->message ?: '保存更新的资源失败';
-                if ($this->environment === 'test') {
-                    return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
-                } else {
-                    Log::error([__CLASS__ . '  ' . __FUNCTION__,
-                        'failure_desc' => '删除指定资源失败',
-                        'attach' => compact(['param', 'transfer']),
-                    ]);
-                    return format($message);
-                }
-            }
-            return format('ok', 200, $transfer->data);
-        } catch (\Exception $e) {
-            return format(exception_deal($e), 400);
-        }
-    }
-
-    /**
-     * 修改密码
-     */
-    public function passwordReset(Request $request)
-    {
-        try {
-            $param = $request->post();
-            $result = $this->validate($param,'app\move\validate\Customer.PasswordReset');
-            if ($result !== true) {
-                return format($result);
-            }
-            $transfer = CustomerAction::passwordReset($param,CID);
+            $transfer = HelpfulProjectAction::delete($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){
