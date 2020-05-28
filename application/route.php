@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use \think\Route;
-
+Route::rule('notify','index/News/read');
 return [
     '__pattern__' => [
         'name' => '\w+',

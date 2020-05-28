@@ -11,44 +11,23 @@ class App extends Controller
 {
     public function _initialize()
     {
-        define('CID',1);
-        $temp = $this->check_environment();
-        if ($temp) {
-            //  goto sub_permission;
-            return true;
-        }
         parent::_initialize();
         $request = Request::instance();
-        $token = $request->header('access_token');
+        $token = $request->header('token');
         if(is_null($token)) {
-            $data = [
-                'status' => 400,
-                'msg' => '请传入token',
-            ];
-            $data = json_encode($data, 256);
-            echo $data;
-            exit;
+            $data = json_encode(['status' => 400,'msg' => '请传入token',], 256);echo $data;exit;
         }
         $id = $request->param('id');
         $type = $request->param('type');
-        $res = $this->checkToken($token,$id);
+        if(!in_array($type,[1,2,3])) {
+            $data = json_encode(['status' => 400,'msg' => 'type参数传入错误',], 256);echo $data;exit;
+        }
+        $res = $this->checkToken($token,$id,$type);
         if($res['code']==400){
-            $data = [
-                'status' => 400,
-                'msg' => $res['msg'],
-            ];
-            $data = json_encode($data, 256);
-            echo $data;
-            exit;
+            $data = json_encode(['status' => 400, 'msg' => $res['msg'],], 256);echo $data;exit;
         }
         if(is_null($type)){
-            $data = [
-                'status' => 400,
-                'msg' => 'type不能位空！',
-            ];
-            $data = json_encode($data);
-            echo $data;
-            exit;
+            $data = json_encode(['status' => 400,'msg' => 'type不能位空！',]);echo $data;exit;
         }else{
             switch ($type){
                 case 1 :
@@ -65,19 +44,20 @@ class App extends Controller
                         'status' => 400,
                         'msg' => 'type错误，请确认！',
                     ];
-                    $data = json_encode($data);
+                    $data = json_encode($data,256);
                     echo $data;
                     exit;
             }
         }
     }
 
-    public function checkToken($token,$id)
+    public function checkToken($token,$id,$type)
     {
         if ($token == 'null'){
             return format('Token不存在,拒绝访问', 400);
         }else{
-            $user_info = Db::name('customer')->field('tel')->where('id',$id)->find();
+            $arr = [1=>'customer',2=>'herdsman',3=>'slaughter_man'];
+            $user_info = Db::name($arr[$type])->field('tel')->where('id',$id)->find();
             $hasCache = Cache::get('user'.$id);
             if(!$hasCache) return ['code'=>400,'msg'=>'登陆过期！'];
             $checkJwtToken = Token::verifyJwt($token,$user_info['tel'],$user_info['tel'],$id);

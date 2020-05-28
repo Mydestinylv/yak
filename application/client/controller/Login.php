@@ -4,13 +4,11 @@ header("Access-Control-Allow-Origin:*");
 header('Access-Control-Allow-Methods:POST');
 header('Access-Control-Allow-Headers:x-requested-with, content-type,token');
 use app\client\common\Token;
+use app\common\controller\Phonecode;
 use app\common\model\Customer;
 use think\Cache;
 use think\Controller;
-use think\Cookie;
-use think\Db;
 use think\Request;
-use think\Session;
 
 class Login extends Controller
 {
@@ -48,6 +46,22 @@ class Login extends Controller
         }else{
             return format('error,请正确请求接口！', 400);
         }
+    }
+
+    public function send_msg(Request $request)
+    {
+//        if($request->isPost()){
+            $data = $request->param();
+            $result = $this->validate($data,'Login.login');
+            if(true !== $result) return format($result, 400);
+            $code = rand(1000,9999);
+            try{
+                $msg = Phonecode::sendSms($data['tel'],$code,'四川牦牛哥');
+            }catch (\Exception $e){
+                return format($e->getMessage(),400);
+            }
+            return format('ok',200,$msg);
+//        }
     }
 
 }

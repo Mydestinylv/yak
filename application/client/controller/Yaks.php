@@ -70,7 +70,7 @@ class Yaks extends App
             if(true !== $result) return format($result, 400);
             $is_adopt = YaksM::IsAdopt($data);
             if($is_adopt['code']==400) return format($is_adopt['data'],400);
-            $goods_name = '牦牛"'.$is_adopt['yaks_name'].'"认养';
+            $goods_name = '牦牛"'.$is_adopt['data']['yaks_name'].'"认养';
             $order_no = Config::CreateOutTradeNo();
             $money = 0.01 ;
             $a = \wxpay\Index::pay($goods_name,$order_no,$money);

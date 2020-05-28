@@ -32,7 +32,7 @@ class HelpfulList extends Model
 
     public function userinfo()
     {
-        return $this->hasOne('Customer','id','customer_id')->field('id,user_name');
+        return $this->hasOne('Customer','id','customer_id')->field('id,real_name,head_img');
     }
 
     /*

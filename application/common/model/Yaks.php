@@ -51,6 +51,8 @@ class Yaks extends Model
         return $this->hasOne('VideoSurveillance','pasture_id','pasture_id')->field('id,pasture_id,viewing_address,surveillance_name');
     }
 
+
+
     public static function GetAdoptYaks($params){
         try{
             $list = self::with('adopt')
@@ -97,6 +99,38 @@ class Yaks extends Model
         $id = $params['yaks_id'];
         try{
             $info = self::with('details')
+                ->field('*,is_adoption as confirm,yaks_sex as invest_type,YEAR( FROM_DAYS( DATEDIFF( NOW( ), yaks_birthday))) AS age')
+                ->where('id',$id)
+                ->find();
+            if($info['confirm']!=1) return ['data'=>'该牦牛不是未认养状态！','code'=>400];
+        }catch (\Exception $e){
+            return ['data'=>$e->getMessage(),'code'=>400];
+        }
+        return ['data'=>$info,'code'=>200];
+    }
+
+    public static function GetTypeManage($params)
+    {
+        $is_manage = $params['is_manage'];
+        try{
+            $list = self::with('adopt')->where('id','in',function($query) use ($is_manage){
+                $query->table('yak_adoption_order')->field('GROUP_CONCAT(`id`)')->where('adoption_status',($is_manage==1 ? 'eq' : 'neq'),1);
+            })->field('*, \''.($is_manage==1 ? '已完成' : '未完成').'\' as is_finish')->where('herdsman_id',$params['id'])->select();
+        }catch (\Exception $e){
+            return ['data'=>$e->getMessage(),'code'=>400];
+        }
+        return ['data'=>$list,'code'=>200];
+    }
+
+    /*
+     * 获取牦牛详情
+     * */
+
+    public static function GetYakDetails($params)
+    {
+        $id = $params['yaks_id'];
+        try{
+            $info = self::with('adopt')
                 ->field('*,is_adoption as confirm,yaks_sex as invest_type,YEAR( FROM_DAYS( DATEDIFF( NOW( ), yaks_birthday))) AS age')
                 ->where('id',$id)
                 ->find();
