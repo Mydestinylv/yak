@@ -11,12 +11,18 @@ class Herdsman extends Model
     protected $deleteTime = 'delete_time';
     protected $autoWriteTimestamp = 'datetime';
 
-    /*
-     * 远程一对多关联查询
-     * */
     public function gettask()
     {
-        return $this->hasMany('TaskManage','pasture_id','pasture_id');
+        return $this->hasMany('TaskManage','pasture_id','pasture_id')
+            ->field('*,(
+        CASE
+        WHEN finish_time < now() THEN
+            \'1\'
+        ELSE
+            \'2\'
+        END
+    ) AS status')
+            ->order('status asc order asc ');
     }
 
     /*
@@ -36,14 +42,14 @@ class Herdsman extends Model
 
     /*
      * 获取当前牧民的任务
-     * 这里使用远程一对多
      * */
     public static function GetHerdsmanTask($params)
     {
         $herdsman_id = $params['id'];
         try{
-            $list = self::with('adopt')->where('id',$herdsman_id)
-                ->field('*')->where('herdsman_id',$params['id'])->select();
+            $list = self::with('gettask')->where('id',$herdsman_id)
+                ->field('id,name,pasture_id')
+                ->select();
         }catch (\Exception $e){
             return ['data'=>$e->getMessage(),'code'=>400];
         }

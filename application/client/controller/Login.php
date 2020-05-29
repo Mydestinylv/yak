@@ -1,8 +1,5 @@
 <?php
 namespace app\client\controller;
-header("Access-Control-Allow-Origin:*");
-header('Access-Control-Allow-Methods:POST');
-header('Access-Control-Allow-Headers:x-requested-with, content-type,token');
 use app\client\common\Token;
 use app\common\controller\Phonecode;
 use app\common\model\Customer;
