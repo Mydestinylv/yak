@@ -3,11 +3,10 @@
 namespace app\move\controller;
 
 use app\common\controller\App;
-use app\common\sub_action\NoticeSubAction;
-use app\move\action\NoticeAction;
+use app\move\action\AdoptionOrderAction;
 use think\Request;
 use think\Log;
-class Notice extends App
+class AdoptionOrder extends App
 {
     /**
      * 显示资源列表
@@ -16,11 +15,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Notice.index');
+            $result = $this->validate($param, 'app\move\validate\AdoptionOrder.index');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::index($param,TYPE);
+            $transfer = AdoptionOrderAction::index($param,CID);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示资源列表失败';
                 if($this->environment==='test'){
@@ -46,11 +45,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.save');
+            $result = $this->validate($param,'app\move\validate\AdoptionOrder.save');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::save($param);
+            $transfer = AdoptionOrderAction::save($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存资源失败';
                 if($this->environment==='test'){
@@ -77,11 +76,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.read');
+            $result = $this->validate($param,'app\move\validate\AdoptionOrder.read');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::read($param);
+            $transfer = AdoptionOrderAction::read($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示指定的资源失败';
                 if($this->environment==='test'){
@@ -106,12 +105,12 @@ class Notice extends App
     public function update(Request $request)
     {
         try {
-            $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.update');
+            $param = $request->post();
+            $result = $this->validate($param,'app\move\validate\AdoptionOrder.update');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::update($param);
+            $transfer = AdoptionOrderAction::update($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){
@@ -137,11 +136,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.delete');
+            $result = $this->validate($param,'app\move\validate\AdoptionOrder.delete');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::delete($param);
+            $transfer = AdoptionOrderAction::delete($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){

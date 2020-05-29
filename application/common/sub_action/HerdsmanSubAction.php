@@ -41,6 +41,7 @@ class HerdsmanSubAction
      */
     public static function save($param)
     {
+        $param['password'] = pswCrypt($param['password']);
         $transfer = HerdsmanTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');

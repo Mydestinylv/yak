@@ -14,7 +14,7 @@ class BannerManage extends Validate
      */
 	protected $rule = [
         'id' => 'require',
-        'picture' => 'require|image',
+        'picture' => 'require',
         'jump_address' => 'require|max:30',
         'is_index' => 'require|number',
     ];
@@ -28,7 +28,6 @@ class BannerManage extends Validate
     protected $message = [
         'id.require' => 'ID必须',
         'picture.require' => 'banner图片必须',
-        'picture.image' => 'banner必须是图片',
         'jump_address.require' => '跳转地址必须',
         'jump_address.max' => '跳转地址不能超过30字符',
         'is_index.require' => '是否设为首页必须',

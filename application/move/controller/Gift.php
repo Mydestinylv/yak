@@ -3,11 +3,10 @@
 namespace app\move\controller;
 
 use app\common\controller\App;
-use app\common\sub_action\NoticeSubAction;
-use app\move\action\NoticeAction;
+use app\move\action\GiftAction;
 use think\Request;
 use think\Log;
-class Notice extends App
+class Gift extends App
 {
     /**
      * 显示资源列表
@@ -16,11 +15,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Notice.index');
+            $result = $this->validate($param, 'app\move\validate\Gift.index');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::index($param,TYPE);
+            $transfer = GiftAction::index($param,CID);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示资源列表失败';
                 if($this->environment==='test'){
@@ -46,11 +45,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.save');
+            $result = $this->validate($param,'app\move\validate\Gift.save');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::save($param);
+            $transfer = GiftAction::save($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存资源失败';
                 if($this->environment==='test'){
@@ -77,11 +76,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.read');
+            $result = $this->validate($param,'app\move\validate\Gift.read');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::read($param);
+            $transfer = GiftAction::read($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示指定的资源失败';
                 if($this->environment==='test'){
@@ -107,11 +106,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.update');
+            $result = $this->validate($param,'app\move\validate\Gift.update');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::update($param);
+            $transfer = GiftAction::update($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){
@@ -137,11 +136,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.delete');
+            $result = $this->validate($param,'app\move\validate\Gift.delete');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::delete($param);
+            $transfer = GiftAction::delete($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){

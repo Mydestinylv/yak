@@ -3,11 +3,10 @@
 namespace app\move\controller;
 
 use app\common\controller\App;
-use app\common\sub_action\NoticeSubAction;
-use app\move\action\NoticeAction;
+use app\move\action\SlaughterHouseAction;
 use think\Request;
 use think\Log;
-class Notice extends App
+class SlaughterHouse extends App
 {
     /**
      * 显示资源列表
@@ -16,11 +15,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Notice.index');
+            $result = $this->validate($param, 'app\move\validate\SlaughterHouse.index');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::index($param,TYPE);
+            $transfer = SlaughterHouseAction::index($param,SID);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示资源列表失败';
                 if($this->environment==='test'){
@@ -46,11 +45,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.save');
+            $result = $this->validate($param,'app\move\validate\SlaughterHouse.save');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::save($param);
+            $transfer = SlaughterHouseAction::save($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存资源失败';
                 if($this->environment==='test'){
@@ -77,11 +76,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.read');
+            $result = $this->validate($param,'app\move\validate\SlaughterHouse.read');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::read($param);
+            $transfer = SlaughterHouseAction::read($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示指定的资源失败';
                 if($this->environment==='test'){
@@ -106,12 +105,12 @@ class Notice extends App
     public function update(Request $request)
     {
         try {
-            $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.update');
+            $param = $request->post();
+            $result = $this->validate($param,'app\move\validate\SlaughterHouse.update');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::update($param);
+            $transfer = SlaughterHouseAction::update($param,SID);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){
@@ -137,11 +136,11 @@ class Notice extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Notice.delete');
+            $result = $this->validate($param,'app\move\validate\SlaughterHouse.delete');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = NoticeAction::delete($param);
+            $transfer = SlaughterHouseAction::delete($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){

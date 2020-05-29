@@ -14,7 +14,6 @@ class TaskManage extends Validate
      */
     protected $rule = [
         'id' => 'require',
-        'enclosure_url' => 'fileSize:52428800',
         'pasture_id' => 'require|number',
         'task_name' => 'require|max:10',
         'task_detail' => 'require|max:1000',
@@ -29,7 +28,6 @@ class TaskManage extends Validate
      */
     protected $message = [
         'id.require' => 'ID必须',
-        'enclosure_url.fileSize' => '文件大小不能超过50M',
         'pasture_id.require' => '牧场名称必须',
         'pasture_id.number' => '牧场名称必须是数字',
         'task_name.require' => '任务名称必须',
@@ -42,9 +40,9 @@ class TaskManage extends Validate
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['pasture_id', 'task_name', 'task_detail', 'finish_time', 'enclosure_url'],
+        'save' => ['pasture_id', 'task_name', 'task_detail', 'finish_time'],
         'read' => ['id'],
-        'update' => ['pasture_id', 'task_name', 'task_detail', 'finish_time', 'id', 'enclosure_url'],
+        'update' => ['pasture_id', 'task_name', 'task_detail', 'finish_time', 'id'],
         'delete' => ['id'],
     ];
 

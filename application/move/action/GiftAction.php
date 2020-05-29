@@ -3,30 +3,16 @@
 namespace app\move\action;
 
 use app\common\lib\Transfer;
-use app\common\sub_action\NoticeSubAction;
+use app\common\sub_action\GiftSubAction;
 
-class NoticeAction
+class GiftAction
 {
     /**
      * 显示资源列表
      */
-    public static function index($param,$type)
+    public static function index($param,$customer_id)
     {
-        switch ($type){
-            case 1:
-                $where['terminal'] = 1;
-                break;
-            case 2:
-                $where['terminal'] = 2;
-                break;
-            case 3:
-                $where['terminal'] = 3;
-                break;
-            default:
-                return new Transfer('查询失败');
-        }
-        $where['notice_status'] = 1;
-        $transfer = NoticeSubAction::index($param);
+        $transfer = GiftSubAction::index($param,$customer_id);
         if(!$transfer->status){
             return new Transfer('查询失败');
         }
@@ -47,8 +33,11 @@ class NoticeAction
      */
     public static function read($param)
     {
-
-        return new Transfer('', true);
+        $transfer = GiftSubAction::read($param);
+        if(!$transfer->status){
+            return new Transfer('查询失败');
+        }
+        return new Transfer('', true, $transfer->data);
     }
 
     /**

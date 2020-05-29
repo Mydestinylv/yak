@@ -72,6 +72,9 @@ class TaskManageSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
+        if(isset($param['finish_time'])&&!empty($param['finish_time'])){
+            $param['status'] = 2;
+        }
         $transfer = TaskManageTask::update($param, $where);
         if (!$transfer->status) {
             return new Transfer('更新失败');

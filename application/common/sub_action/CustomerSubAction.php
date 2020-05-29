@@ -4,6 +4,8 @@ namespace app\common\sub_action;
 
 use app\common\lib\Transfer;
 use app\common\task\CustomerTask;
+use app\common\task\HerdsmanTask;
+use app\common\task\SlaughterManTask;
 
 class CustomerSubAction
 {
@@ -40,6 +42,7 @@ class CustomerSubAction
      */
     public static function save($param)
     {
+        $param['password'] = pswCrypt($param['password']);
         $transfer = CustomerTask::save($param);
         if (!$transfer->status) {
             return new Transfer('保存失败');
@@ -103,23 +106,98 @@ class CustomerSubAction
     /**
      * 删除指定资源
      */
-    public static function changePassword($param,$customer_id)
+    public static function changePassword($param,$where,$type)
     {
-        $where['id'] = $customer_id;
-        $transfer = CustomerTask::valueByWhere($where,'password');
-        if(!$transfer->status){
-            return new Transfer('修改密码失败');
+        switch ($type){
+            case 1:
+                $transfer = CustomerTask::valueByWhere($where,'password');
+                if(!$transfer->status){
+                    return new Transfer('修改密码失败');
+                }
+                if($transfer->data['password']!==pswCrypt($param['old_password'])){
+                    return new Transfer('原密码错误');
+                }
+                unset($param['repeat_password']);
+                unset($param['old_password']);
+                $param['password'] = pswCrypt($param['password']);
+                $transfer = CustomerTask::update($param,$where);
+                if (!$transfer->status) {
+                    return new Transfer('重置失败');
+                }
+                break;
+            case 2:
+                $transfer = HerdsmanTask::valueByWhere($where,'password');
+                if(!$transfer->status){
+                    return new Transfer('修改密码失败');
+                }
+                if($transfer->data['password']!==pswCrypt($param['old_password'])){
+                    return new Transfer('原密码错误');
+                }
+                unset($param['repeat_password']);
+                unset($param['old_password']);
+                $param['password'] = pswCrypt($param['password']);
+                $transfer = HerdsmanTask::update($param,$where);
+                if (!$transfer->status) {
+                    return new Transfer('重置失败');
+                }
+                break;
+            case 3:
+                $transfer = SlaughterManTask::valueByWhere($where,'password');
+                if(!$transfer->status){
+                    return new Transfer('修改密码失败');
+                }
+                if($transfer->data['password']!==pswCrypt($param['old_password'])){
+                    return new Transfer('原密码错误');
+                }
+                unset($param['repeat_password']);
+                unset($param['old_password']);
+                $param['password'] = pswCrypt($param['password']);
+                $transfer = SlaughterManTask::update($param,$where);
+                if (!$transfer->status) {
+                    return new Transfer('重置失败');
+                }
+                break;
+            default:
+                return new Transfer('修改密码失败');
         }
-        if($transfer->data['password']!==$param['old_password']){
-            return new Transfer('原密码错误');
-        }
-        unset($param['repeat_password']);
-        unset($param['old_password']);
-        $transfer = CustomerTask::update($param,$where);
-        if (!$transfer->status) {
-            return new Transfer('重置失败');
-        }
+
         return new Transfer('', true);
+
+    }
+
+    /**
+     * 用户信息
+     */
+    public static function userInfo($param,$where,$type)
+    {
+        switch ($type){
+            case 1:
+                $field = 'id,head_img,real_name as name,tel';
+                $transfer = CustomerTask::find($where,$field);
+                if(!$transfer->status){
+                    return new Transfer('获取用户信息失败');
+                }
+                break;
+            case 2:
+                $field = 'id,head_img,name,tel,health';
+                $transfer = HerdsmanTask::find($where,$field);
+                if(!$transfer->status){
+                    return new Transfer('获取用户信息失败');
+                }
+                break;
+            case 3:
+                $field = 'id,head_img,name,tel,health,prove';
+                $transfer = SlaughterManTask::find($where,$field);
+                if(!$transfer->status){
+                    return new Transfer('获取用户信息失败');
+                }
+                break;
+            default:
+                return new Transfer('获取用户信息失败');
+        }
+
+        return new Transfer('', true,to_array($transfer->data));
+
     }
 
 }

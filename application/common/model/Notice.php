@@ -26,8 +26,10 @@ class Notice extends Model
     public static function GetNotice()
     {
         try{
+            $where['notice_status'] = 1;
+            $where['terminal'] = 2;
             $data = self::field('id,title,link,terminal')
-                ->where('notice_status',1)
+                ->where($where)
                 ->order('update_time asc')
                 ->select();
         }catch (\Exception $e){

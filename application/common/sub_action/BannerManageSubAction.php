@@ -27,6 +27,14 @@ class BannerManageSubAction
      */
     public static function save($param)
     {
+        $where['is_index'] = 1;
+        if($param['is_index']==1){
+            $data['is_index'] = 0;
+            $transfer = BannerManageTask::update($data,$where);
+            if(!$transfer->status){
+                return new Transfer('保存失败');
+            }
+        }
         $transfer = BannerManageTask::save($param);
         if(!$transfer->status){
             return new Transfer('保存失败');
@@ -55,8 +63,17 @@ class BannerManageSubAction
      */
     public static function update($param)
     {
+        $where['is_index'] = 1;
+        if($param['is_index']==1){
+            $data['is_index'] = 0;
+            $transfer = BannerManageTask::update($data,$where);
+            if(!$transfer->status){
+                return new Transfer('保存失败');
+            }
+        }
         $where['id'] = $param['id'];
         unset($param['id']);
+        unset($where['is_index']);
         $transfer = BannerManageTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('更新失败');

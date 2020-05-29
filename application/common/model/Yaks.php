@@ -2,6 +2,9 @@
 
 namespace app\common\model;
 
+use app\common\task\AdoptionOrderTask;
+use app\common\task\HerdsmanTask;
+use app\common\task\PastureTask;
 use think\Exception;
 use think\Model;
 use traits\model\SoftDelete;
@@ -35,6 +38,32 @@ class Yaks extends Model
         return $array[$value];
     }
 
+    public function getPastureNameAttr($value)
+    {
+        if(is_string($value)){
+            return $value;
+        }
+        $array = PastureTask::valueByWhere(['id'=>$value],'pasture_name');
+        return $array->data['pasture_name'];
+    }
+
+    public function getHerdsmanNameAttr($value)
+    {
+        if(is_string($value)){
+            return $value;
+        }
+        $array = HerdsmanTask::valueByWhere(['id'=>$value],'name');
+        return $array->data['name'];
+    }
+
+    public function getAdoptionStatusAttr($value)
+    {
+        if(is_int($value)){
+            return $value;
+        }
+        $array = AdoptionOrderTask::valueByWhere(['yaks_id'=>$value],'adoption_status');
+        return $array->data['adoption_status'];
+    }
     /*
      * 一对一关联查询未领养牦牛牧场信息
      * */

@@ -18,30 +18,30 @@ class Admin extends Controller
             return true;
         }
 
-//        //登录接口放行
-//        $tem = $this->allow_api();
-//        if ($tem) {
-//            return true;
-//        }
-//        $temp = $this->token_check();
-//        if ($temp) {
-//            goto permission;
-//        }
-//        //权限检查
-//        permission:
-//        $request = Request::instance();
-//        $url = $request->url();
-//        $temp = Permission::check(AID,$url);
-//        if(!$temp->status){
-//            $data = [
-//                'status' => 400,
-//                'message' => '权限不足',
-//            ];
-//            $data = json_encode($data, 256);
-//            echo $data;
-//            exit;
-//        }
-//        return true;
+        //登录接口放行
+        $tem = $this->allow_api();
+        if ($tem) {
+            return true;
+        }
+        $temp = $this->token_check();
+        if ($temp) {
+            goto permission;
+        }
+        //权限检查
+        permission:
+        $request = Request::instance();
+        $url = $request->url();
+        $temp = Permission::check(AID,$url);
+        if(!$temp->status){
+            $data = [
+                'status' => 400,
+                'message' => '权限不足',
+            ];
+            $data = json_encode($data, 256);
+            echo $data;
+            exit;
+        }
+        return true;
     }
 
     //检查api
@@ -91,6 +91,7 @@ class Admin extends Controller
         if (Env::get('environment') === 'test') {
             $this->environment = 'test';
         }else{
+            $this->environment = false;
             return false;
         }
         return true;

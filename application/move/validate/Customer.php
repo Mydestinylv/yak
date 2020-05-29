@@ -43,5 +43,6 @@ class Customer extends Validate
         'delete' => [''],
         'changePassword' => ['password','old_password','repeat_password'],
         'PasswordReset' => ['password','repeat_password'],
+        'userInfo' => [''],
     ];
 }

@@ -55,9 +55,9 @@ class CustomerAction
     /**
      * 修改密码
      */
-    public static function changePassword($param,$customer_id)
+    public static function changePassword($param,$where,$type)
     {
-        $trasnfer = CustomerSubAction::changePassword($param,$customer_id);
+        $trasnfer = CustomerSubAction::changePassword($param,$where,$type);
         if(!$trasnfer->status){
             return new Transfer($trasnfer->message);
         }
@@ -75,6 +75,18 @@ class CustomerAction
             return new Transfer($trasnfer->message);
         }
         return new Transfer('', true);
+    }
+
+    /**
+     * 用户信息
+     */
+    public static function userInfo($param,$where,$type)
+    {
+        $trasnfer = CustomerSubAction::userInfo($param,$where,$type);
+        if(!$trasnfer->status){
+            return new Transfer($trasnfer->message);
+        }
+        return new Transfer('', true, $trasnfer->data);
     }
 
 }
