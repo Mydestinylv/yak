@@ -1,24 +1,19 @@
 <?php
-namespace app\herdsman\controller;
+namespace app\move\controller;
 use app\client\common\Token;
-use app\common\model\Customer;
-use app\common\model\Herdsman;
 use think\Cache;
+use app\common\model\SlaughterMan;
 use think\Controller;
-use think\Cookie;
-use think\Db;
 use think\Request;
-use think\Session;
-
 class Login extends Controller
 {
     public function index(Request $request)
     {
         if($request->isPost()){
             $data = $request->param();
-            $result = $this->validate($data,'Login.login');
+            $result = $this->validate($data,'app\client\validate\Login.login');
             if(true !== $result) return format($result, 400);
-            $res = Herdsman::dologin($data);
+            $res = SlaughterMan::dologin($data);
             if($res['code']==200){
                 $userInfo = $res['data'];
                 $token = Token::createJwt($userInfo['id'],$userInfo['tel'],$userInfo['tel']);
@@ -31,5 +26,4 @@ class Login extends Controller
             return format('error,请正确请求接口！', 400);
         }
     }
-
 }
