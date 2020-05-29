@@ -187,4 +187,22 @@ class Chat extends Model
         return ['code'=>200,'msg'=>['h_list'=>$h_list,'s_list'=>$s_list]];
     }
 
+
+    /*
+     * 牧民端获取消息列表
+     * */
+
+    public static function HGetMsgList($id)
+    {
+        try{
+            $list = self::where('herdsman_id',$id)
+                ->order('create_time desc')
+                ->group('customer_id')
+                ->select();
+        }catch (\Exception $e){
+            return ['code'=>400,'msg'=>$e->getMessage()];
+        }
+        return ['code'=>200,'msg'=>$list];
+    }
+
 }

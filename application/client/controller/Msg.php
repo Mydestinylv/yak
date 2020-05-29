@@ -49,4 +49,18 @@ class Msg extends App
             }
         }
     }
+
+    /*
+     * 用户获取聊天列表
+     * */
+    public function get_list(Request $request)
+    {
+        $id =$request->param('id');
+        $list = Chat::UserGetMsgList($id);
+        if($list['code']==400){
+            return format($list['msg']);
+        }else{
+            return format('ok',200,$list['msg']);
+        }
+    }
 }

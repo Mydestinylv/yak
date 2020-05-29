@@ -49,8 +49,8 @@ class Msg extends App
     public function msg_list(Request $request)
     {
         $id = $request->param('id');
-        $list = Chat::UserGetMsgList($id);
-        if($list['code'==400]) {
+        $list = Chat::HGetMsgList($id);
+        if($list['code']==400) {
             return format($list['msg']);
         }else{
             return format('ok',200,$list['msg']);
