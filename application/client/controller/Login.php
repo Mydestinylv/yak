@@ -36,6 +36,9 @@ class Login extends Controller
             $result = $this->validate($data,'Login.register');
             if(true !== $result) return format($result, 400);
             //没有使用短信验证码，暂无验证
+            $cache_code = Cache::get('register'.$data['tel']);
+            if(!$cache_code || $cache_code != $data['code']) return format('短信验证码验证失败！');
+            Cache::rm('register'.$data['tel']);
             $password = pswCrypt($data['password']);
             $data['password'] = $password;
             $res = Customer::UserRegister($data);
@@ -47,7 +50,7 @@ class Login extends Controller
 
     public function send_msg(Request $request)
     {
-//        if($request->isPost()){
+        if($request->isPost()){
             $data = $request->param();
             $result = $this->validate($data,'Login.login');
             if(true !== $result) return format($result, 400);
@@ -57,8 +60,14 @@ class Login extends Controller
             }catch (\Exception $e){
                 return format($e->getMessage(),400);
             }
-            return format('ok',200,$msg);
-//        }
+            if($msg['Code']=='OK') {
+                Cache::set('register'.$data['tel'],$code,3*60);
+                return format('ok',200,$msg);
+            }else{
+                return format('短信发送失败！',400);
+            }
+
+        }
     }
 
 }

@@ -51,6 +51,14 @@ class Yaks extends Model
         return $this->hasOne('VideoSurveillance','pasture_id','pasture_id')->field('id,pasture_id,viewing_address,surveillance_name');
     }
 
+    /*
+     * 一对一关联查询未领养牦牛牧场信息
+     * */
+    public function geth()
+    {
+        return $this->hasOne('Herdsman','id','pasture_id')->field('*');
+    }
+
 
 
     public static function GetAdoptYaks($params){
@@ -80,7 +88,7 @@ class Yaks extends Model
     {
         $id = $params['yaks_id'];
         try{
-            $info = self::with('details')
+            $info = self::with('details,adopt,geth')
                 ->field('*,is_adoption as confirm,yaks_sex as invest_type,YEAR( FROM_DAYS( DATEDIFF( NOW( ), yaks_birthday))) AS age')
                 ->where('id',$id)
                 ->find();

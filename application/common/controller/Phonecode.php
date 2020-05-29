@@ -37,9 +37,9 @@ class Phonecode extends Controller
         $domain = "dysmsapi.aliyuncs.com";
 
         // TODO 此处需要替换成开发者自己的AK (https://ak-console.aliyun.com/)
-        $accessKeyId = "LTAI4G8MLyVBRzSccaGycEvH"; // AccessKeyId
+        $accessKeyId = "LTAI4GBcBhsHLGqS8PzypYaa"; // AccessKeyId
 
-        $accessKeySecret = "SJk1M90if58nMIBoOHOYrwfmW9p6Kc"; // AccessKeySecret
+        $accessKeySecret = "lnBFx5pTxRebOQrtUwE70sz68VpQHn"; // AccessKeySecret
 
         // 暂时不支持多Region
         $region = "cn-hangzhou";
@@ -66,7 +66,7 @@ class Phonecode extends Controller
      * 发送短信
      * @return stdClass
      */
-    public static function sendSms($phoneNum,$code,$signName,$templateCode='SMS_178535067',$name="code") {
+    public static function sendSms($phoneNum,$code,$signName='四川牦牛哥',$templateCode='SMS_178535067',$name="code") {
         // 初始化SendSmsRequest实例用于设置发送短信的参数
         $request = new SendSmsRequest();
 

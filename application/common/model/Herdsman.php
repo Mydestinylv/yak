@@ -22,7 +22,7 @@ class Herdsman extends Model
             \'2\'
         END
     ) AS status')
-            ->order('status asc order asc ');
+            ->order('status desc,order asc');
     }
 
     /*

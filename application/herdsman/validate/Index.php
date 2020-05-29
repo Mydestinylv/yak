@@ -16,6 +16,8 @@ class Index extends Base
     protected $rule =   [
         'is_manage'  => 'require|in:1,2',
         'yaks_id'  => 'require|number',
+        'enclosure_url'  => 'require',
+        'task_id'  => 'require|number',
     ];
 
     protected $message  =   [
@@ -27,5 +29,6 @@ class Index extends Base
     protected $scene = [
         'manage'  =>  ['is_manage'],
         'details'  =>  ['yak_id'],
+        'finish'  =>  ['enclosure_url','task_id'],
     ];
 }

@@ -23,4 +23,17 @@ class TaskManage extends Model
         return ['code'=>200,'msg'=>$data];
     }
 
+    public static function SaveTask($params)
+    {
+        try{
+            $res = self::where('id',$params['task_id'])->update([
+                'enclosure_url'=>$params['enclosure_url'],
+                'finish_time' => date('Y-m-d H:i:s')
+            ]);
+        }catch (\Exception $e){
+            return ['code'=>400,'msg'=>$e->getMessage()];
+        }
+        return ['code'=>200,'msg'=>'ok'];
+    }
+
 }
