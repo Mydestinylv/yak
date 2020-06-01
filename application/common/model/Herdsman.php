@@ -13,7 +13,7 @@ class Herdsman extends Model
 
     public function gettask()
     {
-        return $this->hasMany('TaskManage','pasture_id','pasture_id')
+        return $this->hasMany('TaskManage', 'pasture_id', 'pasture_id')
             ->field('*,(
         CASE
         WHEN finish_time < now() THEN
@@ -31,12 +31,12 @@ class Herdsman extends Model
 
     public static function dologin($param)
     {
-        $userInfo = self::where('tel',$param['tel'])->field('id,tel,password')->find();
-        if(empty($userInfo)) return ['code'=>400,'msg'=>'账号不存在'];
-        if($userInfo['password']==pswCrypt($param['password'])){
-            return ['code'=>200,'msg'=>'ok','data'=>$userInfo];
-        }else{
-            return ['code'=>400,'msg'=>'密码错误!'];
+        $userInfo = self::where('tel', $param['tel'])->field('id,tel,password')->find();
+        if (empty($userInfo)) return ['code' => 400, 'msg' => '账号不存在'];
+        if ($userInfo['password'] == pswCrypt($param['password'])) {
+            return ['code' => 200, 'msg' => 'ok', 'data' => $userInfo];
+        } else {
+            return ['code' => 400, 'msg' => '密码错误!'];
         }
     }
 
@@ -46,16 +46,15 @@ class Herdsman extends Model
     public static function GetHerdsmanTask($params)
     {
         $herdsman_id = $params['id'];
-        try{
-            $list = self::with('gettask')->where('id',$herdsman_id)
+        try {
+            $list = self::with('gettask')->where('id', $herdsman_id)
                 ->field('id,name,pasture_id')
                 ->select();
-        }catch (\Exception $e){
-            return ['data'=>$e->getMessage(),'code'=>400];
+        } catch (\Exception $e) {
+            return ['data' => $e->getMessage(), 'code' => 400];
         }
-        return ['data'=>$list,'code'=>200];
+        return ['data' => $list, 'code' => 200];
     }
-
 
 
 }

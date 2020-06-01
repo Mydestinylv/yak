@@ -41,6 +41,14 @@ class HerdsmanSubAction
      */
     public static function save($param)
     {
+        $transfer = HerdsmanTask::valueByWhere(['tel'=>$param['tel']],'id');
+        if(!$transfer->status){
+            return new Transfer('保存失败');
+        }
+        if($transfer->data['id']){
+           return new Transfer('账号已存在');
+        }
+
         $param['password'] = pswCrypt($param['password']);
         $transfer = HerdsmanTask::save($param);
         if(!$transfer->status){

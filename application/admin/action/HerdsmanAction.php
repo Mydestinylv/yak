@@ -26,7 +26,7 @@ class HerdsmanAction
     {
         $transfer = HerdsmanSubAction::save($param);
         if(!$transfer->status){
-            return new Transfer('保存失败');
+            return new Transfer($transfer->message);
         }
         return new Transfer('', true, $transfer->data);
     }
