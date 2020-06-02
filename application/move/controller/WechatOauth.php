@@ -6,7 +6,7 @@
  * Time: 17:24
  */
 
-namespace app\common\controller;
+namespace app\move\controller;
 
 class WechatOauth{
     //微信授权配置信息

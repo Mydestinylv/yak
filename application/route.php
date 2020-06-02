@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use \think\Route;
-Route::rule('wx','common/weixin/index');
+Route::rule('wx','move/weixin/index');
 return [
     '__pattern__' => [
         'name' => '\w+',
