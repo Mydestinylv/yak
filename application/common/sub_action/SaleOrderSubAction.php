@@ -7,6 +7,7 @@ use app\common\model\LogisticsOrder;
 use app\common\model\SaleOrder;
 use app\common\task\LogisticsOrderTask;
 use app\common\task\SaleOrderTask;
+use think\Env;
 
 class SaleOrderSubAction
 {
@@ -80,6 +81,34 @@ class SaleOrderSubAction
         $transfer = SaleOrderTask::Mjoin($table,$join_file,$action,$where,$file,$order,'find');
         if(!$transfer->status){
             return new Transfer('查询失败');
+        }
+        return new Transfer('', true, $transfer->data);
+    }
+
+    /**
+     * 保存新建的资源
+     */
+    public static function save($param,$customer_id)
+    {
+        $param['goods_unit_price'] = Env::get('goods_unit_price');
+        if(isset($param['sale_type'])&&!empty($param['sale_type'])){
+            switch ($param['sale_type']){
+                case SaleOrder::SELF:
+                    $param['goods_total_price'] = $param['process_cost'];
+                    $param['real_price'] = $param['goods_total_price'];
+                case SaleOrder::GIFT:
+                    $param['goods_total_price'] = '';
+            }
+        }
+
+        $param['pay_time'] = date_now();
+        $param['pay_status'] = 0;
+        $param['customer_id'] = $customer_id;
+        if(isset($param['']))
+
+        $transfer = SaleOrderSubAction::save($param);
+        if(!$transfer->status){
+            return new Transfer($transfer->message);
         }
         return new Transfer('', true, $transfer->data);
     }

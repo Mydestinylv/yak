@@ -11,6 +11,9 @@ class SaleOrder extends Model
     protected $deleteTime = 'delete_time';
     protected $autoWriteTimestamp = 'datetime';
 
+    const SELF = 1;
+    const GIFT = 2;
+    const SALE = 3;
     public function getGoodsAttr($value)
     {
 

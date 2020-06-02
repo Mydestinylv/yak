@@ -32,6 +32,6 @@ class Gift extends Validate
         'save' => [''],
         'read' => [''],
         'update' => [''],
-        'delete' => [''],
+        'share' => [''],
     ];
 }

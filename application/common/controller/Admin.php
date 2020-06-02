@@ -60,8 +60,8 @@ class Admin extends Controller
     public function token_check()
     {
         $access_token = cookie('access_token_admin');
+        $request = request();
         if (!$access_token) {
-            $request = request();
             $access_token = $request->header('access_token');
             if (!$access_token) {
                 $data = [
@@ -74,7 +74,7 @@ class Admin extends Controller
             }
 
         }
-        $admin_user_id = cookie($access_token);
+        $admin_user_id = $request->post('user_id');
         if (!$admin_user_id) {
             $data = [
                 'status' => 400,

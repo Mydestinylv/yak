@@ -20,7 +20,7 @@ class App extends Controller
         }
         parent::_initialize();
         $request = Request::instance();
-        $token = $request->header('token');
+        $token = $request->header('access_token');
         if(is_null($token)) {
             $data = json_encode(['status' => 400,'msg' => '请传入token',], 256);echo $data;exit;
         }

@@ -50,12 +50,15 @@ class GiftAction
     }
 
     /**
-     * 删除指定资源
+     *分享指定资源
      */
-    public static function delete($param)
+    public static function share($param)
     {
-
-        return new Transfer('', true);
+        $transfer = GiftSubAction::share($param);
+        if(!$transfer->status){
+            return new Transfer($transfer->message);
+        }
+        return new Transfer('', true, $transfer->data);
     }
 
 }

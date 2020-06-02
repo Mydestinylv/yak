@@ -130,24 +130,24 @@ class Gift extends App
     }
 
     /**
-     * 删除指定资源
+     * 分享
      */
-    public function delete(Request $request)
+    public function share(Request $request)
     {
         try {
-            $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Gift.delete');
+            $param = $request->get();
+            $result = $this->validate($param,'app\move\validate\Gift.share');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = GiftAction::delete($param);
+            $transfer = GiftAction::share($param);
             if (!$transfer->status) {
-                $message = $transfer->message ?: '保存更新的资源失败';
+                $message = $transfer->message ?: '分享失败';
                 if($this->environment==='test'){
                     return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
                 }else{
                     Log::error([__CLASS__ . '  ' . __FUNCTION__,
-                        'failure_desc' => '删除指定资源失败',
+                        'failure_desc' => '分享失败',
                         'attach' => compact(['param','transfer']),
                     ]);
                     return format($message);
