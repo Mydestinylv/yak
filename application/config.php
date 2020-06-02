@@ -253,7 +253,8 @@ return [
         'mch_id' => '1524021841',
         'appKey' => '609cbabd5f0963ae2a7827f1fd010f2a',
         'wap_name' => '牦牛系统',
-//        'notify_url' => $_SERVER['SERVER_NAME'] . '/notify.html'
+        'appsecret'=>'',
+        'notify_url' => $_SERVER['SERVER_NAME'] . '/notify.html'
     ]
 
 ];
