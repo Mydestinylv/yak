@@ -9,7 +9,7 @@ class Msg extends App
     /*
      * 接收消息
      * */
-    public function index(Request $request)
+    public function msg_list(Request $request)
     {
         if($request->isPost()){
             $data = $request->param();
@@ -46,7 +46,7 @@ class Msg extends App
      * 消息列表
      * */
 
-    public function msg_list(Request $request)
+    public function index(Request $request)
     {
         $id = $request->param('id');
         $list = Chat::HGetMsgList($id);
