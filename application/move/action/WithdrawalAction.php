@@ -11,6 +11,7 @@ use app\common\task\HerdsmanTask;
 use app\common\task\SlaughterManTask;
 use app\common\task\WithdrawalTask;
 use think\Db;
+use think\Env;
 
 class WithdrawalAction
 {
@@ -44,7 +45,7 @@ class WithdrawalAction
     public static function save($param, $type)
     {
         Db::startTrans();
-        $param['service_charge'] = $param['withdrawal_price'] * 0.1;
+        $param['service_charge'] = $param['withdrawal_price'] * Env::get('service_charge');
         $param['account_price'] = $param['withdrawal_price'] - $param['service_charge'];
         $param['user_type'] = $type;
         $param['withdrawal_status'] = 1;
@@ -55,6 +56,7 @@ class WithdrawalAction
         if (!$transfer->status) {
             return new Transfer('提现失败');
         }
+        $return_data = $transfer->data;
         switch ($type) {
             case 1 :
                 $transfer = CustomerTask::find($where, 'total_balance,freezing_balance');
@@ -104,15 +106,15 @@ class WithdrawalAction
             return new Transfer('查询失败');
         }
         Db::commit();
-        return new Transfer('', true);
+        return new Transfer('', true, $return_data);
     }
 
     /**
      * 显示指定的资源
      */
-    public static function bill($param)
+    public static function bill($param,$type)
     {
-        $transfer = WithdrawalSubAction::bill($param);
+        $transfer = WithdrawalSubAction::bill($param,$type);
         if(!$transfer->status){
             return new Transfer('获取账单失败');
         }

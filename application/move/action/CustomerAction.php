@@ -2,8 +2,11 @@
 
 namespace app\move\action;
 
+use app\common\controller\Phonecode;
 use app\common\lib\Transfer;
 use app\common\sub_action\CustomerSubAction;
+use app\common\task\CustomerTask;
+use think\Cookie;
 
 class CustomerAction
 {
@@ -46,10 +49,23 @@ class CustomerAction
     /**
      * 删除指定资源
      */
-    public static function delete($param)
+    public static function sendSms($param,$customer_id)
     {
-
-        return new Transfer('', true);
+        $trasnfer = CustomerTask::valueByWhere(['id'=>$customer_id],'tel');
+        if(!$trasnfer->status){
+            return new Transfer('重置密码失败');
+        }
+        if(!$trasnfer->data['tel']){
+            return new Transfer('手机号错误');
+        }
+        $code = mt_rand(1000,9999);
+        Cookie::set('code_'.$customer_id,$code);
+        $trasnfer = Phonecode::sendSms('17378516325',$code);
+        $trasnfer = json_decode(json_encode($trasnfer,true),true);
+        if($trasnfer['Code']!='OK'){
+            return new Transfer('发送短信失败');
+        }
+        return new Transfer('',true);
     }
 
     /**
@@ -69,6 +85,11 @@ class CustomerAction
      */
     public static function passwordReset($param,$customer_id)
     {
+        $code = Cookie::get('code_'.$customer_id);
+        if($param['code']!=$code){
+            return new Transfer('验证码错误');
+        }
+        Cookie::delete('code_'.$customer_id);
         $param['id'] = $customer_id;
         $trasnfer = CustomerSubAction::passwordReset($param);
         if(!$trasnfer->status){

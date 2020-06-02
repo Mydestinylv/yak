@@ -277,4 +277,34 @@ class Customer extends App
             return format(exception_deal($e), 400);
         }
     }
+
+    /**
+     * 发送短信
+     */
+    public function sendSms(Request $request)
+    {
+        try {
+            $param = $request->post();
+            $result = $this->validate($param, 'app\move\validate\Customer.sendSms');
+            if ($result !== true) {
+                return format($result);
+            }
+            $transfer = CustomerAction::sendSms($param, CID);
+            if (!$transfer->status) {
+                $message = $transfer->message ?: '保存更新的资源失败';
+                if ($this->environment === 'test') {
+                    return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
+                } else {
+                    Log::error([__CLASS__ . '  ' . __FUNCTION__,
+                        'failure_desc' => '删除指定资源失败',
+                        'attach' => compact(['param', 'transfer']),
+                    ]);
+                    return format($message);
+                }
+            }
+            return format('ok', 200, $transfer->data);
+        } catch (\Exception $e) {
+            return format(exception_deal($e), 400);
+        }
+    }
 }

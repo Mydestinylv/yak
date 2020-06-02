@@ -26,7 +26,7 @@ class YaksAction
     {
         $transfer = YaksSubAction::save($param);
         if (!$transfer->status) {
-            return new Transfer('添加失败');
+            return new Transfer($transfer->message);
         }
         return new Transfer('', true, $transfer->data);
     }

@@ -97,6 +97,7 @@ class CustomerSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
+        $param['password'] = pswCrypt($param['password']);
         $transfer = CustomerTask::update($param,$where);
         if (!$transfer->status) {
             return new Transfer('重置失败');

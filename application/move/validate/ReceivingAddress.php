@@ -18,7 +18,7 @@ class ReceivingAddress extends Validate
     ];
 	protected $rule = [
         'consignee_name' =>  'require|max:10',
-        'consignee_tel' =>  'tel|require|',
+        'consignee_tel' =>  'tel|require',
         'consignee_add' =>  'require|max:50',
         'is_default' =>  'require|number',
     ];

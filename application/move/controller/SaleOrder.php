@@ -3,10 +3,10 @@
 namespace app\move\controller;
 
 use app\common\controller\App;
-use app\move\action\WithdrawalAction;
+use app\move\action\SaleOrderAction;
 use think\Request;
 use think\Log;
-class Withdrawal extends App
+class SaleOrder extends App
 {
     /**
      * 显示资源列表
@@ -15,25 +15,11 @@ class Withdrawal extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param, 'app\move\validate\Withdrawal.index');
+            $result = $this->validate($param, 'app\move\validate\SaleOrder.index');
             if ($result !== true) {
                 return format($result);
             }
-            switch (TYPE){
-                case 1 :
-                    $where['id'] = CID;
-                    break;
-                case 2 :
-                    $where['id'] = HID;
-
-                    break;
-                case 3 :
-                    $where['id'] = SID;
-                    break;
-                default :
-                    return format('获取资源失败');
-            }
-            $transfer = WithdrawalAction::index($param,$where,TYPE);
+            $transfer = SaleOrderAction::index($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示资源列表失败';
                 if($this->environment==='test'){
@@ -59,11 +45,11 @@ class Withdrawal extends App
     {
         try {
             $param = $request->post();
-            $result = $this->validate($param,'app\move\validate\Withdrawal.save');
+            $result = $this->validate($param,'app\move\validate\SaleOrder.save');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = WithdrawalAction::save($param,TYPE);
+            $transfer = SaleOrderAction::save($param,CID);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存资源失败';
                 if($this->environment==='test'){
@@ -86,15 +72,15 @@ class Withdrawal extends App
     /**
      * 显示指定的资源
      */
-    public function bill(Request $request)
+    public function read(Request $request)
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Withdrawal.bill');
+            $result = $this->validate($param,'app\move\validate\SaleOrder.read');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = WithdrawalAction::bill($param,TYPE);
+            $transfer = SaleOrderAction::read($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示指定的资源失败';
                 if($this->environment==='test'){
@@ -120,11 +106,11 @@ class Withdrawal extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Withdrawal.update');
+            $result = $this->validate($param,'app\move\validate\SaleOrder.update');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = WithdrawalAction::update($param);
+            $transfer = SaleOrderAction::update($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){
@@ -150,11 +136,11 @@ class Withdrawal extends App
     {
         try {
             $param = $request->param();
-            $result = $this->validate($param,'app\move\validate\Withdrawal.delete');
+            $result = $this->validate($param,'app\move\validate\SaleOrder.delete');
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = WithdrawalAction::delete($param);
+            $transfer = SaleOrderAction::delete($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存更新的资源失败';
                 if($this->environment==='test'){

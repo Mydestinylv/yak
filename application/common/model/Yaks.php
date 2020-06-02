@@ -23,7 +23,7 @@ class Yaks extends Model
     }
     public function getYaksTypeAttr($value)
     {
-        $array = [1 => '食用认养', 2 => '投资认养'];
+        $array = [1 => '食用认养', 0 => '投资认养'];
         return $array[$value];
     }
     public function getYaksSexAttr($value)
@@ -56,13 +56,25 @@ class Yaks extends Model
         return $array->data['name'];
     }
 
+    public function getAdoptionStatusStrAttr($value)
+    {
+        $array = AdoptionOrderTask::valueByWhere(['yaks_id'=>$value],'adoption_status');
+        $arrays = [1=>'生长中',2=>'待屠宰', 3=>'屠宰中', 4=>'屠宰完毕', 5=>'配送中', 6=>'已收货'];
+        return $arrays[$array->data['adoption_status']];
+    }
+
     public function getAdoptionStatusAttr($value)
     {
-        if(is_int($value)){
+        $arrays = [1=>'生长中',2=>'待屠宰', 3=>'屠宰中', 4=>'屠宰完毕', 5=>'配送中', 6=>'已收货'];
+        return $arrays[$value];
+    }
+    public function getAdoptionIdAttr($value)
+    {
+        if(is_string($value)){
             return $value;
         }
-        $array = AdoptionOrderTask::valueByWhere(['yaks_id'=>$value],'adoption_status');
-        return $array->data['adoption_status'];
+        $array = AdoptionOrderTask::valueByWhere(['yaks_id'=>$value],'id');
+        return $array->data['id'];
     }
     /*
      * 一对一关联查询未领养牦牛牧场信息

@@ -15,7 +15,8 @@ class Customer extends Validate
 	protected $rule = [
         'password'  =>  'require|max:20',
         'old_password'  =>  'require|max:20',
-        'repeat_password'=>'require|confirm:password|max:20'
+        'repeat_password'=>'require|confirm:password|max:20',
+        'code'=>'require|number'
     ];
 
     /**
@@ -32,6 +33,8 @@ class Customer extends Validate
         'repeat_password.require'=>'重复密码必须',
         'repeat_password.max'=>'重复密码不能超过20个字符',
         'repeat_password.confirm'=>'重复密码与新密码不一致',
+        'code.require'  =>  '验证码必须',
+        'code.number'  =>  '验证码必须是数字',
     ];
 
     //场景定义
@@ -42,7 +45,8 @@ class Customer extends Validate
         'update' => [''],
         'delete' => [''],
         'changePassword' => ['password','old_password','repeat_password'],
-        'PasswordReset' => ['password','repeat_password'],
+        'PasswordReset' => ['password','repeat_password','code'],
         'userInfo' => [''],
+        'sendSms' => [''],
     ];
 }

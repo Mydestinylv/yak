@@ -84,7 +84,7 @@ class SlaughterHouseAction
         $data['customer_info'] = to_array($transfer);
         unset($where['a.yaks_id']);
         //屠宰记录信息
-        $where['id'] = $param['id'];
+        $where['slaughter_id'] = $param['id'];
         $transfer = SlaughterRecordTask::select($where,'slaughter_status as status,create_time');
         if(!$transfer->status){
             return new Transfer('查询失败');

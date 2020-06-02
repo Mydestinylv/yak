@@ -3,6 +3,7 @@
 namespace app\move\action;
 
 use app\common\lib\Transfer;
+use app\common\model\Notice;
 use app\common\sub_action\NoticeSubAction;
 
 class NoticeAction
@@ -26,7 +27,7 @@ class NoticeAction
                 return new Transfer('查询失败');
         }
         $where['notice_status'] = 1;
-        $transfer = NoticeSubAction::index($param);
+        $transfer = NoticeSubAction::index($param,$where);
         if(!$transfer->status){
             return new Transfer('查询失败');
         }
