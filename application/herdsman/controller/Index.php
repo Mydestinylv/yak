@@ -49,7 +49,7 @@ class Index extends App
             $result = $this->validate($data,'Index.details');
             if(true !== $result) return format($result, 400);
             $list = Yaks::GetYakDetails($data);
-            return format('ok',200,$list);
+            return format('ok',200,$list['data']);
         }
     }
 

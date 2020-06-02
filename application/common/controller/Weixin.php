@@ -1,14 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2020/5/29
- * Time: 16:18
- */
-
 namespace app\client\controller;
-
-
 use think\Controller;
 
 class Weixin extends Controller
