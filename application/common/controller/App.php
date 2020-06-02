@@ -11,10 +11,16 @@ class App extends Controller
 {
     public function _initialize()
     {
+        define('CID',1);
+        define('TYPE',1);
+        $temp = $this->check_environment();
+        if ($temp) {
+            //  goto sub_permission;
+            return true;
+        }
         parent::_initialize();
         $request = Request::instance();
         $token = $request->header('access_token');
-        return true;
         if(is_null($token)) {
             $data = json_encode(['status' => 400,'msg' => '请传入token',], 256);echo $data;exit;
         }

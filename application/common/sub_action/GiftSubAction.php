@@ -26,7 +26,7 @@ class GiftSubAction
         $where['yaks_birthday'] = ['<', date('Y-m-d H:i:s', strtotime("-8 month"))];
         $where['adoption_tel'] = $transfer->data['tel'];
         $where['yaks_sex'] = 1;
-        $field = 'id,id as adoption_status,yaks_name,yaks_tag,yaks_img,yaks_birthday,pasture_id as pasture_name,yaks_sex';
+        $field = 'id,id as adoption_statusStr,id as adoption_id,yaks_name,yaks_tag,yaks_img,yaks_birthday,pasture_id as pasture_name,yaks_sex';
         $order = 'create_time desc';
         $transfer = YaksTask::paginate($where, $field, $order);
         if (!$transfer->status) {

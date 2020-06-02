@@ -75,6 +75,7 @@ class AdoptionOrderAction
         $where['id'] = $param['id'];
         $data['slaughter_house_id'] = $param['slaughter_house_id'];
         $data['yaks_id'] = $param['yaks_id'];
+        $data['adoption_status'] = 2;
         unset($param['id']);
         unset($param['yaks_id']);
         unset($param['slaughter_house_id']);

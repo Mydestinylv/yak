@@ -48,6 +48,13 @@ class YaksSubAction
      */
     public static function save($param)
     {
+        $transfer = YaksTask::valueByWhere(['yaks_tag'=>$param['yaks_tag']],'id');
+        if(!$transfer->status){
+            return new Transfer('保存失败');
+        }
+        if($transfer->data['id']){
+            return new Transfer('耳标号已存在');
+        }
         $transfer = YaksTask::save($param);
         if (!$transfer->status) {
             return new Transfer('保存失败');

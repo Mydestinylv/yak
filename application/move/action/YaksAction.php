@@ -59,7 +59,7 @@ class YaksAction
     public static function read($param)
     {
         $where['id'] = $param['yaks_id'];
-        $field = 'id,pasture_id,herdsman_id,pasture_id as pasture_name,herdsman_id,yaks_name,yaks_tag,yaks_birthday,yaks_img,yaks_sex,remarks';
+        $field = 'id,pasture_id,herdsman_id,pasture_id as pasture_name,herdsman_id as herdsman_name,yaks_name,yaks_tag,yaks_birthday,yaks_img,yaks_sex,remarks';
         $transfer = YaksTask::find($where,$field);
         if(!$transfer->status){
             return new Transfer('获取牦牛详情失败');
@@ -76,7 +76,7 @@ class YaksAction
         if(!$transfer->status){
             return new Transfer('获取牧场监控视频失败');
         }
-        $data['pasture_video'] = $transfer->data;
+        $data['pasture_video'] = to_array($transfer->data);
         unset($where['pasture_id']);
         //牧民信息
         $where['id'] = $data['yaks_info']['herdsman_id'];
@@ -98,7 +98,7 @@ class YaksAction
         if(!$transfer->status){
             return new Transfer('获取生长信息失败');
         }
-        $data['group_info'] = $transfer->data;
+        $data['grow_info'] = $transfer->data;
         return new Transfer('', true, $data);
     }
 

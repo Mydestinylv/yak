@@ -6,6 +6,7 @@ use app\common\lib\Transfer;
 use app\common\model\LogisticsOrder;
 use app\common\model\SaleOrder;
 use app\common\task\LogisticsOrderTask;
+use app\common\task\ReceivingAddressTask;
 use app\common\task\SaleOrderTask;
 use think\Env;
 
@@ -90,25 +91,49 @@ class SaleOrderSubAction
      */
     public static function save($param,$customer_id)
     {
+        if(isset($param['receiving_address_id'])&&!empty($paramp['receiving_address_id'])){
+            $transfer = ReceivingAddressTask::find(['id'=>$param['receiving_address_id'],'customer_id'=>$customer_id],'consignee_add');
+            if(!$transfer->status){
+                return new Transfer('保存失败');
+            }
+            if($transfer->data['consignee_add']){
+                $consignee_add = substr($transfer->data['consignee_add'],0,2);
+                if($consignee_add!='四川'||$consignee_add!='重庆'){
+                    $param['postage'] = Env::get('postage') * $param['goods_number'];
+                }else{
+                    $param['postage'] = 0;
+                }
+            }
+        }else{
+            return new Transfer('请选择地址');
+        }
         $param['goods_unit_price'] = Env::get('goods_unit_price');
         if(isset($param['sale_type'])&&!empty($param['sale_type'])){
             switch ($param['sale_type']){
                 case SaleOrder::SELF:
-                    $param['goods_total_price'] = $param['process_cost'];
+                    $param['goods_total_price'] = $param['process_cost']+$param['postage'];
                     $param['real_price'] = $param['goods_total_price'];
+                    break;
                 case SaleOrder::GIFT:
-                    $param['goods_total_price'] = '';
+                    $param['goods_total_price'] = $param['postage'];
+                    $param['real_price'] = $param['goods_total_price'];
+                    break;
+                case SaleOrder::SALE:
+                    $param['goods_total_price'] = $param['postage'] + ($param['goods_unit_price']*$param['goods_number']);
+                    $param['real_price'] = $param['goods_total_price'];
+                    break;
+                default:
+                    return new Transfer('保存失败');
             }
         }
-
-        $param['pay_time'] = date_now();
+//        $param['pay_time'] = date_now();
+        $order_code = getOrderCode();
+        $param['order_code'] = $order_code->data['order_code'];
         $param['pay_status'] = 0;
         $param['customer_id'] = $customer_id;
-        if(isset($param['']))
-
-        $transfer = SaleOrderSubAction::save($param);
+        $transfer = SaleOrderTask::save($param);
         if(!$transfer->status){
-            return new Transfer($transfer->message);
+            return new Transfer('保存失败');
         }
         return new Transfer('', true, $transfer->data);
     }

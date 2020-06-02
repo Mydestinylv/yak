@@ -44,9 +44,10 @@ class WithdrawalSubAction
     /**
      * 显示指定的资源
      */
-    public static function bill($param)
+    public static function bill($param,$type)
     {
         $where['withdrawal_id'] = $param['id'];
+        $where['user_type'] = $type;
         $field = 'id,withdrawal_price,create_time,service_charge';
         $transfer = WithdrawalTask::paginate($where,$field,'create_time desc');
         if(!$transfer->status){
