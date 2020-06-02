@@ -16,6 +16,7 @@ class Login extends Controller
             $result = $this->validate($data,'Login.login');
             if(true !== $result) return format($result, 400);
             $res = Customer::dologin($data);
+            $res = json_decode(json_encode($res,true),true);
             if($res['code']==200){
                 $userInfo = $res['data'];
                 $token = Token::createJwt($userInfo['id'],$userInfo['tel'],$userInfo['tel']);
