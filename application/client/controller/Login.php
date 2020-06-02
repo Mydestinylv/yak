@@ -16,7 +16,6 @@ class Login extends Controller
             $result = $this->validate($data,'Login.login');
             if(true !== $result) return format($result, 400);
             $res = Customer::dologin($data);
-            $res = json_decode(json_encode($res,true),true);
             if($res['code']==200){
                 $userInfo = $res['data'];
                 $token = Token::createJwt($userInfo['id'],$userInfo['tel'],$userInfo['tel']);
@@ -61,6 +60,7 @@ class Login extends Controller
             }catch (\Exception $e){
                 return format($e->getMessage(),400);
             }
+            $msg = json_decode(json_encode($msg,true),true);
             if($msg['Code']=='OK') {
                 Cache::set('register'.$data['tel'],$code,3*60);
                 return format('ok',200,$msg);
