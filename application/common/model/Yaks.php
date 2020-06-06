@@ -2,9 +2,11 @@
 
 namespace app\common\model;
 
+use app\common\lib\Transfer;
 use app\common\task\AdoptionOrderTask;
 use app\common\task\HerdsmanTask;
 use app\common\task\PastureTask;
+use app\common\task\YaksTask;
 use think\Exception;
 use think\Model;
 use traits\model\SoftDelete;
@@ -162,9 +164,17 @@ class Yaks extends Model
     {
         $is_manage = $params['is_manage'];
         try{
-            $list = self::with('adopt')->where('id','in',function($query) use ($is_manage){
-                $query->table('yak_adoption_order')->field('GROUP_CONCAT(`id`)')->where('adoption_status',($is_manage==1 ? 'eq' : 'neq'),1);
-            })->field('*, \''.($is_manage==1 ? '已完成' : '未完成').'\' as is_finish')->where('herdsman_id',$params['id'])->select();
+            $transfer = AdoptionOrderTask::find(['adoption_status'=>['<>',1]],'GROUP_CONCAT(yaks_id) as yaks_id');
+            if(!$transfer->status){
+                return new Transfer('查询失败');
+            }
+            $where['id'] = ['in',explode(',',$transfer->data['yaks_id'])];
+            $where['herdsman_id'] = $params['move_id'];
+            $list = YaksTask::select($where,'*,pasture_id as pasture_name');
+            if(!$list->status){
+                return new Transfer('查询失败');
+            }
+            $list = to_array($list->data);
         }catch (\Exception $e){
             return ['data'=>$e->getMessage(),'code'=>400];
         }
@@ -183,7 +193,6 @@ class Yaks extends Model
                 ->field('*,is_adoption as confirm,yaks_sex as invest_type,YEAR( FROM_DAYS( DATEDIFF( NOW( ), yaks_birthday))) AS age')
                 ->where('id',$id)
                 ->find();
-            if($info['confirm']!=1) return ['data'=>'该牦牛不是未认养状态！','code'=>400];
         }catch (\Exception $e){
             return ['data'=>$e->getMessage(),'code'=>400];
         }

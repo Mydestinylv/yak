@@ -159,7 +159,7 @@ class Customer extends Admin
         }
     }
     /**
-     * 删除指定资源
+     * 密码重置
      */
     public function passwordReset(Request $request)
     {

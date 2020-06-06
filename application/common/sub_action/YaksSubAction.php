@@ -32,7 +32,7 @@ class YaksSubAction
             $where['c.herdsman_name'] = ['like', '%' . $param['herdsman_name'] . '%'];
         }
         $table = ['Pasture b','Herdsman c'];
-        $join_file = ['a.pasture_id = b.id','a.pasture_id = c.id'];
+        $join_file = ['a.pasture_id = b.id','a.herdsman_id = c.id'];
         $file = ['a.id,a.yaks_name,a.yaks_img,a.yaks_tag,a.yaks_birthday,a.yaks_sex,b.pasture_name,a.adoption_tel,a.adoption_time,c.name as herdsman_name,c.tel as herdsman_tel,a.is_adoption,a.remarks'];
         $action = ['Left','Left'];
         $group = [];

@@ -68,7 +68,7 @@ class SlaughterMan extends Validate
         'index' => [''],
         'save' => ['slaughter_house_id','name','head_img','tel','id_card','user_name','password','total_balance','freezing_balance','score','introduce','prove'],
         'read' => ['id'],
-        'update' => ['slaughter_house_id','name','head_img','tel','id_card','user_name','password','total_balance','freezing_balance','score','introduce','prove','id'],
+        'update' => ['slaughter_house_id','name','head_img','tel','id_card','total_balance','freezing_balance','score','introduce','prove','id'],
         'delete' => ['id'],
         'password_reset' => ['id','password'],
     ];

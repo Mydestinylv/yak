@@ -47,7 +47,7 @@ class AdoptionOrderAction
     public static function read($param)
     {
         $where['a.id'] = $param['id'];
-        $field = 'a.id,b.yaks_name,b.yaks_tag,b.yaks_birthday,b.yaks_sex,yaks_img,b.herdsman_id as herdsman_name,b.pasture_id as pasture_name,a.create_time,a.pay_money,a.yaks_id';
+        $field = 'a.id,b.yaks_name,b.yaks_tag,b.yaks_birthday,b.yaks_sex,yaks_img,b.herdsman_id as herdsman_name,b.pasture_id as pasture_name,a.create_time,a.pay_money,a.yaks_id,a.adoption_status';
         $transfer = AdoptionOrder::alias('a')
             ->join('Yaks b', 'a.yaks_id = b.id', 'LEFT')
             ->where($where)

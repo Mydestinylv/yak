@@ -72,7 +72,10 @@ class ReceivingAddressAction
      */
     public static function delete($param)
     {
-
+        $transfer = ReceivingAddressTask::delete($param['id']);
+        if(!$transfer->status){
+            return new Transfer('删除失败');
+        }
         return new Transfer('', true);
     }
 

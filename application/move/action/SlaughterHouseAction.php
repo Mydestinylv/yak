@@ -19,13 +19,14 @@ class SlaughterHouseAction
     {
         $where['a.status'] = 0;
         $where['c.yaks_sex'] = 1;
-        $where['a.slaughter_man_id'] = $slaughter_man_id;
         if($param['status']==1){
             $where['a.status'] = 0;
         }elseif ($param['status']==2){
             $where['a.status'] = ['not in',[0,9,10]];
+            $where['a.slaughter_man_id'] = $slaughter_man_id;
         }else{
             $where['a.status'] = ['in',[9,10]];
+            $where['a.slaughter_man_id'] = $slaughter_man_id;
         }
         $field = 'a.id,b.slaughter_house_name,c.yaks_name,c.yaks_tag,a.status,c.yaks_img,c.yaks_birthday,d.pasture_name,c.yaks_sex,c.id as yaks_id';
         $transfer = Slaughter::alias('a')

@@ -91,8 +91,11 @@ class SaleOrderSubAction
      */
     public static function save($param,$customer_id)
     {
-        if(isset($param['receiving_address_id'])&&!empty($paramp['receiving_address_id'])){
-            $transfer = ReceivingAddressTask::find(['id'=>$param['receiving_address_id'],'customer_id'=>$customer_id],'consignee_add');
+        if(isset($param['receiving_address_id'])&&!empty($param['receiving_address_id'])){
+            $where['id'] = $param['receiving_address_id'];
+            unset($param['receiving_address_id']);
+            $where['customer_id'] = $customer_id;
+            $transfer = ReceivingAddressTask::find($where,'consignee_add');
             if(!$transfer->status){
                 return new Transfer('保存失败');
             }

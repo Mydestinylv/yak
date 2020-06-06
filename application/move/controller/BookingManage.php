@@ -19,7 +19,7 @@ class BookingManage extends App
             if ($result !== true) {
                 return format($result);
             }
-            $transfer = BookingManageAction::index($param);
+            $transfer = BookingManageAction::index($param,CID);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '显示资源列表失败';
                 if($this->environment==='test'){
@@ -49,6 +49,7 @@ class BookingManage extends App
             if ($result !== true) {
                 return format($result);
             }
+            $param['customer_id'] = CID;
             $transfer = BookingManageAction::save($param);
             if (!$transfer->status) {
                 $message = $transfer->message ?: '保存资源失败';

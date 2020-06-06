@@ -109,6 +109,7 @@ class HerdsmanSubAction
     public static function password_reset($param)
     {
         $where['id'] = $param['id'];
+        $param['password'] = pswCrypt($param['password']);
         $transfer = HerdsmanTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('重置失败');

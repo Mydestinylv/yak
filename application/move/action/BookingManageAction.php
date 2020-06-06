@@ -10,9 +10,10 @@ class BookingManageAction
     /**
      * 显示资源列表
      */
-    public static function index($param)
+    public static function index($param,$customer_id)
     {
-        $transfer = BookingManageSubAction::index($param);
+        $where['customer_id'] = $customer_id;
+        $transfer = BookingManageSubAction::index($param,$where);
         if(!$transfer->status){
             return new Transfer('查询失败');
         }

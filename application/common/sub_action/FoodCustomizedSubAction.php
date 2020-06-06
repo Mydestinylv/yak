@@ -53,7 +53,7 @@ class FoodCustomizedSubAction
         }
         $food_customized_count = $transfer->data['count'];
         if($yaks_count<=$food_customized_count){
-            return new Transfer('超过定制菜品数量');
+            return new Transfer('超过定制菜品数量，你当前剩余申请道数为'.($food_customized_count-$yaks_count).'道');
         }
         $transfer = CustomerTask::find(['id'=>$customer_id],'real_name,tel');
         if(!$transfer->status){

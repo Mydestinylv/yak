@@ -64,6 +64,8 @@ class FeedbackSubAction
         if(!$transfer->status){
             return new Transfer('保存失败');
         }
+        unset($param['move_id']);
+        unset($param['type']);
         $param['name'] = $transfer->data['name'];
         $param['tel'] = $transfer->data['tel'];
         $param['user_type'] = $type;

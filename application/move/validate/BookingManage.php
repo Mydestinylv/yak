@@ -13,14 +13,12 @@ class BookingManage extends Validate
     ];
     protected $rule = [
         'id' => 'require',
-        'booking_name' => 'require|max:10',
-        'booking_tel' => 'require|tel',
+        'customer_id' => 'require|number',
         'pasture_id' => 'require|number',
         'total_number' => 'require|number',
         'adult' => 'require|number',
         'children' => 'require|number',
         'attendance_time' => 'require|date',
-        'status' => 'require|number',
         'remarks' => 'require|max:1000',
     ];
 
@@ -32,10 +30,6 @@ class BookingManage extends Validate
      */
     protected $message = [
         'id.require' => 'ID必须',
-        'booking_name.require' => '预约人姓名必须',
-        'booking_name.max' => '预约人姓名不能大于10个字符',
-        'booking_tel.require' => '预约人电话必须',
-        'booking_tel.tel' => '预约人电话格式错误',
         'pasture_id.require' => '牧场名称必须',
         'pasture_id.number' => '牧场名称必须是数字',
         'total_number.require' => '总人数必须',
@@ -46,15 +40,13 @@ class BookingManage extends Validate
         'children.number' => '儿童数量必须是数字',
         'attendance_time.require' => '到达时间必须',
         'attendance_time.date' => '到达时间必须是日期',
-        'status.require' => '状态必须',
-        'status.number' => '状态必须是数字',
         'remarks.max' => '备注不能大于1000字符',
     ];
 
     //场景定义
     protected $scene = [
         'index' => [''],
-        'save' => ['booking_name','booking_tel','pasture_id','total_number','adult','children','attendance_time','status','remarks'],
+        'save' => ['pasture_id','total_number','adult','children','attendance_time','remarks'],
         'read' => ['id'],
         'update' => ['status','id'],
         'delete' => ['id'],

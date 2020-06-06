@@ -15,6 +15,13 @@ return [
         ],
     ],
 
+    'move' => [
+
+        'allow_url' => [
+            '/move/checkout/payResult',
+        ]
+
+    ]
 
 
 ];
