@@ -1,10 +1,13 @@
 <?php
 namespace app\move\controller;
 use app\client\common\Token;
+use app\common\service\WechatPayService;
 use think\Cache;
 use app\common\model\SlaughterMan;
+use think\Config;
 use think\Controller;
 use think\Request;
+
 class Login extends Controller
 {
     public function index(Request $request)
@@ -24,6 +27,16 @@ class Login extends Controller
             }
         }else{
             return format('error,请正确请求接口！', 400);
+        }
+    }
+
+    public function getOpenId()
+    {
+        $transfer = WechatPayService::getOpenId();
+        if($transfer){
+            return format('',200,$transfer);
+        }else{
+            return format('',400);
         }
     }
 }

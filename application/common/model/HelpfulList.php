@@ -2,6 +2,9 @@
 
 namespace app\common\model;
 
+use app\common\task\CustomerTask;
+use app\common\task\HelpfulProjectTask;
+use app\common\task\WechatTask;
 use think\Model;
 use traits\model\SoftDelete;
 
@@ -14,6 +17,17 @@ class HelpfulList extends Model
     /*
      * 获取总的帮扶金额和人数集合
      * */
+    public function getBodyAttr($value)
+    {
+        $array = HelpfulProjectTask::valueByWhere(['id'=>$value],'project_title');
+        return $array->data['project_title'];
+    }
+
+    public function getOpenIdAttr($value)
+    {
+        $array = WechatTask::valueByWhere(['customer_id'=>$value],'open_id');
+        return $array->data['open_id'];
+    }
 
     public static function GetAll()
     {

@@ -99,6 +99,7 @@ class SlaughterManSubAction
     {
         $where['id'] = $param['id'];
         unset($param['id']);
+        $param['password'] = pswCrypt($param['password']);
         $transfer = SlaughterManTask::update($param,$where);
         if(!$transfer->status){
             return new Transfer('重置失败');

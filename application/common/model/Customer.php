@@ -2,6 +2,8 @@
 
 namespace app\common\model;
 
+use app\common\task\CustomerTask;
+use app\common\task\WechatTask;
 use think\Model;
 use traits\model\SoftDelete;
 
@@ -34,7 +36,16 @@ class Customer extends Model
             'update_time'=>date('Y-m-d H:i:s'),
         ];
         try{
-            self::insert($data);
+            $transfer = CustomerTask::save($data);
+            if(!$transfer->status){
+                return ['code'=>400,'msg'=> '注册失败'];
+            }
+            $wechat_data['customer_id'] = $transfer->data['id'];
+            $wechat_data['open_id'] = $param['open_id'];
+            $transfer = WechatTask::save($wechat_data);
+            if(!$transfer->status){
+                return ['code'=>400,'msg'=> '注册失败'];
+            }
             return ['code'=>200,'msg'=>'ok'];
         }catch (\Exception $e){
             return ['code'=>400,'msg'=>$e->getMessage()];

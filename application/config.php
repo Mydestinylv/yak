@@ -251,10 +251,11 @@ return [
     'wechat_pay' => [
         'appid' => 'wxc6cf7316e472e685',
         'mch_id' => '1524021841',
-        'appKey' => '609cbabd5f0963ae2a7827f1fd010f2a',
+        'appKey' => '123456789qwedcxzasdfghjklpoijnbh',
         'wap_name' => '牦牛系统',
-        'appsecret'=>'',
-        'notify_url' => $_SERVER['SERVER_NAME'] . '/notify.html'
+        'token' => 'wechat_token',
+        'appsecret'=>'1a4c7935172c699cee0090e4bdeb2807',
+        'notify_url' => $_SERVER['SERVER_NAME'] . '/move/checkout/payResult'
     ]
 
 ];

@@ -948,4 +948,22 @@ if (!function_exists('curl_request')) {
         }
         return new \app\common\lib\Transfer('ok', true, compact('order_code'));
     }
+    /**
+     * 创建一个订单号
+     */
+    function getHelpfulCode()
+    {
+        $order_code = '';
+        for ($i = 1000; $i > 0; $i--) {
+            $order_code = strtotime('now') . num_random(9);
+            $transfer = \app\common\task\HelpfulListTask::count(['order_code' => $order_code]);
+            if ($transfer->status['count'] == 0) {
+                break;
+            }
+        }
+        if ($i === 0) {
+            return new \app\common\lib\Transfer('创建订单号失败');
+        }
+        return new \app\common\lib\Transfer('ok', true, compact('order_code'));
+    }
 }

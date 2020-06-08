@@ -11,26 +11,25 @@ class BookingManageSubAction
     /**
      * 显示资源列表
      */
-    public static function index($param)
+    public static function index($param,$where = [])
     {
-
-        $where = [];
         if (isset($param['booking_tel']) && !empty($param['booking_tel'])) {
-            $where['a.booking_tel'] = ['like', '%' . $param['booking_tel'] . '%'];
+            $where['c.tel'] = ['like', '%' . $param['booking_tel'] . '%'];
         }
         if (isset($param['booking_name']) && !empty($param['booking_name'])) {
-            $where['a.booking_name'] = ['like', '%' . $param['booking_name'] . '%'];
+            $where['c.real_name'] = ['like', '%' . $param['booking_name'] . '%'];
         }
-        $table = 'Pasture b';
-        $join_file = 'a.pasture_id = b.id';
-        $file = ['a.id,a.booking_name,a.booking_tel,a.total_number,a.adult,a.children,a.attendance_time,a.submission_time,a.status,a.remarks,b.pasture_name'];
-        $action = 'Left';
-        $group = [];
-        $transfer = BookingManageTask::join($table, $join_file, $action, $where, $file, $group);
-        if (!$transfer->status) {
+        $file = ['a.id,c.real_name as booking_name,c.tel as booking_tel,a.total_number,a.adult,a.children,a.attendance_time,a.submission_time,a.status,a.remarks,b.pasture_name'];
+        $transfer = BookingManage::alias('a')
+            ->join('Pasture b','a.pasture_id = b.id','LEFT')
+            ->join('Customer c','a.customer_id = c.id','LEFT')
+            ->where($where)
+            ->field($file)
+            ->paginate();
+        if ($transfer === false) {
             return new Transfer('查询失败');
         }
-        return new Transfer('', true, $transfer->data);
+        return new Transfer('', true, to_array($transfer));
     }
 
     /**

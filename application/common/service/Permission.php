@@ -17,6 +17,7 @@ class Permission
 {
     public static function check($admin_user_id, $url)
     {
+
         $role_permission = cookie('role_permission_' . $admin_user_id);
         if (!$role_permission) {
             $where['a.id'] = $admin_user_id;

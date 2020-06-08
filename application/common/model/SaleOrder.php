@@ -2,6 +2,8 @@
 
 namespace app\common\model;
 
+use app\common\task\CustomerTask;
+use app\common\task\WechatTask;
 use think\Model;
 use traits\model\SoftDelete;
 
@@ -49,5 +51,11 @@ class SaleOrder extends Model
     {
         $array = [0 => '顺丰', 1 => '中通', 2 => '京东'];
         return $array[$value];
+    }
+
+    public function getOpenIdAttr($value)
+    {
+        $array = WechatTask::valueByWhere(['customer_id'=>$value],'open_id');
+        return $array->data['open_id'];
     }
 }
