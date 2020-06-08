@@ -24,7 +24,7 @@ class Msg extends App
             $data = $request->param();
             $result = $this->validate($data,'Msg.index');
             if(true !== $result) return format($result, 400);
-            $list = Chat::GetUserMsg($data);
+            $list = Chat::GetUserMsg($data,CID);
             if($list['code']==400){
                 return format($list['meg']);
             }else{
@@ -41,7 +41,7 @@ class Msg extends App
             $data = $request->param();
             $result = $this->validate($data,'Msg.send');
             if(true !== $result) return format($result, 400);
-            $list = Chat::UserSendMsg($data);
+            $list = Chat::UserSendMsg($data,CID);
             if($list['code']==400){
                 return format($list['meg']);
             }else{

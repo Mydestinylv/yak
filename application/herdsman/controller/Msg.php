@@ -15,7 +15,7 @@ class Msg extends App
             $data = $request->param();
             $result = $this->validate($data,'Msg.index');
             if(true !== $result) return format($result, 400);
-            $list = Chat::GetHerdsmanMsg($data);
+            $list = Chat::GetHerdsmanMsg($data,HID);
             if($list['code']==400){
                 return format($list['meg']);
             }else{
@@ -33,7 +33,7 @@ class Msg extends App
             $data = $request->param();
             $result = $this->validate($data,'Msg.send');
             if(true !== $result) return format($result, 400);
-            $list = Chat::HerdsmanSendMsg($data);
+            $list = Chat::HerdsmanSendMsg($data,HID);
             if($list['code']==400){
                 return format($list['meg']);
             }else{

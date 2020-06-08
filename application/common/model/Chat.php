@@ -37,9 +37,9 @@ class Chat extends Model
      * 客户端查询消息
      * */
 
-    public static function GetUserMsg($params)
+    public static function GetUserMsg($params,$customer_id)
     {
-        $user_id = $params['id'];
+        $user_id = $customer_id;
         $to_type = $params['to_type'];
         $to_id = $params['to_id'];
         $arr = [2=>'herdsman_id',3=>'slaughter_man_id'];
@@ -59,9 +59,9 @@ class Chat extends Model
     /*
      * 牧民端获取消息
      * */
-    public static function GetHerdsmanMsg($params)
+    public static function GetHerdsmanMsg($params,$herdsman_id)
     {
-        $id = $params['id'];
+        $id = $herdsman_id;
         $user_id = $params['to_id'];
         try{
             $list = self::where('customer_id',$user_id)
@@ -79,9 +79,9 @@ class Chat extends Model
     /*
      * 屠宰端获取消息
      * */
-    public static function GetSlaughterManMsg($params)
+    public static function GetSlaughterManMsg($params,$slaughter_man_id)
     {
-        $id = $params['id'];
+        $id = $slaughter_man_id;
         $user_id = $params['to_id'];
         try{
             $list = self::where('customer_id',$user_id)
@@ -100,9 +100,9 @@ class Chat extends Model
      * 客户端发送消息
      * */
 
-    public static function UserSendMsg($params)
+    public static function UserSendMsg($params,$customer_id)
     {
-        $user_id = $params['id'];
+        $user_id = $customer_id;
         $to_type = $params['to_type'];
         $to_id = $params['to_id'];
         $arr = [2=>'herdsman_id',3=>'slaughter_man_id'];
@@ -124,9 +124,9 @@ class Chat extends Model
      * 牧民端发送消息
      * */
 
-    public static function HerdsmanSendMsg($params)
+    public static function HerdsmanSendMsg($params,$herdsman_id)
     {
-        $user_id = $params['id'];
+        $user_id = $herdsman_id;
         $to_id = $params['to_id'];
         try{
             $list = self::saveAll([
@@ -147,9 +147,9 @@ class Chat extends Model
      * 屠宰端发送消息
      * */
 
-    public static function SlaughterManSendMsg($params)
+    public static function SlaughterManSendMsg($params,$slaughter_man_id)
     {
-        $user_id = $params['id'];
+        $user_id = $slaughter_man_id;
         $to_id = $params['to_id'];
         try{
             $list = self::saveAll([
