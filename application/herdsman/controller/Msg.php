@@ -48,7 +48,20 @@ class Msg extends App
 
     public function index(Request $request)
     {
-        $id = $request->param('move_id');
+        $type = TYPE;
+        switch ($type){
+            case 1:
+                $id = CID;
+                break;
+            case 2:
+                $id = HID;
+                break;
+            case 3:
+                $id = SID;
+                break;
+            default:
+                return format('参数错误',400);
+        }
         $list = Chat::HGetMsgList($id);
         if($list['code']==400) {
             return format($list['msg']);

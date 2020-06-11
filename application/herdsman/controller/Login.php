@@ -23,6 +23,8 @@ class Login extends Controller
                 $userInfo = $res['data'];
                 $token = Token::createJwt($userInfo['id'],$userInfo['tel'],$userInfo['tel']);
                 Cache::set('user'.$userInfo['id'],$token,3600);
+                Cache::set($token,$userInfo['id'],3600);
+                Cache::set('type'.$token,2,3600);
                 return format('', 200,['id'=>$userInfo['id'],'token'=>$token]);
             }else{
                 return format($res['msg'], 400);

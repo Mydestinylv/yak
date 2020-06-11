@@ -88,9 +88,17 @@ class Adopt extends App
             $data = $request->post();
             $result = $this->validate($data,'Adopt.pay');
             if(true !== $result) return format($result, 400);
-            $where['id'] = $data['helpful_list_id'];
+            $order_code = getHelpfulCode();
+            $data['order_code'] = $order_code->data['order_code'];
+            $data['pay_status'] = 0;
+            $transfer = HelpfulListTask::save($data);
+            if(!$transfer->status){
+                return format('添加失败',400);
+            }
+            $where['id'] = $transfer->data['id'];
             $transfer = HelpfulListTask::find($where,'order_code,helpful_price as real_price,helpful_project_id as body,customer_id as open_id');
             $transfer->data['real_price'] = $transfer->data['real_price'] * 100;
+            $transfer->data['attach'] = 'helpful';
             if(!$transfer->status){
                 return format('支付失败',400);
             }

@@ -99,13 +99,15 @@ class SaleOrderSubAction
             if(!$transfer->status){
                 return new Transfer('保存失败');
             }
-            if($transfer->data['consignee_add']){
+            if(isset($transfer->data['consignee_add'])&&!empty($transfer->data['consignee_add'])){
                 $consignee_add = substr($transfer->data['consignee_add'],0,2);
                 if($consignee_add!='四川'||$consignee_add!='重庆'){
                     $param['postage'] = Env::get('postage') * $param['goods_number'];
                 }else{
                     $param['postage'] = 0;
                 }
+            }else{
+                return new Transfer('请选择地址');
             }
         }else{
             return new Transfer('请选择地址');
@@ -114,7 +116,13 @@ class SaleOrderSubAction
         if(isset($param['sale_type'])&&!empty($param['sale_type'])){
             switch ($param['sale_type']){
                 case SaleOrder::SELF:
-                    $param['goods_total_price'] = $param['process_cost']+$param['postage'];
+                    $process_cost = explode(',', $param['goods']);
+                    if(in_array(3, $process_cost)){
+                        $process_cost = (count($process_cost)-2)*100;
+                    }else{
+                        $process_cost = (count($process_cost)-1) * 100;
+                    }
+                    $param['goods_total_price'] = $param['postage']+$process_cost;
                     $param['real_price'] = $param['goods_total_price'];
                     break;
                 case SaleOrder::GIFT:

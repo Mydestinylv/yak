@@ -9,6 +9,8 @@
 namespace app\common\service;
 
 
+use think\Config;
+
 Class WechatPayService
 {
 
@@ -30,14 +32,14 @@ Class WechatPayService
         $tools = new \JsApiPay();
         $input = new \WxPayUnifiedOrder();
         $input->SetBody('牦牛-'.$data['body']);
-        $input->SetAttach($data['order_code']);
+        $input->SetAttach($data['attach']);
         $input->SetOut_trade_no($data['order_code']);
         $input->SetTotal_fee($data['real_price']);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
 //        $input->SetGoods_tag("test");
         $input->SetTrade_type("JSAPI");
-        $input->SetOpenid('ox5lI6PhgYlQUJ4FB-PZoTvU8QaI');
+        $input->SetOpenid($data['open_id']);
         $config = new \WxPayConfig();
         $input->SetNotify_url($config->GetNotifyUrl());
         $order = \WxPayApi::unifiedOrder($config, $input);

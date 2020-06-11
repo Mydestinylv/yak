@@ -62,6 +62,9 @@ class Yaks extends Model
     {
         $array = AdoptionOrderTask::valueByWhere(['yaks_id'=>$value],'adoption_status');
         $arrays = [1=>'生长中',2=>'待屠宰', 3=>'屠宰中', 4=>'屠宰完毕', 5=>'配送中', 6=>'已收货'];
+        if(!isset($arrays[$array->data['adoption_status']])||empty($arrays[$array->data['adoption_status']])){
+            return '未认养';
+        }
         return $arrays[$array->data['adoption_status']];
     }
 
@@ -160,7 +163,7 @@ class Yaks extends Model
         return ['data'=>$info,'code'=>200];
     }
 
-    public static function GetTypeManage($params)
+    public static function GetTypeManage($params,$herdsman_id)
     {
         $is_manage = $params['is_manage'];
         try{
@@ -169,7 +172,7 @@ class Yaks extends Model
                 return new Transfer('查询失败');
             }
             $where['id'] = ['in',explode(',',$transfer->data['yaks_id'])];
-            $where['herdsman_id'] = $params['move_id'];
+            $where['herdsman_id'] = $herdsman_id;
             $list = YaksTask::select($where,'*,pasture_id as pasture_name');
             if(!$list->status){
                 return new Transfer('查询失败');

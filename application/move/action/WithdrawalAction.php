@@ -49,9 +49,19 @@ class WithdrawalAction
         $param['account_price'] = $param['withdrawal_price'] - $param['service_charge'];
         $param['user_type'] = $type;
         $param['withdrawal_status'] = 1;
-        $where['id'] = $param['id'];
-        $param['withdrawal_id'] = $param['id'];
-        unset($param['id']);
+        switch ($type){
+            case 1:
+                $param['withdrawal_id'] = CID;
+                break;
+            case 2:
+                $param['withdrawal_id'] = HID;
+                break;
+            case 3:
+                $param['withdrawal_id'] = SID;
+                break;
+            default:
+                return new Transfer('参数错误');
+        }
         $transfer = WithdrawalSubAction::save($param);
         if (!$transfer->status) {
             return new Transfer('提现失败');
@@ -59,6 +69,7 @@ class WithdrawalAction
         $return_data = $transfer->data;
         switch ($type) {
             case 1 :
+                $where['id'] = CID;
                 $transfer = CustomerTask::find($where, 'total_balance,freezing_balance');
                 if (!$transfer->status) {
                     Db::rollback();
@@ -72,6 +83,7 @@ class WithdrawalAction
                 $transfer = CustomerTask::update($data, $where);
                 break;
             case 2 :
+                $where['id'] = HID;
                 $transfer = HerdsmanTask::find($where, 'total_balance,freezing_balance');
                 if (!$transfer->status) {
                     Db::rollback();
@@ -85,6 +97,7 @@ class WithdrawalAction
                 $transfer = HerdsmanTask::update($data, $where);
                 break;
             case 3 :
+                $where['id'] = SID;
                 $transfer = SlaughterManTask::find($where, 'total_balance,freezing_balance');
                 if (!$transfer->status) {
                     Db::rollback();

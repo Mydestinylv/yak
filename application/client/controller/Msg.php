@@ -43,7 +43,7 @@ class Msg extends App
             if(true !== $result) return format($result, 400);
             $list = Chat::UserSendMsg($data,CID);
             if($list['code']==400){
-                return format($list['meg']);
+                return format($list['msg']);
             }else{
                 return format('ok',200,$list['msg']);
             }
@@ -55,7 +55,7 @@ class Msg extends App
      * */
     public function get_list(Request $request)
     {
-        $id =$request->param('id');
+        $id =CID;
         $list = Chat::UserGetMsgList($id);
         if($list['code']==400){
             return format($list['msg']);

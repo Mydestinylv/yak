@@ -2,6 +2,7 @@
 
 namespace app\move\action;
 
+use AlibabaCloud\Dysmsapi\V20170525\SendSms;
 use app\common\lib\Transfer;
 use app\common\model\ReceivingAddress;
 use app\common\sub_action\ReceivingAddressSubAction;

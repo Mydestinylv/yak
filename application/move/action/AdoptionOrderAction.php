@@ -63,6 +63,14 @@ class AdoptionOrderAction
         } else {
             $data['is_slaughter'] = 0;
         }
+        if($data['adoption_status'] == '屠宰完毕'){
+            $transfer = SlaughterTask::valueByWhere(['yaks_id'=>$data['yaks_id']],'final_box');
+            if(!$transfer->status||empty($transfer->data['final_box'])){
+                $data['final_box'] = 0;
+            }else{
+                $data['final_box'] = $transfer->data['final_box'];
+            }
+        }
         return new Transfer('', true, $data);
     }
 
@@ -71,11 +79,15 @@ class AdoptionOrderAction
      */
     public static function update($param)
     {
+
+
+
+
         Db::startTrans();
         $where['id'] = $param['id'];
         $data['slaughter_house_id'] = $param['slaughter_house_id'];
         $data['yaks_id'] = $param['yaks_id'];
-        $data['adoption_status'] = 2;
+        $param['adoption_status'] = 2;
         unset($param['id']);
         unset($param['yaks_id']);
         unset($param['slaughter_house_id']);
@@ -85,6 +97,13 @@ class AdoptionOrderAction
             return new Transfer('更新失败');
         }
         $data['incoming_time'] = date_now();
+        $transfer = SlaughterTask::valueByWhere(['yaks_id'=>$data['yaks_id']],'id');
+        if(!$transfer->status){
+            return new Transfer('更新失败');
+        }
+        if($transfer->data['id']){
+            return new Transfer('此牦牛已经送到屠宰场');
+        }
         $transfer = SlaughterTask::save($data);
         if(!$transfer->status){
             Db::rollback();

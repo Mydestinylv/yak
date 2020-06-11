@@ -4,6 +4,8 @@ namespace app\common\model;
 
 use app\common\task\HerdsmanTask;
 use app\common\task\PastureTask;
+use app\common\task\WechatTask;
+use app\common\task\YaksTask;
 use think\Model;
 use traits\model\SoftDelete;
 
@@ -44,5 +46,20 @@ class AdoptionOrder extends Model
         }
         $array = PastureTask::valueByWhere(['id'=>$value],'pasture_name');
         return $array->data['pasture_name'];
+    }
+
+    public function getOpenIdAttr($value)
+    {
+        $array = WechatTask::valueByWhere(['customer_id'=>$value],'open_id');
+        return $array->data['open_id'];
+    }
+
+    public function getYaksNameAttr($value)
+    {
+        if(is_string($value)){
+            return $value;
+        }
+        $array = YaksTask::valueByWhere(['id'=>$value],'yaks_name');
+        return $array->data['yaks_name'];
     }
 }

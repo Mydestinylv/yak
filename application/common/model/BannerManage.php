@@ -14,7 +14,7 @@ class BannerManage extends Model
     public static function GetBannerManage()
     {
         try{
-            $banner_manage = self::where('is_index',1)->field('id,picture,jump_address')->select();
+            $banner_manage = self::field('id,picture,jump_address,is_index')->select();
         }catch (\Exception $e){
             return ['code'=>400,'msg'=>$e->getMessage()];
         }

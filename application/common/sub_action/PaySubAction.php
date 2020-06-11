@@ -20,6 +20,7 @@ class PaySubAction
             return new Transfer('支付失败');
         }
         $transfer->data['body'] = '购买牦牛';
+        $transfer->data['attach'] = 'sale';
         $transfer->data['real_price'] = $transfer->data['real_price']*100;
         $data = to_array($transfer->data);
         $transfer = WechatPayService::wechatPay($data);

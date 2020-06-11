@@ -33,5 +33,6 @@ class Gift extends Validate
         'read' => [''],
         'update' => [''],
         'share' => [''],
+        'getShareSign' => [''],
     ];
 }

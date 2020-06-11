@@ -158,4 +158,35 @@ class Gift extends App
             return format(exception_deal($e), 400);
         }
     }
+
+
+    /**
+     * 分享签名
+     */
+    public function getShareSign(Request $request)
+    {
+        try {
+            $param = $request->get();
+            $result = $this->validate($param,'app\move\validate\Gift.getShareSign');
+            if ($result !== true) {
+                return format($result);
+            }
+            $transfer = GiftAction::getShareSign($param);
+            if (!$transfer->status) {
+                $message = $transfer->message ?: '分享失败';
+                if($this->environment==='test'){
+                    return format($message, 400, array_merge($transfer->data, [__FILE__ . ' ' . __LINE__]));
+                }else{
+                    Log::error([__CLASS__ . '  ' . __FUNCTION__,
+                        'failure_desc' => '分享失败',
+                        'attach' => compact(['param','transfer']),
+                    ]);
+                    return format($message);
+                }
+            }
+            return format('ok', 200, $transfer->data);
+        } catch (\Exception $e) {
+            return format(exception_deal($e), 400);
+        }
+    }
 }

@@ -51,18 +51,18 @@ class CustomerAction
      */
     public static function sendSms($param,$customer_id)
     {
-        $trasnfer = CustomerTask::valueByWhere(['id'=>$customer_id],'tel');
-        if(!$trasnfer->status){
+        $transfer = CustomerTask::valueByWhere(['id'=>$customer_id],'tel');
+        if(!$transfer->status){
             return new Transfer('重置密码失败');
         }
-        if(!$trasnfer->data['tel']){
+        if(!$transfer->data['tel']){
             return new Transfer('手机号错误');
         }
         $code = mt_rand(1000,9999);
         Cookie::set('code_'.$customer_id,$code);
-        $trasnfer = Phonecode::sendSms('17378516325',$code);
-        $trasnfer = json_decode(json_encode($trasnfer,true),true);
-        if($trasnfer['Code']!='OK'){
+        $transfer = Phonecode::sendSms($transfer->data['tel'],$code);
+        $transfer = json_decode(json_encode($transfer,true),true);
+        if($transfer['Code']!='OK'){
             return new Transfer('发送短信失败');
         }
         return new Transfer('',true);
@@ -73,9 +73,9 @@ class CustomerAction
      */
     public static function changePassword($param,$where,$type)
     {
-        $trasnfer = CustomerSubAction::changePassword($param,$where,$type);
-        if(!$trasnfer->status){
-            return new Transfer($trasnfer->message);
+        $transfer = CustomerSubAction::changePassword($param,$where,$type);
+        if(!$transfer->status){
+            return new Transfer($transfer->message);
         }
         return new Transfer('', true);
     }
@@ -91,9 +91,9 @@ class CustomerAction
         }
         Cookie::delete('code_'.$customer_id);
         $param['id'] = $customer_id;
-        $trasnfer = CustomerSubAction::passwordReset($param);
-        if(!$trasnfer->status){
-            return new Transfer($trasnfer->message);
+        $transfer = CustomerSubAction::passwordReset($param);
+        if(!$transfer->status){
+            return new Transfer($transfer->message);
         }
         return new Transfer('', true);
     }
@@ -103,11 +103,11 @@ class CustomerAction
      */
     public static function userInfo($param,$where,$type)
     {
-        $trasnfer = CustomerSubAction::userInfo($param,$where,$type);
-        if(!$trasnfer->status){
-            return new Transfer($trasnfer->message);
+        $transfer = CustomerSubAction::userInfo($param,$where,$type);
+        if(!$transfer->status){
+            return new Transfer($transfer->message);
         }
-        return new Transfer('', true, $trasnfer->data);
+        return new Transfer('', true, $transfer->data);
     }
 
 }

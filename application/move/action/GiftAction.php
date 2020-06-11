@@ -61,4 +61,13 @@ class GiftAction
         return new Transfer('', true, $transfer->data);
     }
 
+    /**
+     *分享签名
+     */
+    public static function getShareSign($param)
+    {
+        $transfer = getSignPackage($param['url']);
+        return new Transfer('', true, $transfer);
+    }
+
 }

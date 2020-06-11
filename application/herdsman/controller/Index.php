@@ -33,7 +33,7 @@ class Index extends App
             $data = $request->param();
             $result = $this->validate($data,'Index.manage');
             if(true !== $result) return format($result, 400);
-            $list = Yaks::GetTypeManage($data);
+            $list = Yaks::GetTypeManage($data,HID);
             return format('ok',200,$list['data']);
         }
     }

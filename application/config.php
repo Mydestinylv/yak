@@ -255,7 +255,7 @@ return [
         'wap_name' => '牦牛系统',
         'token' => 'wechat_token',
         'appsecret'=>'1a4c7935172c699cee0090e4bdeb2807',
-        'notify_url' => $_SERVER['SERVER_NAME'] . '/move/checkout/payResult'
+        'notify_url' => $_SERVER['SERVER_NAME'] . '/public/index.php/move/Checkout/payResult'
     ]
 
 ];

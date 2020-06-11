@@ -5,7 +5,9 @@ namespace app\move\action;
 use app\common\lib\Transfer;
 use app\common\model\AdoptionOrder;
 use app\common\model\Slaughter;
+use app\common\model\Yaks;
 use app\common\task\AdoptionOrderTask;
+use app\common\task\SlaughterHouseTask;
 use app\common\task\SlaughterRecordTask;
 use app\common\task\SlaughterTask;
 use think\Db;
@@ -116,8 +118,18 @@ class SlaughterHouseAction
         //更新屠宰状态
         if($data['status']==9){
             $data['final_box'] = $param['final_box'];
+            $transfer = AdoptionOrderTask::update(['adoption_status'=>4],$where);
+            if(!$transfer->status){
+                Db::rollback();
+                return new Transfer('更新失败');
+            }
         }elseif($data['status']==10){
             $data['completion_time'] = date_now();
+            $transfer = AdoptionOrderTask::update(['adoption_status'=>5],$where);
+            if(!$transfer->status){
+                Db::rollback();
+                return new Transfer('更新失败');
+            }
         }
         $transfer = SlaughterTask::update($data,$where);
         if(!$transfer->status){
@@ -148,6 +160,18 @@ class SlaughterHouseAction
     {
 
         return new Transfer('', true);
+    }
+
+    /**
+     * 屠宰场列表
+     */
+    public static function getSlaughterList($param)
+    {
+        $transfer = SlaughterHouseTask::select([],'id,slaughter_house_name');
+        if(!$transfer->status){
+            return new Transfer('查询失败');
+        }
+        return new Transfer('', true, $transfer->data);
     }
 
 }

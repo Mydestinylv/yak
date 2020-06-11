@@ -31,7 +31,7 @@ class HelpfulList extends Model
 
     public static function GetAll()
     {
-        $msg = self::query('SELECT COUNT(`id`) AS num,SUM(`helpful_price`) AS money FROM `yak_helpful_list` GROUP BY `helpful_project_id`');
+        $msg = self::query('SELECT COUNT(`id`) AS num,SUM(`helpful_price`) AS money FROM `yak_helpful_list` where pay_status = 1 GROUP BY `helpful_project_id`');
         if($msg){
             return ['code'=>200,'msg'=>[
                 'num'=>array_sum(array_column($msg, 'num')),
@@ -57,6 +57,7 @@ class HelpfulList extends Model
         try{
             $info = self::with('userinfo')
                 ->where('helpful_project_id',$id)
+                ->where('status',1)
                 ->field('id,customer_id,helpful_price,helpful_project_id,create_time')
                 ->order('create_time desc')
                 ->select();

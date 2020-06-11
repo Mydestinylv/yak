@@ -28,7 +28,7 @@ class YaksAction
             return new Transfer('查询失败');
         }
         $where['a.adoption_tel'] = $transfer->data['tel'];
-        $field = 'a.id,a.yaks_name,a.yaks_tag,a.yaks_birthday,b.pasture_name';
+        $field = 'a.id,a.yaks_name,a.yaks_tag,a.yaks_birthday,b.pasture_name,yaks_img';
         $transfer = Yaks::alias('a')
         ->join('pasture b','a.pasture_id = b.id','LEFT')
         ->where($where)
@@ -80,7 +80,7 @@ class YaksAction
         unset($where['pasture_id']);
         //牧民信息
         $where['id'] = $data['yaks_info']['herdsman_id'];
-        $field = 'id,introduce';
+        $field = 'id,introduce,healthy';
         $transfer = HerdsmanTask::find($where,$field);
         if(!$transfer->status){
             return new  Transfer('获取牧民信息失败');
@@ -92,9 +92,9 @@ class YaksAction
             'pasture_id'    =>  $data['yaks_info']['pasture_id'],
             'status'    =>  2,
         ];
-        $field = 'id,task_name,enclosure_url';
-        $order = 'order asc';
-        $transfer = TaskManageTask::select($where,$field,$order);
+        $field = 'id,task_name,enclosure_url,finish_time';
+        $order = 'order desc';
+        $transfer = TaskManageTask::paginate($where,$field,$order,6);
         if(!$transfer->status){
             return new Transfer('获取生长信息失败');
         }

@@ -39,7 +39,7 @@ class Adopt extends Base
     protected $scene = [
         'index'  =>  ['limit','page','helpful_type'],
         'details'  =>  ['helpful_id'],
-        'pay'  =>  ['helpful_list_id'],
+        'pay'  =>  ['customer_id','helpful_price','helpful_project_id'],
         'save'  =>  ['helpful_project_id','customer_id','helpful_price'],
     ];
 }

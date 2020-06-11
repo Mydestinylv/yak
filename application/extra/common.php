@@ -18,7 +18,8 @@ return [
     'move' => [
 
         'allow_url' => [
-            '/move/checkout/payResult',
+            '/public/index.php/move/Checkout/payResult',
+            '/public/index.php/move/gift/share'
         ]
 
     ]

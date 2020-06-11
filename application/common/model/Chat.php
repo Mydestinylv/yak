@@ -2,6 +2,7 @@
 
 namespace app\common\model;
 
+use app\common\task\ChatTask;
 use app\common\task\CustomerTask;
 use app\common\task\HerdsmanTask;
 use app\common\task\SlaughterTask;
@@ -107,7 +108,7 @@ class Chat extends Model
         $to_id = $params['to_id'];
         $arr = [2=>'herdsman_id',3=>'slaughter_man_id'];
         try{
-            $list = self::saveAll([
+            $list = ChatTask::save([
                 'customer_id'=>$user_id,
                 $arr[$to_type] =>$to_id,
                 'content'=>$params['content'],

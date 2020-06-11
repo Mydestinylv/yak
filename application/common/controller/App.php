@@ -33,13 +33,14 @@ class App extends Controller
             echo $data;
             exit;
         }
-        $id = $request->param('id');
-        $type = $request->param('type');
+        $id = Cache::get($token);
+        $type = Cache::get('type'.$token);
         if (!in_array($type, [1, 2, 3])) {
             $data = json_encode(['status' => 400, 'msg' => 'type参数传入错误',], 256);
             echo $data;
             exit;
         }
+        define('TYPE',$type);
         $res = $this->checkToken($token, $id, $type);
         if ($res['code'] == 400) {
             $data = json_encode(['status' => 400, 'msg' => $res['msg'],], 256);

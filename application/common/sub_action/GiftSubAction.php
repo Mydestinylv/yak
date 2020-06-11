@@ -11,6 +11,7 @@ use app\common\task\HerdsmanTask;
 use app\common\task\TaskManageTask;
 use app\common\task\VideoSurveillanceTask;
 use app\common\task\YaksTask;
+use think\Config;
 
 class GiftSubAction
 {
@@ -67,7 +68,7 @@ class GiftSubAction
         unset($where['a.id']);
         $where['a.yaks_id'] = $param['id'];
         $transfer = SaleOrder::alias('a')
-            ->join('Slaughter b','a.yaks_id = b.yaks_id')
+            ->join('Slaughter b', 'a.yaks_id = b.yaks_id')
             ->where($where)
             ->field('b.final_box , sum(a.goods_number) as goods_num')
             ->group('a.id')
