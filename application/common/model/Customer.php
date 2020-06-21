@@ -19,29 +19,18 @@ class Customer extends Model
         return $array[$value];
     }
 
-    public static function UserRegister($param)
+    public static function UserRegister($data)
     {
-        $data = [
-            'tel'=>$param['tel'],
-            'head_img'=>'',
-            'wechat_name'=>'',
-            'user_name'=>'',
-            'total_balance'=>0,
-            'freezing_balance'=>0,
-            'real_name'=>'',
-            'id_card'=>'',
-            'yaks'=>'',
-            'password'=>$param['password'],
-            'create_time'=>date('Y-m-d H:i:s'),
-            'update_time'=>date('Y-m-d H:i:s'),
-        ];
         try{
+            $open_id = $data['open_id'];
+            unset($data['open_id']);
+            unset($data['code']);
             $transfer = CustomerTask::save($data);
             if(!$transfer->status){
                 return ['code'=>400,'msg'=> '注册失败'];
             }
             $wechat_data['customer_id'] = $transfer->data['id'];
-            $wechat_data['open_id'] = $param['open_id'];
+            $wechat_data['open_id'] = $open_id;
             $transfer = WechatTask::save($wechat_data);
             if(!$transfer->status){
                 return ['code'=>400,'msg'=> '注册失败'];

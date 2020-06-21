@@ -36,9 +36,12 @@ class Permission
             setcookie('role_permission_' . $admin_user_id, $role_permission, '7200');
         }
         //获取当前权限
-        $where['route'] = $url;
+        if($role_permission===0){
+            return new Transfer('', 200);
+        }
+        $where['route'] = substr($url,19);
         $transfer = PermissionTask::find($where, 'id');
-        if (!$transfer) {
+        if (!$transfer->status) {
             return new Transfer('暂无权限');
         }
         $role_permission = explode(',', $role_permission);

@@ -18,10 +18,16 @@ Class WechatPayService
     {
         include_once APP_PATH.'/common/lib/wechat/example/WxPay.JsApiPay.php';
         $tools = new \JsApiPay();
-        $openId = $tools->GetOpenid();
+        $openId = $tools->GetOpenId();
         return $openId;
     }
-
+    public static function getOpenIds($code)
+    {
+        include_once APP_PATH.'/common/lib/wechat/example/WxPay.JsApiPay.php';
+        $tools = new \JsApiPay();
+        $openId = $tools->GetOpenIds($code);
+        return $openId;
+    }
 
     public static function wechatPay($data)
     {

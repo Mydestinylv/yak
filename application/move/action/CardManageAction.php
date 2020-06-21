@@ -14,6 +14,7 @@ class CardManageAction
     public static function index($param,$customer_id)
     {
         $where['customer_id'] = $customer_id;
+        $where['status'] = 2;
         $field = 'id,card_name,total_price,expire_time,balance';
         $order = 'create_time desc';
         $transfer = CardManageTask::paginate($where,$field,$order);

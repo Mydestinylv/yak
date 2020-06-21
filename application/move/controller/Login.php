@@ -32,9 +32,10 @@ class Login extends Controller
         }
     }
 
-    public function getOpenId()
+    public function getOpenId(Request $request)
     {
-        $transfer = WechatPayService::getOpenId();
+        $param = $request->param();
+        $transfer = WechatPayService::getOpenIds($param['code']);
         if($transfer){
             return format('',200,$transfer);
         }else{

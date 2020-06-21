@@ -3,7 +3,9 @@
 namespace app\move\controller;
 use app\common\controller\App;
 use app\common\task\AdoptionOrderTask;
+use app\common\task\CustomerTask;
 use app\common\task\YaksTask;
+use think\Cache;
 use think\Log;
 
 /**
@@ -39,7 +41,7 @@ Class Checkout extends App
                             ]);
                             break;
                         }
-                        $transfer = \app\common\task\AdoptionOrderTask::valueByWhere(['order_num'=>$out_trade_no],'yaks_id');
+                        $transfer = \app\common\task\AdoptionOrderTask::valueByWhere(['order_number'=>$out_trade_no],'yaks_id');
                         if(!$transfer->status){
                             Log::error([__CLASS__ . '  ' . __FUNCTION__,
                                 'failure_desc' => '获取牦牛ID失败',
@@ -47,7 +49,24 @@ Class Checkout extends App
                             ]);
                             break;
                         }
-                        $transfer = \app\common\task\YaksTask::update(['is_adoption'=>2],['id'=>$transfer->data['yaks_id']]);
+                        $yaks_id = $transfer->data['yaks_id'];
+                        $transfer = AdoptionOrderTask::valueByWhere(['order_number'=>$out_trade_no],'customer_id');
+                        if(!$transfer->status){
+                            Log::error([__CLASS__ . '  ' . __FUNCTION__,
+                                'failure_desc' => '获取牦牛ID失败',
+                                'attach' => $transfer->data,
+                            ]);
+                            break;
+                        }
+                        $transfer = CustomerTask::valueByWhere(['id'=>$transfer->data['customer_id']],'tel');
+                        if(!$transfer->status){
+                            Log::error([__CLASS__ . '  ' . __FUNCTION__,
+                                'failure_desc' => '获取牦牛ID失败',
+                                'attach' => $transfer->data,
+                            ]);
+                            break;
+                        }
+                        $transfer = \app\common\task\YaksTask::update(['is_adoption'=>2,'adoption_tel'=>$transfer->data['tel'],'adoption_date'=>date_now()],['id'=>$yaks_id]);
                         break;
                     default:
                         # code...

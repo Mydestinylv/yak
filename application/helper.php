@@ -859,7 +859,7 @@ if (!function_exists('curl_request')) {
             if ($img) {
                 $info = $img->move(ROOT_PATH . 'public' . DS . 'uploads');
                 if ($info) {
-                    $image_url = ROOT_PATH . 'public' . DS . 'uploads' . DS . $info->getSaveName();
+                    $image_url = \think\Env::get('yak_url') . 'public' . DS . 'uploads' . DS . $info->getSaveName();
                     return $image_url;
                 } else {
                     // 上传失败获取错误信息

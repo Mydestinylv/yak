@@ -3,6 +3,9 @@ namespace app\client\controller;
 use app\client\common\Token;
 use app\common\controller\Phonecode;
 use app\common\model\Customer;
+use app\common\service\WechatPayService;
+use app\common\task\CustomerTask;
+use app\common\task\WechatTask;
 use think\Cache;
 use think\Controller;
 use think\Request;
@@ -43,6 +46,7 @@ class Login extends Controller
             Cache::rm('register'.$data['tel']);
             $password = pswCrypt($data['password']);
             $data['password'] = $password;
+            unset($data['repassword']);
             $res = Customer::UserRegister($data);
             return $res['code']==200 ? format('ok', 200) : format($res['msg'], 400);
         }else{
@@ -73,4 +77,49 @@ class Login extends Controller
         }
     }
 
+    public function wechatRegister(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request->param();
+            $result = $this->validate($data,'Login.wechatRegister');
+            if(true !== $result) return format($result, 400);
+            //没有使用短信验证码，暂无验证
+            $cache_code = Cache::get('register'.$data['tel']);
+            if(!$cache_code || $cache_code != $data['code']) return format('短信验证码验证失败！');
+            Cache::rm('register'.$data['tel']);
+            $res = Customer::UserRegister($data);
+            return $res['code']==200 ? format('ok', 200) : format($res['msg'], 400);
+        }else{
+            return format('error,请正确请求接口！', 400);
+        }
+    }
+
+    public function wechatLogin(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request->param();
+            $result = $this->validate($data,'Login.wechatLogin');
+            if(true !== $result) return format($result, 400);
+            $open_id = WechatPayService::getOpenIds($data['code']);
+            $transfer = WechatTask::find(['open_id'=>$open_id],'id,customer_id');
+            if(!$transfer->status){
+                return format('登录失败',400);
+            }
+            $transfer = CustomerTask::find(['id'=>$transfer->data['customer_id']],'id,tel');
+            if(!$transfer->status){
+                return format('登录失败',400);
+            }
+            if(!$transfer->data){
+                return format('请注册后登录',400, ['open_id'=>$open_id]);
+            }
+            $userInfo = to_array($transfer->data);
+            $token = Token::createJwt($userInfo['id'],$userInfo['tel'],$userInfo['tel']);
+            Cache::set('user'.$userInfo['id'],$token,3600);
+            Cache::set($token,$userInfo['id'],3600);
+            Cache::set('type'.$token,1,3600);
+            return format('',200,['id'=>$userInfo['id'],'token'=>$token,'open_id'=>$open_id]);
+        }else{
+            return format('error,请正确请求接口！', 400);
+        }
+    }
 }

@@ -32,7 +32,9 @@ class Login extends Base
     ];
     protected $scene = [
         'login'  =>  ['tel'],
-        'register'  =>  ['tel'  => 'require|checkMobile|unique:customer','password','repassword','code']
+        'register'  =>  ['tel'  => 'require|checkMobile|unique:customer','password','repassword','code'],
+        'wechatLogin'  =>  [''],
+        'wechatRegister'  =>  ['require|checkMobile|unique:customer','code'],
     ];
 
 }

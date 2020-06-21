@@ -15,6 +15,7 @@ use app\common\task\AdoptionOrderTask;
 use app\common\task\CardManageTask;
 use app\common\task\CustomerTask;
 use app\common\task\YaksTask;
+use think\Cache;
 use think\Db;
 use think\Env;
 use think\Request;
@@ -152,8 +153,18 @@ class Yaks extends App
                         Db::rollback();
                         return format('支付失败',400);
                     }
+                    $transfer = AdoptionOrderTask::valueByWhere(['id'=>$adoption_order_id],'yaks_id');
+                    if(!$transfer->data){
+                        Db::rollback();
+                        return format('支付失败', 400);
+                    }
+                    $transfer = YaksTask::update(['is_adoption' => 2,'adoption_tel'=>$data['customer_tel'],'adoption_time'=>date_now()],['id'=>$transfer->data['yaks_id']]);
+                    if(!$transfer->data){
+                        Db::rollback();
+                        return format('支付失败',400);
+                    }
                     Db::commit();
-                    $transfer = AdoptionOrderTask::valueByWhere(['id'=>$adoption_order_id],'order_number');
+                    $transfer = AdoptionOrderTask::valueByWhere(['id'=>$adoption_order_id],'id,order_number');
                     return format('',200 ,to_array($transfer->data));
                     break;
                 case 2:

@@ -63,7 +63,13 @@ class JsApiPay
 			return $openid;
 		}
 	}
-	
+	public function getOpenIds($code)
+    {
+        //获取code码，以获取openid
+        $openid = $this->getOpenidFromMp($code);
+        return $openid;
+    }
+
 	/**
 	 * 
 	 * 获取jsapi支付的参数
@@ -112,7 +118,7 @@ class JsApiPay
 		$ua = "WXPaySDK/3.0.9 (".PHP_OS.") PHP/".PHP_VERSION." CURL/".$curlVersion['version']." "
 		.$config->GetMerchantId();
 		//设置超时
-		curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,FALSE);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);

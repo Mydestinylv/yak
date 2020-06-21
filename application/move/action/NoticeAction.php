@@ -5,6 +5,7 @@ namespace app\move\action;
 use app\common\lib\Transfer;
 use app\common\model\Notice;
 use app\common\sub_action\NoticeSubAction;
+use app\common\task\NoticeTask;
 
 class NoticeAction
 {
@@ -48,8 +49,13 @@ class NoticeAction
      */
     public static function read($param)
     {
-
-        return new Transfer('', true);
+        $where['id'] = $param['id'];
+        $where['notice_status'] = 1;
+        $transfer = NoticeTask::find($where,'id,title,content,notice_status,create_time,link');
+        if(!$transfer->status){
+            return new Transfer('查询失败');
+        }
+        return new Transfer('', true, $transfer->data);
     }
 
     /**
